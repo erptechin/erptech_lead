@@ -1,0 +1,218 @@
+import axios from 'axios';
+import axiosInstance from "utils/axios";
+import { toast } from "sonner";
+
+import { JWT_HOST_API } from 'configs/auth.config';
+
+export const getAuthorizationToken = async () => {
+  const token = window.localStorage.getItem("authToken");
+  if (token) {
+    try {
+      const decodedToken = new TextDecoder("utf-8").decode(Uint8Array.from(atob(token), c => c.charCodeAt(0)));
+      axiosInstance.defaults.headers['Authorization'] = `token ${decodedToken}`
+    } catch (error) {
+      // If token is not valid base64, clear invalid token
+      console.warn("Invalid auth token format, clearing from storage:", error);
+      window.localStorage.removeItem("authToken");
+    }
+  }
+}
+
+export const showMessage = (data, type = null) => {
+  if (type == "error") {
+    toast.error(data);
+  } else {
+    toast.success(data);
+  }
+};
+
+export const showError = (error) => {
+  if (error?.response?.data?.message) {
+    return toast.error(error.response.data.message);
+  } else if (error?.response?.data?._server_messages || error._server_messages) {
+    const server_messages = JSON.parse(error._server_messages ?? error?.response?.data?._server_messages)
+    const combinedMessage = server_messages
+      .map(item => {
+        const message = JSON.parse(item).message;
+        return message.replace(/<\/?[^>]+(>|$)/g, "");
+      })
+      .join(" ");
+    return toast.error(combinedMessage);
+  } else {
+    return toast.error(error?.message);
+  }
+};
+
+export const signUp = async (body) => {
+  const response = await axiosInstance.post(`method/erptech_lead.api.auth.sign_up`, body);
+  return response.data;
+};
+
+export const forgotPassword = async (body) => {
+  const response = await axiosInstance.post(`method/erptech_lead.api.auth.forgot_password`, body);
+  return response.data;
+};
+
+export const resetPassword = async (body) => {
+  const response = await axiosInstance.post(`method/erptech_lead.api.auth.reset_password`, body);
+  return response.data;
+};
+
+export const loginApi = async (params) => {
+  const response = await axiosInstance.get(`method/erptech_lead.api.auth.login`, { params });
+  return response.data;
+};
+
+export const fetchProfile = async () => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.get(`method/erptech_lead.api.auth.profile`);
+  return response.data;
+};
+
+export const updProfile = async (body) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.post(`method/erptech_lead.api.auth.update_profile`, body);
+  return response.data;
+};
+
+export const logOut = async () => {
+  const response = await axiosInstance.get(`method/logout`, { withCredentials: false });
+  return response.data.message;
+};
+
+export const changePassword = async (body) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.post(`method/erptech_lead.api.auth.change_password`, body);
+  return response.data;
+};
+
+export const getInfo = async (params) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.get(`method/erptech_lead.api.doctype.list_info`, { params });
+  return response?.data?.data
+};
+
+export const getListData = async (params) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.get(`method/erptech_lead.api.doctype.list_data`, { params });
+  return response?.data?.data
+};
+
+export const getSingleData = async (params) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.get(`method/erptech_lead.api.doctype.single_data`, { params })
+  return response?.data?.data?.data ?? {};
+};
+
+export const addData = async (params) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.post(`resource/${params.doctype}`, params.body);
+  return response.data.data;
+};
+
+export const updateData = async (params) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.put(`resource/${params.doctype}/${params.body.id}`, params.body);
+  return response.data.data;
+};
+
+export const deleteData = async (body) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.post(`method/erptech_lead.api.doctype.delete_data`, body);
+  return response.data;
+};
+
+export const getCustomData = async (params) => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.post(`method/${params.url}`, params.args)
+  if (response?.data?.data) { 
+    return response?.data?.data
+  } else {
+    return response?.data?.message ?? {};
+  }
+};
+
+export const getSalesReport = async () => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.get(`method/erptech_lead.api.hooks.get_sales_report`);
+  return response?.data?.data ?? [];
+};
+
+export const getStatistics = async () => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.get(`method/erptech_lead.api.hooks.get_statistics`);
+  return response?.data?.data ?? {};
+};
+
+export const getSalesTargetSummary = async () => {
+  await getAuthorizationToken()
+  const response = await axiosInstance.get(`method/erptech_lead.api.hooks.get_sales_target_summary`);
+  return response?.data?.data ?? {};
+};
+
+export const createLeadWithCustomer = async (formData, carProfiles, username) => {
+  // Try to get authorization token, but don't fail if it doesn't exist (for guest users)
+  try {
+    await getAuthorizationToken()
+  } catch (error) {
+    // Continue without token for guest users
+  }
+  const response = await axiosInstance.post(`method/erptech_lead.api.doctype.create_lead_with_customer`, {
+    form_data: formData,
+    car_profiles: carProfiles,
+    username: username
+  });
+  return response?.data?.data ?? {};
+};
+
+export const createCODManagement = async (codData) => {
+  // Try to get authorization token, but don't fail if it doesn't exist (for guest users)
+  try {
+    await getAuthorizationToken()
+  } catch (error) {
+    // Continue without token for guest users
+  }
+  const response = await axiosInstance.post(`method/erptech_lead.api.doctype.create_cod_management`, {
+    cod_data: codData
+  });
+  return response?.data?.data ?? {};
+};
+
+export const updateCODManagement = async (codId, codData) => {
+  // Try to get authorization token, but don't fail if it doesn't exist (for guest users)
+  try {
+    await getAuthorizationToken()
+  } catch (error) {
+    // Continue without token for guest users
+  }
+  const response = await axiosInstance.post(`method/erptech_lead.api.doctype.update_cod_management`, {
+    id: codId,
+    cod_data: codData
+  });
+  return response?.data?.data ?? {};
+};
+
+// File Upload
+export const uploadFile = async (file) => {
+  const token = window.localStorage.getItem("authToken");
+  if (token) {
+    try {
+      const decodedToken = new TextDecoder("utf-8").decode(Uint8Array.from(atob(token), c => c.charCodeAt(0)));
+      axios.defaults.headers['Authorization'] = `token ${decodedToken}`
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await axios.post(`${JWT_HOST_API}/api/method/upload_file`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `token ${decodedToken}`
+        },
+      });
+      return response?.data?.message
+    } catch (error) {
+      // If token is not valid base64, clear invalid token
+      console.warn("Invalid auth token format, clearing from storage:", error);
+      window.localStorage.removeItem("authToken");
+      throw error;
+    }
+  }
+};
