@@ -13,11 +13,11 @@ required_apps = ["frappe","erpnext"]
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
 # 	{
-# 		"name": "policy_pro",
-# 		"logo": "/assets/policy_pro/logo.png",
+# 		"name": "erptech_lead",
+# 		"logo": "/assets/erptech_lead/logo.png",
 # 		"title": "Policy Pro",
-# 		"route": "/policy_pro",
-# 		"has_permission": "policy_pro.api.permission.has_app_permission"
+# 		"route": "/erptech_lead",
+# 		"has_permission": "erptech_lead.api.permission.has_app_permission"
 # 	}
 # ]
 
@@ -25,15 +25,15 @@ required_apps = ["frappe","erpnext"]
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/policy_pro/css/policy_pro.css"
-# app_include_js = "/assets/policy_pro/js/policy_pro.js"
+# app_include_css = "/assets/erptech_lead/css/erptech_lead.css"
+# app_include_js = "/assets/erptech_lead/js/erptech_lead.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/policy_pro/css/policy_pro.css"
-# web_include_js = "/assets/policy_pro/js/policy_pro.js"
+# web_include_css = "/assets/erptech_lead/css/erptech_lead.css"
+# web_include_js = "/assets/erptech_lead/js/erptech_lead.js"
 
 # include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "policy_pro/public/scss/website"
+# website_theme_scss = "erptech_lead/public/scss/website"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -51,7 +51,7 @@ required_apps = ["frappe","erpnext"]
 # Svg Icons
 # ------------------
 # include app icons in desk
-# app_include_icons = "policy_pro/public/icons.svg"
+# app_include_icons = "erptech_lead/public/icons.svg"
 
 # Home Pages
 # ----------
@@ -75,29 +75,29 @@ required_apps = ["frappe","erpnext"]
 
 # add methods and filters to jinja environment
 # jinja = {
-# 	"methods": "policy_pro.utils.jinja_methods",
-# 	"filters": "policy_pro.utils.jinja_filters"
+# 	"methods": "erptech_lead.utils.jinja_methods",
+# 	"filters": "erptech_lead.utils.jinja_filters"
 # }
 
 # Installation
 # ------------
 
-# before_install = "policy_pro.install.before_install"
-# after_install = "policy_pro.install.after_install"
+# before_install = "erptech_lead.install.before_install"
+# after_install = "erptech_lead.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "policy_pro.uninstall.before_uninstall"
-# after_uninstall = "policy_pro.uninstall.after_uninstall"
+# before_uninstall = "erptech_lead.uninstall.before_uninstall"
+# after_uninstall = "erptech_lead.uninstall.after_uninstall"
 
 # Integration Setup
 # ------------------
 # To set up dependencies/integrations with other apps
 # Name of the app being installed is passed as an argument
 
-# before_app_install = "policy_pro.utils.before_app_install"
-# after_app_install = "policy_pro.utils.after_app_install"
+# before_app_install = "erptech_lead.utils.before_app_install"
+# after_app_install = "erptech_lead.utils.after_app_install"
 after_app_install = "erptech_lead.utils.after_app_install.after_app_install"
 
 # Integration Cleanup
@@ -105,14 +105,14 @@ after_app_install = "erptech_lead.utils.after_app_install.after_app_install"
 # To clean up dependencies/integrations with other apps
 # Name of the app being uninstalled is passed as an argument
 
-# before_app_uninstall = "policy_pro.utils.before_app_uninstall"
-# after_app_uninstall = "policy_pro.utils.after_app_uninstall"
+# before_app_uninstall = "erptech_lead.utils.before_app_uninstall"
+# after_app_uninstall = "erptech_lead.utils.after_app_uninstall"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "policy_pro.notifications.get_notification_config"
+# notification_config = "erptech_lead.notifications.get_notification_config"
 
 # Permissions
 # -----------
@@ -141,39 +141,39 @@ doc_events = {
 
 # scheduler_events = {
 # 	"all": [
-# 		"policy_pro.tasks.all"
+# 		"erptech_lead.tasks.all"
 # 	],
 # 	"daily": [
-# 		"policy_pro.tasks.daily"
+# 		"erptech_lead.tasks.daily"
 # 	],
 # 	"hourly": [
-# 		"policy_pro.tasks.hourly"
+# 		"erptech_lead.tasks.hourly"
 # 	],
 # 	"weekly": [
-# 		"policy_pro.tasks.weekly"
+# 		"erptech_lead.tasks.weekly"
 # 	],
 # 	"monthly": [
-# 		"policy_pro.tasks.monthly"
+# 		"erptech_lead.tasks.monthly"
 # 	],
 # }
 
 # Testing
 # -------
 
-# before_tests = "policy_pro.install.before_tests"
+# before_tests = "erptech_lead.install.before_tests"
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "policy_pro.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "erptech_lead.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-# 	"Task": "policy_pro.task.get_dashboard_data"
+# 	"Task": "erptech_lead.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -187,13 +187,13 @@ doc_events = {
 
 # Request Events
 # ----------------
-# before_request = ["policy_pro.utils.before_request"]
-# after_request = ["policy_pro.utils.after_request"]
+# before_request = ["erptech_lead.utils.before_request"]
+# after_request = ["erptech_lead.utils.after_request"]
 
 # Job Events
 # ----------
-# before_job = ["policy_pro.utils.before_job"]
-# after_job = ["policy_pro.utils.after_job"]
+# before_job = ["erptech_lead.utils.before_job"]
+# after_job = ["erptech_lead.utils.after_job"]
 
 # User Data Protection
 # --------------------
@@ -223,7 +223,7 @@ doc_events = {
 # --------------------------------
 
 # auth_hooks = [
-# 	"policy_pro.auth.validate"
+# 	"erptech_lead.auth.validate"
 # ]
 
 # Automatically update python controller files with type annotations for this app.

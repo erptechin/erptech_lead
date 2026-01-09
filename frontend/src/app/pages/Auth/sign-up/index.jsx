@@ -105,7 +105,7 @@ export default function SignUp() {
       <div className="flex w-full flex-col items-center border-gray-150 bg-white dark:border-transparent dark:bg-dark-700 lg:max-w-md ltr:border-l rtl:border-r">
         <div className="flex w-full max-w-sm grow flex-col justify-center p-5">
           <div className="text-center">
-            <img src={"/assets/policy_pro/images/logo.png"} alt="" className="w-30 mx-auto lg:hidden" />
+            <img src={"/assets/erptech_lead/images/logo.png"} alt="" className="w-30 mx-auto lg:hidden" />
             <div className="mt-4 lg:mt-0">
               <h2 className="text-2xl font-semibold text-gray-600 dark:text-dark-100">
                 Welcome To Brand
