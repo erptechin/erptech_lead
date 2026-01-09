@@ -165,27 +165,27 @@ export const createLeadWithCustomer = async (formData, carProfiles, username) =>
   return response?.data?.data ?? {};
 };
 
-export const createCODManagement = async (codData) => {
+export const createManagement = async (codData) => {
   // Try to get authorization token, but don't fail if it doesn't exist (for guest users)
   try {
     await getAuthorizationToken()
   } catch (error) {
     // Continue without token for guest users
   }
-  const response = await axiosInstance.post(`method/erptech_lead.api.doctype.create_cod_management`, {
+  const response = await axiosInstance.post(`method/erptech_lead.api.doctype.create_management`, {
     cod_data: codData
   });
   return response?.data?.data ?? {};
 };
 
-export const updateCODManagement = async (codId, codData) => {
+export const updateManagement = async (codId, codData) => {
   // Try to get authorization token, but don't fail if it doesn't exist (for guest users)
   try {
     await getAuthorizationToken()
   } catch (error) {
     // Continue without token for guest users
   }
-  const response = await axiosInstance.post(`method/erptech_lead.api.doctype.update_cod_management`, {
+  const response = await axiosInstance.post(`method/erptech_lead.api.doctype.update_management`, {
     id: codId,
     cod_data: codData
   });

@@ -35,7 +35,7 @@ export default function CarProfiles({
   }, [filterBy]);
   
   const [search, setSearch] = useState({ 
-    doctype: "Car Profile", 
+    doctype: "Plot Detail", 
     page: 1, 
     page_length: 10, 
     fields: isCreateMode ? null : JSON.stringify(displayFields),
@@ -170,7 +170,7 @@ export default function CarProfiles({
     } else if (carProfileToDelete) {
       // In normal mode, delete via API
       mutationDelete.mutate({ 
-        doctype: "Car Profile", 
+        doctype: "Plot Detail", 
         ids: [carProfileToDelete] 
       });
     }
@@ -185,7 +185,7 @@ export default function CarProfiles({
     <Card className="p-4 sm:px-5">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-700 dark:text-dark-50">
-          Car Profiles
+          Plot Details
         </h3>
         {(filterBy === 'lead' || isCreateMode) && (
           <Button
@@ -195,7 +195,7 @@ export default function CarProfiles({
             className="flex items-center gap-2"
           >
             <PlusIcon className="size-4" />
-            Add Car Profile
+            Add Plot Detail
           </Button>
         )}
       </div>
@@ -206,13 +206,13 @@ export default function CarProfiles({
         </div>
       ) : !isCreateMode && isLoading ? (
         <div className="py-4 text-center text-sm text-gray-500">
-          Loading car profiles...
+          Loading plot details...
         </div>
       ) : carProfiles.length === 0 ? (
         <div className="py-8 text-center text-sm text-gray-500 dark:text-dark-300">
           {isCreateMode 
-            ? 'No car profiles added yet. Please add at least one car profile before creating the lead.'
-            : `No car profiles found ${filterBy === 'customer' ? 'for this customer' : 'for this lead'}.`}
+            ? 'No plot details added yet. Please add at least one plot detail before creating the lead.'
+            : `No plot details found ${filterBy === 'customer' ? 'for this customer' : 'for this lead'}.`}
         </div>
       ) : (
         <div className="overflow-x-auto">
@@ -315,8 +315,8 @@ export default function CarProfiles({
         state={mutationDelete.isError ? "error" : "pending"}
         messages={{
           pending: {
-            title: "Delete Car Profile?",
-            description: "Are you sure you want to delete this car profile? This action cannot be undone.",
+            title: "Delete Plot Detail?",
+            description: "Are you sure you want to delete this plot detail? This action cannot be undone.",
             actionText: "Delete"
           }
         }}

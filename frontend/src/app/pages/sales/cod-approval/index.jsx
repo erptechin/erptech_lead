@@ -3,9 +3,9 @@ import { DataTable } from "app/components/listing/DataTable";
 import { useInfo, useFeachData } from "hooks/useApiHook";
 import { useAuthContext } from "app/contexts/auth/context";
 
-const pageName = "COD Management List";
-const doctype = "COD Management";
-const fields = ['type', 'posting_date', 'status', 'lead', 'customer', 'car_profile', 'policy_name', 'policy_amount', 'approval_manager'];
+const pageName = "Management List";
+const doctype = "Management";
+const fields = ['type', 'posting_date', 'status', 'lead', 'customer', 'plot_detail', 'policy_name', 'policy_amount', 'approval_manager'];
 
 export default function ListData() {
   const [orders, setOrders] = useState([]);
@@ -17,7 +17,7 @@ export default function ListData() {
   useEffect(() => {
     if (info?.fields) {
       const fieldnames = info?.fields.map(field => field.fieldname);
-      setSearch(prev => ({ ...prev, fields: JSON.stringify([...fieldnames, "name"]), filters: JSON.stringify([["COD Management", "approval_manager", "=", user.id]]) }));
+      setSearch(prev => ({ ...prev, fields: JSON.stringify([...fieldnames, "name"]), filters: JSON.stringify([["Management", "approval_manager", "=", user.id]]) }));
     }
   }, [info]);
 

@@ -358,12 +358,12 @@ def update_data():
 @frappe.whitelist(allow_guest=True)
 def create_lead_with_customer():
     """
-    Create a Lead with Customer and Car Profiles in a single transaction.
+    Create a Lead with Customer and Plot Details in a single transaction.
     This endpoint handles the complete lead creation flow:
     1. Create Customer
     2. Create Lead with Customer reference
     3. Update Customer with Lead reference
-    4. Create all Car Profiles
+    4. Create all Plot Details
     
     This endpoint is whitelisted to allow guest users (public access).
     """
@@ -387,9 +387,9 @@ def create_lead_with_customer():
             except json.JSONDecodeError:
                 car_profiles = []
         
-        # Validate: at least one car profile is required
+        # Validate: at least one plot detail is required
         # if not car_profiles or len(car_profiles) == 0:
-        #     create_response(400, "Please add at least one Car Profile before creating the lead.", {})
+        #     create_response(400, "Please add at least one Plot Detail before creating the lead.", {})
         #     return
         
         # Validate required fields
@@ -443,36 +443,36 @@ def create_lead_with_customer():
         customer_doc.save(ignore_permissions=True)
         frappe.db.commit()
         
-        # Step 4: Create all Car Profiles
-        created_car_profiles = []
-        for car_profile in car_profiles:
-            car_profile_data = {
-                "doctype": "Car Profile",
+        # Step 4: Create all Plot Details
+        created_plot_details = []
+        for plot_detail in car_profiles:
+            plot_detail_data = {
+                "doctype": "Plot Detail",
                 "customer": customer_id,
                 "lead": lead_id,
                 "status": "New"
             }
             
-            # Copy all fields from car_profile to car_profile_data
-            for key, value in car_profile.items():
+            # Copy all fields from plot_detail to plot_detail_data
+            for key, value in plot_detail.items():
                 if key not in ["doctype", "customer", "lead", "status"]:
-                    car_profile_data[key] = value
+                    plot_detail_data[key] = value
             
-            car_profile_doc = frappe.get_doc(car_profile_data)
-            car_profile_doc.flags.ignore_mandatory = True
-            car_profile_doc.insert(ignore_permissions=True)
-            created_car_profiles.append(car_profile_doc.name)
+            plot_detail_doc = frappe.get_doc(plot_detail_data)
+            plot_detail_doc.flags.ignore_mandatory = True
+            plot_detail_doc.insert(ignore_permissions=True)
+            created_plot_details.append(plot_detail_doc.name)
         
         frappe.db.commit()
         
         # Return success response
         create_response(
             200,
-            "Lead created successfully with Customer and Car Profiles",
+            "Lead created successfully with Customer and Plot Details",
             {
                 "customer_id": customer_id,
                 "lead_id": lead_id,
-                "car_profile_ids": created_car_profiles
+                "plot_detail_ids": created_plot_details
             }
         )
         
@@ -599,13 +599,13 @@ def create_lead():
         create_response(500, f"Error creating lead: {str(ex)}", {})
 
 @frappe.whitelist(allow_guest=True)
-def create_cod_management():
+def create_management():
     """
-    Create a COD Management document.
+    Create a Management document.
     This endpoint is whitelisted to allow guest users (public access).
     """
     try:
-        # Get COD Management data from request
+        # Get Management data from request
         cod_data = frappe.local.form_dict.get("cod_data") or frappe.local.form_dict
         
         # Parse JSON string if it's a string
@@ -618,22 +618,22 @@ def create_cod_management():
         
         # Validate required fields
         if not cod_data:
-            create_response(400, "COD Management data is required", {})
+            create_response(400, "Management data is required", {})
             return
         
         # Validate mandatory fields
-        required_fields = ["lead", "customer", "car_profile", "policy_name", "file_attachment", "approval_manager"]
+        required_fields = ["lead", "customer", "plot_detail", "policy_name", "file_attachment", "approval_manager"]
         missing_fields = [field for field in required_fields if not cod_data.get(field)]
         if missing_fields:
             create_response(400, f"Missing required fields: {', '.join(missing_fields)}", {})
             return
         
-        # Prepare COD Management document
+        # Prepare Management document
         doc_data = {
-            "doctype": "COD Management",
+            "doctype": "Management",
             "lead": cod_data.get("lead"),
             "customer": cod_data.get("customer"),
-            "car_profile": cod_data.get("car_profile"),
+            "plot_detail": cod_data.get("plot_detail"),
             "policy_name": cod_data.get("policy_name"),
             "policy_amount": cod_data.get("policy_amount") or 0,
             "status": cod_data.get("status") or "Waiting",
@@ -650,23 +650,23 @@ def create_cod_management():
         
         create_response(
             200,
-            "COD Management created successfully",
+            "Management created successfully",
             {
                 "cod_id": cod_doc.name,
                 "lead": cod_doc.lead,
                 "customer": cod_doc.customer,
-                "car_profile": cod_doc.car_profile
+                "plot_detail": cod_doc.plot_detail
             }
         )
         
     except Exception as ex:
-        frappe.log_error(frappe.get_traceback(), "Error in creating COD Management")
-        create_response(500, f"Error creating COD Management: {str(ex)}", {})
+        frappe.log_error(frappe.get_traceback(), "Error in creating Management")
+        create_response(500, f"Error creating Management: {str(ex)}", {})
 
 @frappe.whitelist(allow_guest=True)
-def update_cod_management():
+def update_management():
     """
-    Update a COD Management document.
+    Update a Management document.
     This endpoint is whitelisted to allow guest users (public access).
     """
     try:
@@ -684,24 +684,24 @@ def update_cod_management():
         
         # Validate required fields
         if not cod_id:
-            create_response(400, "COD Management ID is required", {})
+            create_response(400, "Management ID is required", {})
             return
         
         if not cod_data:
-            create_response(400, "COD Management data is required", {})
+            create_response(400, "Management data is required", {})
             return
         
         # Check if document exists
-        if not frappe.db.exists("COD Management", cod_id):
-            create_response(404, f"COD Management with ID {cod_id} not found", {})
+        if not frappe.db.exists("Management", cod_id):
+            create_response(404, f"Management with ID {cod_id} not found", {})
             return
         
         # Get the document
-        cod_doc = frappe.get_doc("COD Management", cod_id)
+        cod_doc = frappe.get_doc("Management", cod_id)
         
         # Update fields
         updateable_fields = [
-            "car_profile", "policy_name", "policy_amount", "status", "type",
+            "plot_detail", "policy_name", "policy_amount", "status", "type",
             "file_attachment", "approval_manager", "comments"
         ]
         
@@ -720,18 +720,18 @@ def update_cod_management():
         
         create_response(
             200,
-            "COD Management updated successfully",
+            "Management updated successfully",
             {
                 "cod_id": cod_doc.name,
                 "lead": cod_doc.lead,
                 "customer": cod_doc.customer,
-                "car_profile": cod_doc.car_profile
+                "plot_detail": cod_doc.plot_detail
             }
         )
         
     except Exception as ex:
-        frappe.log_error(frappe.get_traceback(), "Error in updating COD Management")
-        create_response(500, f"Error updating COD Management: {str(ex)}", {})
+        frappe.log_error(frappe.get_traceback(), "Error in updating Management")
+        create_response(500, f"Error updating Management: {str(ex)}", {})
 
 @frappe.whitelist(allow_guest=True)
 def get_makes():

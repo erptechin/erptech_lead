@@ -14,9 +14,9 @@ import { Button, Card } from "components/ui";
 import DynamicForms from 'app/components/form/dynamicForms';
 import { useInfo, useAddData, useFeachSingle, useUpdateData } from "hooks/useApiHook";
 
-const pageName = "COD Management List"
-const doctype = "COD Management"
-const fields = ['lead', 'customer', 'car_profile', 'policy_name', 'policy_amount', "comments"]
+const pageName = "Management List"
+const doctype = "Management"
+const fields = ['lead', 'customer', 'plot_detail', 'policy_name', 'policy_amount', "comments"]
 const subFields = ['status', 'type', 'approval_manager', "file_attachment"]
 
 const tableFields = {

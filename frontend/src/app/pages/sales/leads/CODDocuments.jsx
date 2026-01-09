@@ -11,7 +11,7 @@ import {
 import { useAddData, useUpdateData, useFeachData, useDeleteData } from "hooks/useApiHook";
 import { JWT_HOST_API } from 'configs/auth.config';
 import { SearchSelect } from "app/components/form/SearchSelect";
-import { getListData, createCODManagement, updateCODManagement, showError } from 'utils/apis';
+import { getListData, createManagement, updateManagement, showError } from 'utils/apis';
 import { ConfirmModal } from "components/shared/ConfirmModal";
 
 export default function CODDocuments({ id, data }) {
@@ -26,7 +26,7 @@ export default function CODDocuments({ id, data }) {
   const [newCODDocument, setNewCODDocument] = useState({
     lead: id || "",
     customer: data?.customer || "",
-    car_profile: "",
+    plot_detail: "",
     approval_manager: "",
     policy_name: "",
     policy_amount: "",
@@ -36,12 +36,12 @@ export default function CODDocuments({ id, data }) {
     comments: ""
   });
 
-  // Fetch COD Management records filtered by lead
+  // Fetch Management records filtered by lead
   const [search, setSearch] = useState({
-    doctype: "COD Management",
+    doctype: "Management",
     page: 1,
     page_length: 100,
-    fields: JSON.stringify(["name", "lead", "customer", "car_profile", "approval_manager", "policy_name", "policy_amount", "status", "file_attachment", "comments", "creation", "modified"]),
+    fields: JSON.stringify(["name", "lead", "customer", "plot_detail", "approval_manager", "policy_name", "policy_amount", "status", "file_attachment", "comments", "creation", "modified"]),
     filters: id ? JSON.stringify([["lead", "=", id], ["type", "=", "New"]]) : null
   });
 
@@ -51,7 +51,7 @@ export default function CODDocuments({ id, data }) {
   useEffect(() => {
     if (id) {
       getListData({
-        doctype: "Car Profile",
+        doctype: "Plot Detail",
         fields: JSON.stringify(["name", "car_make", "car_model", "car_year"]),
         filters: JSON.stringify([["lead", "=", id], ["status", "=", "New"]]),
         page_length: 100
@@ -133,7 +133,7 @@ export default function CODDocuments({ id, data }) {
     setNewCODDocument({
       lead: id || "",
       customer: data?.customer || "",
-      car_profile: "",
+      plot_detail: "",
       approval_manager: "",
       policy_name: "",
       policy_amount: "",
@@ -152,16 +152,16 @@ export default function CODDocuments({ id, data }) {
     
     setIsAddingCOD(true);
     try {
-      const result = await createCODManagement(newCODDocument);
+      const result = await createManagement(newCODDocument);
       if (result && result.cod_id) {
         setShowAddCODModal(false);
         resetForm();
         refetchCOD();
       } else {
-        showError({ message: "Failed to create COD Management" });
+        showError({ message: "Failed to create Management" });
       }
     } catch (error) {
-      console.error("Error creating COD Management:", error);
+      console.error("Error creating Management:", error);
       showError(error);
     } finally {
       setIsAddingCOD(false);
@@ -174,7 +174,7 @@ export default function CODDocuments({ id, data }) {
       setNewCODDocument({
         lead: codDoc.lead || id || "",
         customer: codDoc.customer || data?.customer || "",
-        car_profile: codDoc.car_profile || "",
+        plot_detail: codDoc.plot_detail || "",
         approval_manager: codDoc.approval_manager || "",
         policy_name: codDoc.policy_name || "",
         policy_amount: codDoc.policy_amount || "",
@@ -189,7 +189,7 @@ export default function CODDocuments({ id, data }) {
 
   const handleUpdateCOD = async () => {
     if (!selectedCODId) {
-      showError({ message: "COD Management ID is required" });
+      showError({ message: "Management ID is required" });
       return;
     }
     
@@ -200,17 +200,17 @@ export default function CODDocuments({ id, data }) {
     
     setIsUpdatingCOD(true);
     try {
-      const result = await updateCODManagement(selectedCODId, newCODDocument);
+      const result = await updateManagement(selectedCODId, newCODDocument);
       if (result && result.cod_id) {
         setShowEditCODModal(false);
         setSelectedCODId(null);
         resetForm();
         refetchCOD();
       } else {
-        showError({ message: "Failed to update COD Management" });
+        showError({ message: "Failed to update Management" });
       }
     } catch (error) {
-      console.error("Error updating COD Management:", error);
+      console.error("Error updating Management:", error);
       showError(error);
     } finally {
       setIsUpdatingCOD(false);
@@ -224,7 +224,7 @@ export default function CODDocuments({ id, data }) {
 
   const handleConfirmDelete = () => {
     if (codToDelete) {
-      mutationDelete.mutate({ doctype: "COD Management", ids: [codToDelete] });
+      mutationDelete.mutate({ doctype: "Management", ids: [codToDelete] });
     }
   };
 
@@ -276,7 +276,7 @@ export default function CODDocuments({ id, data }) {
                           Customer
                         </Th>
                         <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
-                          Car Profile
+                          Plot Detail
                         </Th>
                         <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
                           Policy Name
@@ -311,7 +311,7 @@ export default function CODDocuments({ id, data }) {
                             {doc.customer || '-'}
                           </Td>
                           <Td className="text-gray-700 dark:text-dark-200">
-                            {doc.car_profile || '-'}
+                            {doc.plot_detail || '-'}
                           </Td>
                           <Td className="text-gray-700 dark:text-dark-200">
                             {doc.policy_name || '-'}
@@ -437,11 +437,11 @@ export default function CODDocuments({ id, data }) {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <SearchSelect
-                      label="Car Profile"
+                      label="Plot Detail"
                       lists={carProfiles}
-                      value={newCODDocument.car_profile}
-                      onChange={(value) => setNewCODDocument({ ...newCODDocument, car_profile: value || "" })}
-                      placeholder="Select Car Profile"
+                      value={newCODDocument.plot_detail}
+                      onChange={(value) => setNewCODDocument({ ...newCODDocument, plot_detail: value || "" })}
+                      placeholder="Select Plot Detail"
                       req={true}
                     />
                   </div>
@@ -618,11 +618,11 @@ export default function CODDocuments({ id, data }) {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <SearchSelect
-                      label="Car Profile"
+                      label="Plot Detail"
                       lists={carProfiles}
-                      value={newCODDocument.car_profile}
-                      onChange={(value) => setNewCODDocument({ ...newCODDocument, car_profile: value || "" })}
-                      placeholder="Select Car Profile"
+                      value={newCODDocument.plot_detail}
+                      onChange={(value) => setNewCODDocument({ ...newCODDocument, plot_detail: value || "" })}
+                      placeholder="Select Plot Detail"
                     />
                   </div>
                   <div>
@@ -759,8 +759,8 @@ export default function CODDocuments({ id, data }) {
         state={mutationDelete.isError ? "error" : "pending"}
         messages={{
           pending: {
-            title: "Delete COD Document?",
-            description: "Are you sure you want to delete this COD document? This action cannot be undone.",
+            title: "Delete Management Document?",
+            description: "Are you sure you want to delete this management document? This action cannot be undone.",
             actionText: "Delete"
           }
         }}

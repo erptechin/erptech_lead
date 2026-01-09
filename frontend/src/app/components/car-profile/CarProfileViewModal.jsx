@@ -11,7 +11,7 @@ import { useInfo, useFeachSingle } from "hooks/useApiHook";
 import { Skeleton } from "components/ui";
 import { useThemeContext } from "app/contexts/theme/context";
 
-const doctype = "Car Profile";
+const doctype = "Plot Detail";
 const fields = [
   'status',
   'car_make',
@@ -104,7 +104,7 @@ export default function CarProfileViewModal({
           >
             <div className="flex items-center justify-between border-b border-gray-200 pb-4 dark:border-dark-500">
               <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-50">
-                View Car Profile
+                View Plot Detail
               </h2>
             </div>
             <div className="mt-4">

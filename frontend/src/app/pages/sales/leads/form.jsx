@@ -50,7 +50,7 @@ export default function AddEditFrom() {
   const { data: info, isFetching: isFetchingInfo } = useInfo({ doctype, fields: JSON.stringify([...fields, ...subFields]) });
   const { data, isFetching: isFetchingData, refetch: refetchData } = useFeachSingle({ doctype, id, fields: JSON.stringify([...fields, ...subFields]) });
 
-  // State to track car profiles when creating new lead
+  // State to track plot details when creating new lead
   const [carProfilesToCreate, setCarProfilesToCreate] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -87,16 +87,16 @@ export default function AddEditFrom() {
       mutationUpdate.mutate({ doctype, body: { ...submitData, id } });
     } else {
 
-      // Validate: at least one car profile is required
+      // Validate: at least one plot detail is required
       // if (!carProfilesToCreate || carProfilesToCreate.length === 0) {
-      //   showError({ message: "Please add at least one Car Profile before creating the lead." });
+      //   showError({ message: "Please add at least one Plot Detail before creating the lead." });
       //   return;
       // }
 
       setIsCreating(true);
 
       try {
-        // Call Python endpoint to create Lead with Customer and Car Profiles
+        // Call Python endpoint to create Lead with Customer and Plot Details
         const result = await createLeadWithCustomer(formData, carProfilesToCreate, username);
         
         if (!result || (!result.lead_id && !result.customer_id)) {
@@ -202,7 +202,7 @@ export default function AddEditFrom() {
             </div>
           </div>
 
-          {/* Car Profiles Section */}
+          {/* Plot Details Section */}
           <div className="mt-6">
             <CarProfiles
               leadId={id}

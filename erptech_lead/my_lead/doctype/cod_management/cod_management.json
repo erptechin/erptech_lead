@@ -7,7 +7,7 @@
     "field_order": [
         "lead",
         "customer",
-        "car_profile",
+        "plot_detail",
         "policy_name",
         "policy_amount",
         "status",
@@ -37,12 +37,12 @@
             "reqd": 1
         },
         {
-            "fieldname": "car_profile",
+            "fieldname": "plot_detail",
             "fieldtype": "Link",
             "in_list_view": 1,
             "in_standard_filter": 1,
-            "label": "Car Profile",
-            "options": "Car Profile",
+            "label": "Plot Detail",
+            "options": "Plot Detail",
             "reqd": 1
         },
         {
@@ -108,7 +108,7 @@
     "modified": "2025-12-04 16:31:11.046868",
     "modified_by": "Administrator",
     "module": "My Lead",
-    "name": "COD Management",
+    "name": "Management",
     "owner": "Administrator",
     "permissions": [
         {

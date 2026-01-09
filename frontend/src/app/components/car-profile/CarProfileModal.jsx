@@ -16,7 +16,7 @@ import { getListData } from "utils/apis";
 import { Skeleton } from "components/ui";
 import { useThemeContext } from "app/contexts/theme/context";
 
-const doctype = "Car Profile";
+const doctype = "Plot Detail";
 const fields = [
   'car_make',
   'car_model',
@@ -326,7 +326,7 @@ export default function CarProfileModal({
           <div className="flex h-full flex-col">
             <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-dark-500">
               <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-50">
-                {carProfileId ? 'Edit' : 'New'} Car Profile
+                {carProfileId ? 'Edit' : 'New'} Plot Detail
               </h2>
             </div>
             <div className="flex-1 overflow-y-auto p-5">
