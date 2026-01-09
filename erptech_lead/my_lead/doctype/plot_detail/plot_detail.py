@@ -5,6 +5,6 @@
 from frappe.model.document import Document
 
 
-class CarProfile(Document):
+class PlotDetail(Document):
 	pass
 

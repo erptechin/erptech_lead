@@ -45,20 +45,20 @@ export default function CODDocuments({ id, data }) {
     filters: id ? JSON.stringify([["lead", "=", id], ["type", "=", "New"]]) : null
   });
 
-  const { data: codData, isFetching: isLoadingCOD, refetch: refetchCOD } = useFeachData(search);
+  const { data: codData, isFetching: isLoadingCOD, refetch: refetchCOD} = useFeachData(search);
 
   // Fetch car profiles for dropdown
   useEffect(() => {
     if (id) {
       getListData({
         doctype: "Plot Detail",
-        fields: JSON.stringify(["name", "car_make", "car_model", "car_year"]),
+        fields: JSON.stringify(["name", "plot_no", "plot_id", "project_layout_name", "location_village"]),
         filters: JSON.stringify([["lead", "=", id], ["status", "=", "New"]]),
         page_length: 100
       }).then((res) => {
         if (res?.data) {
           const options = res.data.map(item => ({
-            label: `${item.car_make || ''} ${item.car_model || ''} ${item.car_year || ''}`.trim() || item.name,
+            label: `${item.plot_no || ''} - ${item.project_layout_name || ''} ${item.location_village || ''}`.trim() || item.plot_id || item.name,
             value: item.name
           }));
           setCarProfiles(options);
@@ -245,10 +245,10 @@ export default function CODDocuments({ id, data }) {
       <div className="col-span-12 lg:col-span-12">
         <Card className="p-4 sm:px-5">
           <div className="mt-5 space-y-5">
-            {/* Display COD Documents */}
+            {/* Display Documents */}
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-dark-50">
-                COD Document Approvals
+                Document Approvals
               </h3>
               <Button
                 onClick={() => {
@@ -264,7 +264,7 @@ export default function CODDocuments({ id, data }) {
             </div>
             {isLoadingCOD ? (
               <div className="py-4 text-center text-sm text-gray-500">
-                Loading COD documents...
+                Loading documents...
               </div>
             ) : codDocuments && codDocuments.length > 0 ? (
               <div className="mt-6">
@@ -380,7 +380,7 @@ export default function CODDocuments({ id, data }) {
             ) : (
               <div className="flex flex-col items-center justify-center py-12">
                 <p className="text-gray-500 dark:text-dark-300">
-                  No COD documents yet. Click &quot;Add New Record&quot; to add one.
+                  No documents yet. Click &quot;Add New Record&quot; to add one.
                 </p>
               </div>
             )}
@@ -388,7 +388,7 @@ export default function CODDocuments({ id, data }) {
         </Card>
       </div>
 
-      {/* Add COD Document Modal */}
+      {/* Add Document Modal */}
       <Transition appear show={showAddCODModal} as={Dialog} onClose={() => {
         setShowAddCODModal(false);
         resetForm();
@@ -567,7 +567,7 @@ export default function CODDocuments({ id, data }) {
         </TransitionChild>
       </Transition>
 
-      {/* Edit COD Document Modal */}
+      {/* Edit Document Modal */}
       <Transition appear show={showEditCODModal} as={Dialog} onClose={() => {
         setShowEditCODModal(false);
         setSelectedCODId(null);
@@ -598,7 +598,7 @@ export default function CODDocuments({ id, data }) {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-dark-500">
               <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-50">
-                Edit COD Document
+                Edit Document
               </h2>
               <button
                 onClick={() => {

@@ -47,7 +47,7 @@ export default function ListData() {
       hideAddNew={true}
       hideDelete={true}
       hideEdit={true}
-      storageKey="cod-approval"
+      storageKey="approval"
       data={orders}
       info={info}
       search={search}

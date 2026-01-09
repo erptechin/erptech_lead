@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { DataTable } from "app/components/listing/DataTable";
 import { useInfo, useFeachData } from "hooks/useApiHook";
 
-const pageName = "COD Manager List";
+const pageName = "Manager List";
 const doctype = "User";
 const fields = ['user_image','full_name', 'email', 'mobile_no', 'enabled'];
 
@@ -53,7 +53,7 @@ export default function ListData() {
       doctype={doctype}
       fields={fields}
       addNewRoute="add-new"
-      storageKey="cod-managers"
+      storageKey="managers"
       data={orders}
       info={info}
       search={search}

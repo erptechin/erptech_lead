@@ -13,26 +13,42 @@ import { useThemeContext } from "app/contexts/theme/context";
 
 const doctype = "Plot Detail";
 const fields = [
-  'status',
-  'car_make',
-  'car_model',
-  'car_year',
-  'car_brand_new',
-  'car_emirate',
-  'car_registration_date'
+  'plot_no',
+  'plot_id',
+  'project_layout_name',
+  'location_village',
+  'survey_no',
+  'plot_type',
+  'plot_size',
+  'length',
+  'width',
+  'facing'
 ];
 const subFields = [
-  'date_of_birth',
-  'nationality',
-  'license_country',
-  'driving_experience',
-  'policy_start_date',
-  'current_policy_active',
-  'claims_last_12_months',
-  'no_claims_years',
-  'gcc_specification',
-  'personal_use_only',
-  'policy_fully_comprehensive'
+  'status',
+  'owner_name',
+  'document_no',
+  'registration_date',
+  'patta_khata_no',
+  'approval_authority',
+  'legal_status',
+  'rate_per_sqft',
+  'total_plot_value',
+  'booking_amount',
+  'paid_amount',
+  'balance_amount',
+  'payment_mode',
+  'payment_date',
+  'buyer_name',
+  'contact_number',
+  'email_id',
+  'address',
+  'agent_reference_name',
+  'plot_status',
+  'booking_date',
+  'sale_date',
+  'handover_date',
+  'remarks'
 ];
 
 // Helper function to get field label

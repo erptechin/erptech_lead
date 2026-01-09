@@ -6,12 +6,10 @@
     },
     "sales": {
       "sales": "Sales",
-      "customer": "Customer",
       "leads": "Leads",
-      "sales-order": "Sales Order",
       "sales-invoice": "Sales Invoice",
-      "cod-approval": "COD Approval",
-      "cod-manager": "COD Manager",
+      "approval": "Approval",
+      "sales-manager": "Sales Manager",
       "sales-agent": "Sales Agent"
     },
     "settings": {

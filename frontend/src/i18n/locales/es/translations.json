@@ -193,7 +193,7 @@
       "leads": "Oportunidades",
       "sales-order": "Orden de Venta",
       "sales-invoice": "Factura de Venta",
-      "cod-manager": "Gerente COD",
+      "manager": "Gerente COD",
       "sales-agent": "Agente de Ventas"
     },
     "settings": {

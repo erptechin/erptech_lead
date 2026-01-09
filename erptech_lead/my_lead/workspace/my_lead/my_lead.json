@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"PADnwOfZ9T\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">My Lead</span>\",\"col\":12}},{\"id\":\"Nm0cmFS7Bd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"COD Mangers\",\"col\":3}},{\"id\":\"ejQHx1RH7B\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Management\",\"col\":3}},{\"id\":\"KS0_JIUYbL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Agents\",\"col\":3}},{\"id\":\"pQp-7t_m6o\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leads\",\"col\":3}},{\"id\":\"6NNi5328v2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plot Detail\",\"col\":3}}]",
+ "content": "[{\"id\":\"PADnwOfZ9T\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">My Lead</span>\",\"col\":12}},{\"id\":\"Nm0cmFS7Bd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mangers\",\"col\":3}},{\"id\":\"ejQHx1RH7B\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Management\",\"col\":3}},{\"id\":\"KS0_JIUYbL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Agents\",\"col\":3}},{\"id\":\"pQp-7t_m6o\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leads\",\"col\":3}},{\"id\":\"6NNi5328v2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plot Detail\",\"col\":3}}]",
  "creation": "2025-11-08 21:56:56.595244",
  "custom_blocks": [],
  "docstatus": 0,
@@ -28,7 +28,7 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "COD Mangers",
+   "label": "Mangers",
    "link_to": "User",
    "stats_filter": "[[\"User\",\"role_profile_name\",\"=\",\"Lead Manager\",false]]",
    "type": "DocType"

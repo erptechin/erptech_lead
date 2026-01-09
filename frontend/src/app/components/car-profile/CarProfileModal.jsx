@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -12,31 +12,46 @@ import { Button } from "components/ui";
 import DynamicForms from 'app/components/form/dynamicForms';
 import { Schema } from "app/components/form/schema";
 import { useInfo, useAddData, useFeachSingle, useUpdateData } from "hooks/useApiHook";
-import { getListData } from "utils/apis";
 import { Skeleton } from "components/ui";
 import { useThemeContext } from "app/contexts/theme/context";
 
 const doctype = "Plot Detail";
 const fields = [
-  'car_make',
-  'car_model',
-  'car_year',
-  'car_brand_new',
-  'car_emirate',
-  'car_registration_date'
+  'plot_no',
+  'plot_id',
+  'project_layout_name',
+  'location_village',
+  'survey_no',
+  'plot_type',
+  'plot_size',
+  'length',
+  'width',
+  'facing'
 ];
 const subFields = [
-  'date_of_birth',
-  'nationality',
-  'license_country',
-  'driving_experience',
-  'policy_start_date',
-  'current_policy_active',
-  'claims_last_12_months',
-  'no_claims_years',
-  'gcc_specification',
-  'personal_use_only',
-  'policy_fully_comprehensive'
+  'owner_name',
+  'document_no',
+  'registration_date',
+  'patta_khata_no',
+  'approval_authority',
+  'legal_status',
+  'rate_per_sqft',
+  'total_plot_value',
+  'booking_amount',
+  'paid_amount',
+  'balance_amount',
+  'payment_mode',
+  'payment_date',
+  'buyer_name',
+  'contact_number',
+  'email_id',
+  'address',
+  'agent_reference_name',
+  'plot_status',
+  'booking_date',
+  'sale_date',
+  'handover_date',
+  'remarks'
 ];
 
 const tableFields = {
@@ -65,28 +80,7 @@ export default function CarProfileModal({
     fields: JSON.stringify([...fields, ...subFields]) 
   });
 
-  // State to store model options based on selected make (must be declared before filteredInfo)
-  const [modelOptions, setModelOptions] = useState([]);
-  
-  // Update car_model options based on selected car_make
-  const filteredInfo = useMemo(() => {
-    if (!info) return info;
-    
-    return {
-      ...info,
-      fields: info.fields.map(field => {
-        // Update car_model options based on selected car_make
-        if (field.fieldname === 'car_model') {
-          return {
-            ...field,
-            options_list: modelOptions // Set options_list to filtered models
-          };
-        }
-        
-        return field;
-      })
-    };
-  }, [info, modelOptions]);
+  // No need for filtered info anymore - using direct info
   
   const { data, isFetching: isFetchingData, refetch } = useFeachSingle({ 
     doctype, 
@@ -121,56 +115,10 @@ export default function CarProfileModal({
     reset,
     setValue,
   } = useForm({
-    resolver: yupResolver(Schema(filteredInfo?.fields || info?.fields)),
+    resolver: yupResolver(Schema(info?.fields)),
     defaultValues: initialState,
     mode: 'onChange',
   });
-
-  // Watch car_make field to filter car_model options
-  const selectedCarMake = useWatch({
-    control,
-    name: 'car_make',
-  });
-
-  // Store previous car_make to detect changes
-  const prevCarMakeRef = useRef(selectedCarMake);
-
-  // Fetch models when car_make changes
-  useEffect(() => {
-    if (selectedCarMake) {
-      // If car_make changed (not initial load), clear car_model first
-      if (prevCarMakeRef.current && prevCarMakeRef.current !== selectedCarMake) {
-        setValue('car_model', '');
-      }
-      
-      // Fetch models filtered by the selected make
-      getListData({
-        doctype: 'Model',
-        fields: JSON.stringify(['name', 'title', 'make']),
-        filters: JSON.stringify([['make', '=', selectedCarMake]]),
-      }).then((res) => {
-        if (res?.data) {
-          const options = res.data.map(item => ({
-            label: item.title || item.name,
-            value: item.name
-          }));
-          setModelOptions(options);
-        } else {
-          setModelOptions([]);
-        }
-      }).catch(() => {
-        setModelOptions([]);
-      });
-    } else {
-      // Clear model options when no make is selected
-      setModelOptions([]);
-      // Clear car_model value when car_make is cleared
-      setValue('car_model', '');
-    }
-    
-    // Update ref
-    prevCarMakeRef.current = selectedCarMake;
-  }, [selectedCarMake, setValue]);
 
   // Update form values when data is loaded or modal opens
   useEffect(() => {
@@ -178,54 +126,14 @@ export default function CarProfileModal({
       if (isCreateMode && carProfileData) {
         // Editing in create mode - use carProfileData prop
         reset(carProfileData);
-        // If car_make exists, fetch models for that make
-        if (carProfileData.car_make) {
-          getListData({
-            doctype: 'Model',
-            fields: JSON.stringify(['name', 'title', 'make']),
-            filters: JSON.stringify([['make', '=', carProfileData.car_make]]),
-          }).then((res) => {
-            if (res?.data) {
-              const options = res.data.map(item => ({
-                label: item.title || item.name,
-                value: item.name
-              }));
-              setModelOptions(options);
-            }
-          }).catch(() => {
-            setModelOptions([]);
-          });
-        } else {
-          setModelOptions([]);
-        }
       } else if (carProfileId && !isCreateMode) {
         // Editing/Viewing mode - wait for data to load
         if (data) {
           reset(data);
-          // If editing and car_make exists, fetch models for that make
-          if (data.car_make) {
-            getListData({
-              doctype: 'Model',
-              fields: JSON.stringify(['name', 'title', 'make']),
-              filters: JSON.stringify([['make', '=', data.car_make]]),
-            }).then((res) => {
-              if (res?.data) {
-                const options = res.data.map(item => ({
-                  label: item.title || item.name,
-                  value: item.name
-                }));
-                setModelOptions(options);
-              }
-            }).catch(() => {
-              setModelOptions([]);
-            });
-          }
         }
       } else {
         // Creating new profile
         reset(initialState);
-        // Clear model options for new profile
-        setModelOptions([]);
         // In create mode, don't set customer/lead (they'll be set later)
         // In normal mode, set customer and lead from props
         if (!isCreateMode) {
@@ -242,7 +150,6 @@ export default function CarProfileModal({
     } else {
       // Reset form when modal closes
       reset(initialState);
-      setModelOptions([]);
     }
   }, [isOpen, carProfileId, carProfileData, isCreateMode, data, customerId, customerName, leadId, leadName, reset, setValue]);
 
@@ -386,7 +293,7 @@ export default function CarProfileModal({
           {/* Header */}
           <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-dark-500">
             <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-50">
-              {carProfileId ? 'Edit' : 'New'} Car Profile
+              {carProfileId ? 'Edit' : 'New'} Plot Detail
             </h2>
             <button
               onClick={onClose}
@@ -406,7 +313,7 @@ export default function CarProfileModal({
               <div className="grid grid-cols-12 place-content-start gap-4 p-5 sm:gap-5 lg:gap-6">
                 <div className="col-span-12 lg:col-span-6">
                     <DynamicForms
-                      infos={filteredInfo || info}
+                      infos={info}
                       fields={fields}
                       register={register}
                       tables={tableFields}
@@ -416,7 +323,7 @@ export default function CarProfileModal({
                 </div>
                 <div className="col-span-12 lg:col-span-6">
                   <DynamicForms
-                    infos={filteredInfo || info}
+                    infos={info}
                     tables={tableFields}
                     fields={subFields}
                     register={register}

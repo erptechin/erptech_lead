@@ -14,7 +14,7 @@ import { useInfo, useAddData, useFeachSingle, useUpdateData } from "hooks/useApi
 import { useDisclosure } from "hooks";
 import { ChangePasswordModal } from "../../../components/ChangePasswordModal";
 
-const pageName = "COD Manager"
+const pageName = "Manager"
 const doctype = "User"
 
 const fields = [

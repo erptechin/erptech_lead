@@ -1,13 +1,13 @@
 # My Lead - CRM and Sales Management App
 
-A comprehensive ERPNext application for managing leads, sales operations, COD (Certificate of Delivery) workflows, and sales dashboards.
+A comprehensive ERPNext application for managing leads, sales operations, (Certificate of Delivery) workflows, and sales dashboards.
 
 ## Features
 
 - **Lead Management**: Complete lead entry process with validation and automated assignment
 - **Lead Assignment Automation**: Intelligent lead distribution to sales agents (round-robin, territory-based, load-balancing)
 - **Call-Back Management**: Schedule and track callback dates/times with notes
-- **COD Document Workflow**: Upload and manage COD documents with multi-level approvals
+- **Document Workflow**: Upload and manage documents with multi-level approvals
 - **Sales Dashboard**: Real-time sales metrics, agent performance, and motivational content
 - **Real-Time Notifications**: Instant updates for new leads and critical events
 - **Role-Based Access Control**: Sales User, Sales Manager, Sales Agent roles with granular permissions
@@ -53,7 +53,7 @@ bench start
 
 - [Architecture Overview](./docs/ARCHITECTURE.md) - System design and module structure
 - [Implementation Guide](./docs/IMPLEMENTATION.md) - Phase-by-phase implementation roadmap
-- [Custom DocTypes](./docs/DOCTYPES.md) - Lead, COD Document, and other custom types
+- [Custom DocTypes](./docs/DOCTYPES.md) - Lead, Document, and other custom types
 - [API Endpoints](./docs/API_ENDPOINTS.md) - Complete API reference
 - [Roles & Permissions](./docs/ROLES_PERMISSIONS.md) - User roles and access control
 

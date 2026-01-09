@@ -30,8 +30,8 @@ export default function CarProfiles({
   // Determine which fields to show based on filter type (memoized to prevent infinite loops)
   const displayFields = useMemo(() => {
     return filterBy === 'customer' 
-      ? ["name", "car_year", "car_make", "car_model", "car_brand_new", "car_emirate", "policy_start_date", "car_registration_date", "status"]
-      : ["name", "car_year", "car_make", "car_model", "car_brand_new", "car_emirate", "policy_start_date", "car_registration_date", "status"];
+      ? ["name", "plot_no", "plot_id", "project_layout_name", "location_village", "plot_type", "plot_size", "plot_status", "status"]
+      : ["name", "plot_no", "plot_id", "project_layout_name", "location_village", "plot_type", "plot_size", "plot_status", "status"];
   }, [filterBy]);
   
   const [search, setSearch] = useState({ 
@@ -51,15 +51,15 @@ export default function CarProfiles({
       // Build filters based on context
       const filters = [[filterBy, "=", filterValue]];
       
-      // Lead: show only "New" and "Cod Pending" status
-      // Customer: show all except "New" and "Cod Pending" status
+      // Lead: show only "New" and "Pending" status
+      // Customer: show all except "New" and "Pending" status
       if (filterBy === 'lead') {
-        // Use "in" operator to show only New and Cod Pending
-        filters.push(["status", "in", ["New", "Cod Pending"]]);
+        // Use "in" operator to show only New and Pending
+        filters.push(["status", "in", ["New", "Pending"]]);
       } else if (filterBy === 'customer') {
-        // Use multiple "!=" filters (ANDed together) to exclude New and Cod Pending
+        // Use multiple "!=" filters (ANDed together) to exclude New and Pending
         filters.push(["status", "!=", "New"]);
-        filters.push(["status", "!=", "Cod Pending"]);
+        filters.push(["status", "!=", "Pending"]);
       }
       
       const fieldsString = JSON.stringify(displayFields);
@@ -219,13 +219,13 @@ export default function CarProfiles({
           <Table>
             <THead>
               <Tr>
-                <Th>Year</Th>
-                <Th>Make</Th>
-                <Th>Model</Th>
-                <Th>Brand New</Th>
-                <Th>Emirate</Th>
-                <Th>Policy Start Date</Th>
-                <Th>Registration Date</Th>
+                <Th>Plot No</Th>
+                <Th>Plot ID</Th>
+                <Th>Project / Layout</Th>
+                <Th>Location / Village</Th>
+                <Th>Plot Type</Th>
+                <Th>Plot Size</Th>
+                <Th>Plot Status</Th>
                 <Th>Status</Th>
                 <Th>Actions</Th>
               </Tr>
@@ -236,13 +236,13 @@ export default function CarProfiles({
                   key={isCreateMode ? index : profile.name}
                   className="hover:bg-gray-50 dark:hover:bg-dark-700"
                 >
-                  <Td>{profile.car_year || "-"}</Td>
-                  <Td>{profile.car_make || "-"}</Td>
-                  <Td>{profile.car_model || "-"}</Td>
-                  <Td>{profile.car_brand_new || "-"}</Td>
-                  <Td>{profile.car_emirate || "-"}</Td>
-                  <Td>{profile.policy_start_date || "-"}</Td>
-                  <Td>{profile.car_registration_date || "-"}</Td>
+                  <Td>{profile.plot_no || "-"}</Td>
+                  <Td>{profile.plot_id || "-"}</Td>
+                  <Td>{profile.project_layout_name || "-"}</Td>
+                  <Td>{profile.location_village || "-"}</Td>
+                  <Td>{profile.plot_type || "-"}</Td>
+                  <Td>{profile.plot_size || "-"}</Td>
+                  <Td>{profile.plot_status || "-"}</Td>
                   <Td>{profile.status || "-"}</Td>
                   <Td>
                     <div className="flex items-center gap-2">

@@ -670,7 +670,7 @@ def update_management():
     This endpoint is whitelisted to allow guest users (public access).
     """
     try:
-        # Get COD Management data and id from request
+        # Get Management data and id from request
         cod_data = frappe.local.form_dict.get("cod_data") or frappe.local.form_dict
         cod_id = frappe.local.form_dict.get("id") or cod_data.get("id")
         

@@ -1,0 +1,314 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "autoname": "naming_series:",
+    "creation": "2025-01-20 10:00:00",
+    "doctype": "DocType",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "field_order": [
+        "naming_series",
+        "lead_status",
+        "column_break_ycad",
+        "lead",
+        "section_break_basic_plot_details",
+        "plot_no",
+        "plot_id",
+        "project_layout_name",
+        "location_village",
+        "survey_no",
+        "plot_type",
+        "plot_size",
+        "column_break_basic_1",
+        "length",
+        "width",
+        "facing",
+        "section_break_ownership_legal",
+        "owner_name",
+        "document_no",
+        "registration_date",
+        "patta_khata_no",
+        "column_break_ownership_1",
+        "approval_authority",
+        "legal_status",
+        "section_break_financial_details",
+        "rate_per_sqft",
+        "total_plot_value",
+        "booking_amount",
+        "paid_amount",
+        "column_break_financial_1",
+        "balance_amount",
+        "payment_mode",
+        "payment_date",
+        "agent_reference_name",
+        "section_break_status_tracking",
+        "plot_status",
+        "booking_date",
+        "sale_date",
+        "column_break_status_1",
+        "handover_date",
+        "remarks"
+    ],
+    "fields": [
+        {
+            "fieldname": "naming_series",
+            "fieldtype": "Select",
+            "label": "Series",
+            "options": "PLOT-.YYYY.-"
+        },
+        {
+            "fieldname": "lead",
+            "fieldtype": "Link",
+            "in_list_view": 1,
+            "in_standard_filter": 1,
+            "label": "Lead",
+            "options": "Lead",
+            "reqd": 1
+        },
+        {
+            "fieldname": "column_break_ycad",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "section_break_basic_plot_details",
+            "fieldtype": "Section Break",
+            "label": "Basic Plot Details"
+        },
+        {
+            "fieldname": "plot_no",
+            "fieldtype": "Data",
+            "in_list_view": 1,
+            "in_standard_filter": 1,
+            "label": "Plot No",
+            "reqd": 1
+        },
+        {
+            "fieldname": "plot_id",
+            "fieldtype": "Data",
+            "in_list_view": 1,
+            "in_standard_filter": 1,
+            "label": "Plot ID"
+        },
+        {
+            "fieldname": "project_layout_name",
+            "fieldtype": "Data",
+            "label": "Project / Layout Name"
+        },
+        {
+            "fieldname": "location_village",
+            "fieldtype": "Data",
+            "label": "Location / Village"
+        },
+        {
+            "fieldname": "survey_no",
+            "fieldtype": "Data",
+            "label": "Survey No"
+        },
+        {
+            "fieldname": "plot_type",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "in_standard_filter": 1,
+            "label": "Plot Type",
+            "options": "\nResidential\nCommercial"
+        },
+        {
+            "fieldname": "plot_size",
+            "fieldtype": "Data",
+            "label": "Plot Size (Sq.ft / Sq.mtr)"
+        },
+        {
+            "fieldname": "column_break_basic_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "length",
+            "fieldtype": "Data",
+            "label": "Length"
+        },
+        {
+            "fieldname": "width",
+            "fieldtype": "Data",
+            "label": "Width"
+        },
+        {
+            "fieldname": "facing",
+            "fieldtype": "Select",
+            "label": "Facing",
+            "options": "\nEast\nWest\nNorth\nSouth"
+        },
+        {
+            "fieldname": "section_break_ownership_legal",
+            "fieldtype": "Section Break",
+            "label": "Ownership & Legal"
+        },
+        {
+            "fieldname": "owner_name",
+            "fieldtype": "Data",
+            "label": "Owner Name"
+        },
+        {
+            "fieldname": "document_no",
+            "fieldtype": "Data",
+            "label": "Document No"
+        },
+        {
+            "fieldname": "registration_date",
+            "fieldtype": "Date",
+            "label": "Registration Date"
+        },
+        {
+            "fieldname": "patta_khata_no",
+            "fieldtype": "Data",
+            "label": "Patta / Khata No"
+        },
+        {
+            "fieldname": "column_break_ownership_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "approval_authority",
+            "fieldtype": "Select",
+            "label": "Approval Authority",
+            "options": "\nDTCP\nBDA\nRERA\nOther"
+        },
+        {
+            "fieldname": "legal_status",
+            "fieldtype": "Select",
+            "label": "Legal Status",
+            "options": "\nClear\nDispute"
+        },
+        {
+            "fieldname": "section_break_financial_details",
+            "fieldtype": "Section Break",
+            "label": "Financial Details"
+        },
+        {
+            "fieldname": "rate_per_sqft",
+            "fieldtype": "Currency",
+            "label": "Rate per Sq.ft",
+            "precision": "2"
+        },
+        {
+            "fieldname": "total_plot_value",
+            "fieldtype": "Currency",
+            "in_list_view": 1,
+            "label": "Total Plot Value",
+            "precision": "2"
+        },
+        {
+            "fieldname": "booking_amount",
+            "fieldtype": "Currency",
+            "label": "Booking Amount",
+            "precision": "2"
+        },
+        {
+            "fieldname": "paid_amount",
+            "fieldtype": "Currency",
+            "label": "Paid Amount",
+            "precision": "2"
+        },
+        {
+            "fieldname": "column_break_financial_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "balance_amount",
+            "fieldtype": "Currency",
+            "label": "Balance Amount",
+            "precision": "2"
+        },
+        {
+            "fieldname": "payment_mode",
+            "fieldtype": "Select",
+            "label": "Payment Mode",
+            "options": "\nCash\nCheque\nBank Transfer\nOnline Payment\nOther"
+        },
+        {
+            "fieldname": "payment_date",
+            "fieldtype": "Date",
+            "label": "Payment Date"
+        },
+        {
+            "fieldname": "agent_reference_name",
+            "fieldtype": "Data",
+            "label": "Agent / Reference Name"
+        },
+        {
+            "fieldname": "section_break_status_tracking",
+            "fieldtype": "Section Break",
+            "label": "Status Tracking"
+        },
+        {
+            "fieldname": "plot_status",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "in_standard_filter": 1,
+            "label": "Plot Status",
+            "options": "\nAvailable\nBooked\nSold",
+            "reqd": 1
+        },
+        {
+            "fieldname": "booking_date",
+            "fieldtype": "Date",
+            "label": "Booking Date"
+        },
+        {
+            "fieldname": "sale_date",
+            "fieldtype": "Date",
+            "label": "Sale Date"
+        },
+        {
+            "fieldname": "column_break_status_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "handover_date",
+            "fieldtype": "Date",
+            "label": "Handover Date"
+        },
+        {
+            "fieldname": "remarks",
+            "fieldtype": "Small Text",
+            "label": "Remarks"
+        },
+        {
+            "default": "New",
+            "fieldname": "lead_status",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "in_standard_filter": 1,
+            "label": "Lead Status",
+            "options": "\nNew\nPending\nActive\nInactive",
+            "reqd": 1
+        }
+    ],
+    "links": [],
+    "modified": "2026-01-09 15:45:59.452224",
+    "modified_by": "Administrator",
+    "module": "My Lead",
+    "name": "Plot Detail",
+    "naming_rule": "Expression",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "row_format": "Dynamic",
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "states": [],
+    "track_changes": 1,
+    "track_seen": 1,
+    "track_views": 1
+}

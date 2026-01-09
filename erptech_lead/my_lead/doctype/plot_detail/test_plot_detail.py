@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestCarProfile(FrappeTestCase):
+class TestPlotDetail(FrappeTestCase):
 	pass
