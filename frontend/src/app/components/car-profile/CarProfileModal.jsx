@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -16,7 +16,9 @@ import { Skeleton } from "components/ui";
 import { useThemeContext } from "app/contexts/theme/context";
 
 const doctype = "Plot Detail";
-const fields = [
+
+// Section 1: Basic Plot Details
+const displayFields1 = [
   'plot_no',
   'plot_id',
   'project_layout_name',
@@ -28,13 +30,19 @@ const fields = [
   'width',
   'facing'
 ];
-const subFields = [
+
+// Section 2: Ownership & Legal
+const displayFields2 = [
   'owner_name',
   'document_no',
   'registration_date',
   'patta_khata_no',
   'approval_authority',
-  'legal_status',
+  'legal_status'
+];
+
+// Section 3: Financial Details
+const displayFields3 = [
   'rate_per_sqft',
   'total_plot_value',
   'booking_amount',
@@ -42,11 +50,11 @@ const subFields = [
   'balance_amount',
   'payment_mode',
   'payment_date',
-  'buyer_name',
-  'contact_number',
-  'email_id',
-  'address',
-  'agent_reference_name',
+  'agent_reference_name'
+];
+
+// Section 4: Status Tracking
+const displayFields4 = [
   'plot_status',
   'booking_date',
   'sale_date',
@@ -54,12 +62,15 @@ const subFields = [
   'remarks'
 ];
 
+// Combine all fields for API calls and form
+const allFields = [...displayFields1, ...displayFields2, ...displayFields3, ...displayFields4];
+
 const tableFields = {
   "ignorFields": {}
 };
 
 const initialState = Object.fromEntries(
-  [...fields, ...subFields].map(field => [field, ""])
+  allFields.map(field => [field, ""])
 );
 
 export default function CarProfileModal({ 
@@ -77,7 +88,7 @@ export default function CarProfileModal({
   const { isDark, darkColorScheme, lightColorScheme } = useThemeContext();
   const { data: info, isFetching: isFetchingInfo } = useInfo({ 
     doctype, 
-    fields: JSON.stringify([...fields, ...subFields]) 
+    fields: JSON.stringify(allFields) 
   });
 
   // No need for filtered info anymore - using direct info
@@ -85,7 +96,7 @@ export default function CarProfileModal({
   const { data, isFetching: isFetchingData, refetch } = useFeachSingle({ 
     doctype, 
     id: isOpen && carProfileId && !isCreateMode ? carProfileId : null, 
-    fields: JSON.stringify([...fields, ...subFields])
+    fields: JSON.stringify(allFields)
   });
   
   // Refetch data when modal opens for editing/viewing (only in normal mode)
@@ -310,26 +321,71 @@ export default function CarProfileModal({
             noValidate
           >
             <div className="scrollbar-sm flex-1 overflow-y-auto">
-              <div className="grid grid-cols-12 place-content-start gap-4 p-5 sm:gap-5 lg:gap-6">
-                <div className="col-span-12 lg:col-span-6">
+              <div className="grid grid-cols-12 gap-4 p-5 sm:gap-5 lg:gap-6">
+                {/* Left Column */}
+                <div className="col-span-12 lg:col-span-6 space-y-6">
+                  {/* Section 1: Basic Plot Details */}
+                  <div>
+                    <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                      Basic Plot Details
+                    </h3>
                     <DynamicForms
                       infos={info}
-                      fields={fields}
+                      fields={displayFields1}
                       register={register}
                       tables={tableFields}
                       control={control}
                       errors={errors}
                     />
+                  </div>
+
+                  {/* Section 2: Ownership & Legal */}
+                  <div>
+                    <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                      Ownership & Legal
+                    </h3>
+                    <DynamicForms
+                      infos={info}
+                      fields={displayFields2}
+                      register={register}
+                      tables={tableFields}
+                      control={control}
+                      errors={errors}
+                    />
+                  </div>
                 </div>
-                <div className="col-span-12 lg:col-span-6">
-                  <DynamicForms
-                    infos={info}
-                    tables={tableFields}
-                    fields={subFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
+
+                {/* Right Column */}
+                <div className="col-span-12 lg:col-span-6 space-y-6">
+                  {/* Section 3: Financial Details */}
+                  <div>
+                    <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                      Financial Details
+                    </h3>
+                    <DynamicForms
+                      infos={info}
+                      fields={displayFields3}
+                      register={register}
+                      tables={tableFields}
+                      control={control}
+                      errors={errors}
+                    />
+                  </div>
+
+                  {/* Section 4: Status Tracking */}
+                  <div>
+                    <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                      Status Tracking
+                    </h3>
+                    <DynamicForms
+                      infos={info}
+                      fields={displayFields4}
+                      register={register}
+                      tables={tableFields}
+                      control={control}
+                      errors={errors}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

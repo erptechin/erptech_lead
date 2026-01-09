@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Button, Card, Table, THead, TBody, Th, Tr, Td } from "components/ui";
+import { Button, Card } from "components/ui";
 import { PlusIcon, PencilIcon, TrashIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { useFeachData, useDeleteData } from "hooks/useApiHook";
 import CarProfileModal from './CarProfileModal';
@@ -27,12 +27,67 @@ export default function CarProfiles({
   const [carProfileToDelete, setCarProfileToDelete] = useState(null);
   const [carProfileIndexToDelete, setCarProfileIndexToDelete] = useState(null);
   
-  // Determine which fields to show based on filter type (memoized to prevent infinite loops)
+  // All fields from plot_detail.json organized by sections
+  const displayFields1 = useMemo(() => {
+    return [
+      "name",
+      "lead",
+      "lead_status",
+      // Basic Plot Details
+      "plot_no",
+      "plot_id",
+      "project_layout_name",
+      "location_village",
+      "survey_no",
+      "plot_type",
+      "plot_size",
+      "length",
+      "width",
+      "facing"
+    ];
+  }, []);
+
+  const displayFields2 = useMemo(() => {
+    return [
+      // Ownership & Legal
+      "owner_name",
+      "document_no",
+      "registration_date",
+      "patta_khata_no",
+      "approval_authority",
+      "legal_status"
+    ];
+  }, []);
+
+  const displayFields3 = useMemo(() => {
+    return [
+      // Financial Details
+      "rate_per_sqft",
+      "total_plot_value",
+      "booking_amount",
+      "paid_amount",
+      "balance_amount",
+      "payment_mode",
+      "payment_date",
+      "agent_reference_name"
+    ];
+  }, []);
+
+  const displayFields4 = useMemo(() => {
+    return [
+      // Status Tracking
+      "plot_status",
+      "booking_date",
+      "sale_date",
+      "handover_date",
+      "remarks"
+    ];
+  }, []);
+
+  // Combine all fields for API calls
   const displayFields = useMemo(() => {
-    return filterBy === 'customer' 
-      ? ["name", "plot_no", "plot_id", "project_layout_name", "location_village", "plot_type", "plot_size", "plot_status", "status"]
-      : ["name", "plot_no", "plot_id", "project_layout_name", "location_village", "plot_type", "plot_size", "plot_status", "status"];
-  }, [filterBy]);
+    return [...displayFields1, ...displayFields2, ...displayFields3, ...displayFields4];
+  }, [displayFields1, displayFields2, displayFields3, displayFields4]);
   
   const [search, setSearch] = useState({ 
     doctype: "Plot Detail", 
@@ -51,15 +106,15 @@ export default function CarProfiles({
       // Build filters based on context
       const filters = [[filterBy, "=", filterValue]];
       
-      // Lead: show only "New" and "Pending" status
-      // Customer: show all except "New" and "Pending" status
+      // Lead: show only "New" and "Pending" lead_status
+      // Customer: show all except "New" and "Pending" lead_status
       if (filterBy === 'lead') {
         // Use "in" operator to show only New and Pending
-        filters.push(["status", "in", ["New", "Pending"]]);
+        filters.push(["lead_status", "in", ["New", "Pending"]]);
       } else if (filterBy === 'customer') {
         // Use multiple "!=" filters (ANDed together) to exclude New and Pending
-        filters.push(["status", "!=", "New"]);
-        filters.push(["status", "!=", "Pending"]);
+        filters.push(["lead_status", "!=", "New"]);
+        filters.push(["lead_status", "!=", "Pending"]);
       }
       
       const fieldsString = JSON.stringify(displayFields);
@@ -215,73 +270,204 @@ export default function CarProfiles({
             : `No plot details found ${filterBy === 'customer' ? 'for this customer' : 'for this lead'}.`}
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <Table>
-            <THead>
-              <Tr>
-                <Th>Plot No</Th>
-                <Th>Plot ID</Th>
-                <Th>Project / Layout</Th>
-                <Th>Location / Village</Th>
-                <Th>Plot Type</Th>
-                <Th>Plot Size</Th>
-                <Th>Plot Status</Th>
-                <Th>Status</Th>
-                <Th>Actions</Th>
-              </Tr>
-            </THead>
-            <TBody>
-              {carProfiles.map((profile, index) => (
-                <Tr
-                  key={isCreateMode ? index : profile.name}
-                  className="hover:bg-gray-50 dark:hover:bg-dark-700"
-                >
-                  <Td>{profile.plot_no || "-"}</Td>
-                  <Td>{profile.plot_id || "-"}</Td>
-                  <Td>{profile.project_layout_name || "-"}</Td>
-                  <Td>{profile.location_village || "-"}</Td>
-                  <Td>{profile.plot_type || "-"}</Td>
-                  <Td>{profile.plot_size || "-"}</Td>
-                  <Td>{profile.plot_status || "-"}</Td>
-                  <Td>{profile.status || "-"}</Td>
-                  <Td>
-                    <div className="flex items-center gap-2">
-                      {!isCreateMode && (
-                        <Button
-                          size="sm"
-                          variant="outlined"
-                          onClick={(e) => handleView(e, profile.name)}
-                          className="p-1.5"
-                        >
-                          <EyeIcon className="size-4" />
-                        </Button>
-                      )}
-                      {(filterBy === 'lead' || isCreateMode) && (
-                        <Button
-                          size="sm"
-                          variant="outlined"
-                          onClick={(e) => handleEdit(e, isCreateMode ? null : profile.name, isCreateMode ? index : null)}
-                          className="p-1.5"
-                        >
-                          <PencilIcon className="size-4" />
-                        </Button>
-                      )}
-                      <Button
-                        size="sm"
-                        variant="outlined"
-                        color="error"
-                        onClick={(e) => handleDeleteClick(e, isCreateMode ? null : profile.name, isCreateMode ? index : null)}
-                        className="p-1.5"
-                        disabled={!isCreateMode && mutationDelete.isPending}
-                      >
-                        <TrashIcon className="size-4" />
-                      </Button>
-                    </div>
-                  </Td>
-                </Tr>
-              ))}
-            </TBody>
-          </Table>
+        <div className="space-y-6">
+          {carProfiles.map((profile, index) => (
+            <Card key={isCreateMode ? index : profile.name} className="p-4 sm:px-5">
+              <div className="mb-4 flex items-center justify-between">
+                <h4 className="text-md font-semibold text-gray-800 dark:text-dark-50">
+                  {profile.plot_no || profile.plot_id || `Plot Detail ${index + 1}`}
+                </h4>
+                <div className="flex items-center gap-2">
+                  {!isCreateMode && (
+                    <Button
+                      size="sm"
+                      variant="outlined"
+                      onClick={(e) => handleView(e, profile.name)}
+                      className="p-1.5"
+                    >
+                      <EyeIcon className="size-4" />
+                    </Button>
+                  )}
+                  {(filterBy === 'lead' || isCreateMode) && (
+                    <Button
+                      size="sm"
+                      variant="outlined"
+                      onClick={(e) => handleEdit(e, isCreateMode ? null : profile.name, isCreateMode ? index : null)}
+                      className="p-1.5"
+                    >
+                      <PencilIcon className="size-4" />
+                    </Button>
+                  )}
+                  <Button
+                    size="sm"
+                    variant="outlined"
+                    color="error"
+                    onClick={(e) => handleDeleteClick(e, isCreateMode ? null : profile.name, isCreateMode ? index : null)}
+                    className="p-1.5"
+                    disabled={!isCreateMode && mutationDelete.isPending}
+                  >
+                    <TrashIcon className="size-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Basic Plot Details Section */}
+              <div className="mb-4">
+                <h5 className="mb-3 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                  Basic Plot Details
+                </h5>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Plot No:</span>
+                    <p className="text-sm font-medium">{profile.plot_no || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Plot ID:</span>
+                    <p className="text-sm font-medium">{profile.plot_id || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Project / Layout Name:</span>
+                    <p className="text-sm font-medium">{profile.project_layout_name || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Location / Village:</span>
+                    <p className="text-sm font-medium">{profile.location_village || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Survey No:</span>
+                    <p className="text-sm font-medium">{profile.survey_no || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Plot Type:</span>
+                    <p className="text-sm font-medium">{profile.plot_type || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Plot Size:</span>
+                    <p className="text-sm font-medium">{profile.plot_size || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Length:</span>
+                    <p className="text-sm font-medium">{profile.length || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Width:</span>
+                    <p className="text-sm font-medium">{profile.width || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Facing:</span>
+                    <p className="text-sm font-medium">{profile.facing || "-"}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Ownership & Legal Section */}
+              <div className="mb-4">
+                <h5 className="mb-3 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                  Ownership & Legal
+                </h5>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Owner Name:</span>
+                    <p className="text-sm font-medium">{profile.owner_name || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Document No:</span>
+                    <p className="text-sm font-medium">{profile.document_no || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Registration Date:</span>
+                    <p className="text-sm font-medium">{profile.registration_date || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Patta / Khata No:</span>
+                    <p className="text-sm font-medium">{profile.patta_khata_no || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Approval Authority:</span>
+                    <p className="text-sm font-medium">{profile.approval_authority || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Legal Status:</span>
+                    <p className="text-sm font-medium">{profile.legal_status || "-"}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Financial Details Section */}
+              <div className="mb-4">
+                <h5 className="mb-3 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                  Financial Details
+                </h5>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Rate per Sq.ft:</span>
+                    <p className="text-sm font-medium">{profile.rate_per_sqft ? `AED ${parseFloat(profile.rate_per_sqft).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Total Plot Value:</span>
+                    <p className="text-sm font-medium">{profile.total_plot_value ? `AED ${parseFloat(profile.total_plot_value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Booking Amount:</span>
+                    <p className="text-sm font-medium">{profile.booking_amount ? `AED ${parseFloat(profile.booking_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Paid Amount:</span>
+                    <p className="text-sm font-medium">{profile.paid_amount ? `AED ${parseFloat(profile.paid_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Balance Amount:</span>
+                    <p className="text-sm font-medium">{profile.balance_amount ? `AED ${parseFloat(profile.balance_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Payment Mode:</span>
+                    <p className="text-sm font-medium">{profile.payment_mode || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Payment Date:</span>
+                    <p className="text-sm font-medium">{profile.payment_date || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Agent / Reference Name:</span>
+                    <p className="text-sm font-medium">{profile.agent_reference_name || "-"}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Status Tracking Section */}
+              <div className="mb-4">
+                <h5 className="mb-3 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                  Status Tracking
+                </h5>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Plot Status:</span>
+                    <p className="text-sm font-medium">{profile.plot_status || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Lead Status:</span>
+                    <p className="text-sm font-medium">{profile.lead_status || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Booking Date:</span>
+                    <p className="text-sm font-medium">{profile.booking_date || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Sale Date:</span>
+                    <p className="text-sm font-medium">{profile.sale_date || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Handover Date:</span>
+                    <p className="text-sm font-medium">{profile.handover_date || "-"}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500 dark:text-dark-300">Remarks:</span>
+                    <p className="text-sm font-medium">{profile.remarks || "-"}</p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       )}
 

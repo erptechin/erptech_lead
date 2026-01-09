@@ -25,15 +25,17 @@ const fields = [
   'first_name',
   'last_name',
   'email_id',
-  'mobile_no'
+  'mobile_no',
+  'custom_address'
 ]
 
 const subFields = [
-  'custom_assigned_user',
-  'custom_lead_status',
   'custom_next_follow_up_date',
   'source',
-  'custom_followup_history'
+  'custom_followup_history',
+  'custom_assigned_user',
+  'custom_lead_status'
+
 ]
 
 const tableFields = {
@@ -87,18 +89,13 @@ export default function AddEditFrom() {
       mutationUpdate.mutate({ doctype, body: { ...submitData, id } });
     } else {
 
-      // Validate: at least one plot detail is required
-      // if (!carProfilesToCreate || carProfilesToCreate.length === 0) {
-      //   showError({ message: "Please add at least one Plot Detail before creating the lead." });
-      //   return;
-      // }
 
       setIsCreating(true);
 
       try {
         // Call Python endpoint to create Lead with Customer and Plot Details
         const result = await createLeadWithCustomer(formData, carProfilesToCreate, username);
-        
+
         if (!result || (!result.lead_id && !result.customer_id)) {
           throw new Error("Failed to create lead");
         }
@@ -160,12 +157,12 @@ export default function AddEditFrom() {
           id="new-post-form"
         >
           <div className="grid grid-cols-12 place-content-start gap-4 sm:gap-5 lg:gap-6">
-            <CODDocuments
+            {/* <CODDocuments
               id={id}
               data={data}
               setValue={setValue}
               refetchData={refetchData}
-            />
+            /> */}
             <FollowUpHistory
               id={id}
               data={data}

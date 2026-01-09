@@ -292,11 +292,6 @@ def get_sales_target_summary():
             fields=["name", "custom_agent", "grand_total", "total", "status", "transaction_date"]
         )
         
-        # Get sales targets from User custom fields (if they exist)
-        user_meta = frappe.get_meta("User")
-        has_sales_target = user_meta.has_field("custom_sales_target")
-        has_revenue_target = user_meta.has_field("custom_revenue_target")
-        
         # Process data for each agent
         sales_target_data = []
         for agent in agents:
@@ -326,13 +321,8 @@ def get_sales_target_summary():
             cancellation = 0
             refund = 0
             
-            # Get sales target and revenue target from user custom fields
+            # Sales target is now always 0 since custom_sales_target is removed
             sales_target = 0
-            
-            if has_sales_target or has_revenue_target:
-                user_doc = frappe.get_doc("User", agent.name)
-                if has_sales_target:
-                    sales_target = parse_currency_string(user_doc.get("custom_sales_target"))
             
             sales_target_data.append({
                 "name": agent.full_name or agent.name,
