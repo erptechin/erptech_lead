@@ -1,1 +1,1 @@
-if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/assets/policy_pro/dist/sw.js', { scope: '/assets/policy_pro/dist/' })})}
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/assets/erptech_lead/dist/sw.js', { scope: '/assets/erptech_lead/dist/' })})}

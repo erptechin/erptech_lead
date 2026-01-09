@@ -1,0 +1,1 @@
+const s={dashboards:{dashboards:"Home",home:"Home"},sales:{sales:"Sales",leads:"Leads","sales-invoice":"Sales Invoice",approval:"Approval","sales-manager":"Sales Manager","sales-agent":"Sales Agent"},settings:{settings:"Settings",general:"General",appearance:"Appearance",sessions:"Sessions & Password"}},a={nav:s};export{a as default,s as nav};
