@@ -18,14 +18,6 @@ export const sales = {
     Icon: DualFormsIcon,
     childs: [
         {
-            id: 'sales.customer',
-            path: path(ROOT_MASTERS, '/customer'),
-            type: NAV_TYPE_ITEM,
-            title: 'Customer',
-            transKey: 'nav.sales.customer',
-            Icon: UserIcon,
-        },
-        {
             id: 'sales.leads',
             path: path(ROOT_MASTERS, '/leads'),
             type: NAV_TYPE_ITEM,

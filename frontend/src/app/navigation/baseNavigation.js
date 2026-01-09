@@ -15,14 +15,6 @@ export const baseNavigation = [
         Icon: DashboardsIcon,
     },
     {
-        id: 'customer',
-        type: NAV_TYPE_ITEM,
-        path: '/sales/customer',
-        title: 'Customer',
-        transKey: 'nav.sales.customer',
-        Icon: UserIcon,
-    },
-    {
         id: 'leads',
         type: NAV_TYPE_ITEM,
         path: '/sales/leads',

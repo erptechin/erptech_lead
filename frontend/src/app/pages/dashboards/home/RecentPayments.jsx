@@ -1,6 +1,5 @@
 // Local Imports
 import { Avatar, Card } from "components/ui";
-import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import { useInfo, useFeachData } from "hooks/useApiHook";
 // ----------------------------------------------------------------------
@@ -10,7 +9,6 @@ const fields = ['posting_date', 'custom_site', 'total', 'grand_total']
 
 export function RecentPayments() {
 
-  const navigate = useNavigate();
   const [lists, setLists] = useState([]);
 
   const { data: info } = useInfo({ doctype, fields: JSON.stringify(fields) });
@@ -36,12 +34,6 @@ export function RecentPayments() {
         <h2 className="font-medium tracking-wide text-gray-800 dark:text-dark-100">
           Recent Payments
         </h2>
-        <a
-          onClick={() => navigate('/sales/sales-invoice')}
-          className="border-b border-dotted border-current pb-0.5 text-xs-plus font-medium text-primary-600 outline-hidden transition-colors duration-300 hover:text-primary-600/70 focus:text-primary-600/70 dark:text-primary-400 dark:hover:text-primary-400/70 dark:focus:text-primary-400/70"
-        >
-          View All
-        </a>
       </div>
       <div className="space-y-3.5">
         {lists.map((payment) => (

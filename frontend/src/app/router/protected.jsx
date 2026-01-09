@@ -40,28 +40,7 @@ const protectedRoutes = {
           children: [
             {
               index: true,
-              element: <Navigate to="/sales/customer" />,
-            },
-            {
-              path: "customer",
-              lazy: async () => ({
-                Component: (await import("app/pages/sales/customer"))
-                  .default,
-              }),
-            },
-            {
-              path: "customer/add-new",
-              lazy: async () => ({
-                Component: (await import("app/pages/sales/customer/form"))
-                  .default,
-              }),
-            },
-            {
-              path: "customer/edit/:id",
-              lazy: async () => ({
-                Component: (await import("app/pages/sales/customer/form"))
-                  .default,
-              }),
+              element: <Navigate to="/sales/leads" />,
             },
             {
               path: "leads",
@@ -102,27 +81,6 @@ const protectedRoutes = {
               path: "sales-order/edit/:id",
               lazy: async () => ({
                 Component: (await import("app/pages/sales/sales-order/form"))
-                  .default,
-              }),
-            },
-            {
-              path: "sales-invoice",
-              lazy: async () => ({
-                Component: (await import("app/pages/sales/sales-invoice"))
-                  .default,
-              }),
-            },
-            {
-              path: "sales-invoice/add-new",
-              lazy: async () => ({
-                Component: (await import("app/pages/sales/sales-invoice/form"))
-                  .default,
-              }),
-            },
-            {
-              path: "sales-invoice/edit/:id",
-              lazy: async () => ({
-                Component: (await import("app/pages/sales/sales-invoice/form"))
                   .default,
               }),
             },
