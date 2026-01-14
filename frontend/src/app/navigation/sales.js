@@ -9,6 +9,16 @@ const ROOT_MASTERS = '/sales'
 
 const path = (root, item) => `${root}${item}`;
 
+// Get salesPurchaseType from localStorage
+const getSalesPurchaseType = () => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+        return localStorage.getItem('salesPurchaseType') || 'sales';
+    }
+    return 'sales';
+};
+
+const salesPurchaseType = getSalesPurchaseType();
+
 export const sales = {
     id: 'sales',
     type: NAV_TYPE_ROOT,
@@ -18,11 +28,11 @@ export const sales = {
     Icon: DualFormsIcon,
     childs: [
         {
-            id: 'sales.leads',
-            path: path(ROOT_MASTERS, '/leads'),
+            id: 'sales.customers',
+            path: path(ROOT_MASTERS, '/customers'),
             type: NAV_TYPE_ITEM,
-            title: 'Leads',
-            transKey: 'nav.sales.leads',
+            title: 'Customers',
+            transKey: salesPurchaseType === 'sales' ? 'nav.sales.customers' : 'nav.sales.land-owners',
             Icon: MegaphoneIcon,
         },
         {
@@ -33,14 +43,14 @@ export const sales = {
             transKey: 'nav.sales.approval',
             Icon: OrderTimerIcon,
         },
-        {
-            id: 'sales.sales-manager',
-            path: path(ROOT_MASTERS, '/sales-manager'),
-            type: NAV_TYPE_ITEM,
-            title: 'Sales Manager',
-            transKey: 'nav.sales.sales-manager',
-            Icon: PeopleMonitorIcon,
-        },
+        // {
+        //     id: 'sales.sales-manager',
+        //     path: path(ROOT_MASTERS, '/sales-manager'),
+        //     type: NAV_TYPE_ITEM,
+        //     title: 'Sales Manager',
+        //     transKey: 'nav.sales.sales-manager',
+        //     Icon: PeopleMonitorIcon,
+        // },
         {
             id: 'sales.sales-agent',
             path: path(ROOT_MASTERS, '/sales-agent'),

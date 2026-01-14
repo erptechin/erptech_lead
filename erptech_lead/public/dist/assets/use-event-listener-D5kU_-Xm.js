@@ -1,0 +1,1 @@
+import{a as f}from"./index-CJRJqnsH.js";import{Z as u}from"./transition-5Qb9_UG4.js";function m(r,e,i,t){let n=u(i);f.useEffect(()=>{r=r??window;function o(s){n.current(s)}return r.addEventListener(e,o,t),()=>r.removeEventListener(e,o,t)},[r,e,t])}export{m as E};

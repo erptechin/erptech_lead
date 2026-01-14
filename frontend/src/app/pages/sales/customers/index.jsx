@@ -2,11 +2,19 @@ import { useState, useEffect } from "react";
 import { DataTable } from "app/components/listing/DataTable";
 import { useInfo, useFeachData } from "hooks/useApiHook";
 
-const pageName = "Lead List";
 const doctype = "Lead";
 const fields = ['lead_name', 'custom_lead_status', 'custom_next_follow_up_date', 'custom_assigned_user', 'source', 'email', 'mobile_no'];
 
 export default function ListData() {
+  const getPageName = () => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const salesPurchaseType = localStorage.getItem('salesPurchaseType') || 'sales';
+      return salesPurchaseType === 'sales' ? 'Customer' : 'Land Owner';
+    }
+    return 'Land Owner';
+  };
+
+  const pageName = getPageName();
   const [orders, setOrders] = useState([]);
 
   const { data: info } = useInfo({ doctype, fields: JSON.stringify(fields) });
@@ -43,7 +51,7 @@ export default function ListData() {
       doctype={doctype}
       fields={fields}
       addNewRoute="add-new"
-      storageKey="leads"
+      storageKey="customers"
       data={orders}
       info={info}
       search={search}

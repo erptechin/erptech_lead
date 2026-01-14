@@ -59,7 +59,8 @@ const displayFields4 = [
   'booking_date',
   'sale_date',
   'handover_date',
-  'remarks'
+  'remarks',
+  'attach_file'
 ];
 
 // Combine all fields for API calls and form

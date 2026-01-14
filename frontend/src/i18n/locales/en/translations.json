@@ -6,11 +6,12 @@
     },
     "sales": {
       "sales": "Sales",
-      "leads": "Leads",
+      "customers": "Customers",
+      "land-owners": "Land Owners",
       "sales-invoice": "Sales Invoice",
       "approval": "Approval",
       "sales-manager": "Sales Manager",
-      "sales-agent": "Sales Agent"
+      "sales-agent": "Broaker"
     },
     "settings": {
       "settings": "Settings",

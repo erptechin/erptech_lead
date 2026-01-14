@@ -18,7 +18,6 @@ import FollowUpHistory from './FollowUpHistory';
 import CODDocuments from './CODDocuments';
 import CarProfiles from 'app/components/car-profile/CarProfiles';
 
-const pageName = "Lead"
 const doctype = "Lead"
 
 const fields = [
@@ -45,6 +44,17 @@ const tableFields = {
 // ----------------------------------------------------------------------
 
 export default function AddEditFrom() {
+
+  // Get salesPurchaseType from localStorage and set pageName dynamically
+  const getPageName = () => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const salesPurchaseType = localStorage.getItem('salesPurchaseType') || 'sales';
+      return salesPurchaseType === 'sales' ? 'Customer' : 'Land Owner';
+    }
+    return 'Land Owner';
+  };
+
+  const pageName = getPageName();
   const { user: { username } } = useAuthContext();
   const { isDark, darkColorScheme, lightColorScheme } = useThemeContext();
   const navigate = useNavigate();
@@ -163,12 +173,12 @@ export default function AddEditFrom() {
               setValue={setValue}
               refetchData={refetchData}
             /> */}
-            <FollowUpHistory
+            {/* <FollowUpHistory
               id={id}
               data={data}
               setValue={setValue}
               refetchData={refetchData}
-            />
+            /> */}
 
             <div className="col-span-12 lg:col-span-7">
               <Card className="p-4 sm:px-5">

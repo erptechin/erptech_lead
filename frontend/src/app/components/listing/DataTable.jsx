@@ -143,7 +143,7 @@ export function DataTable({
         <div className="flex items-center justify-between space-x-2">
           <div className="min-w-0">
             <h2 className="truncate text-lg font-medium text-gray-800 dark:text-dark-50">
-              {pageName}
+              {pageName}s List
             </h2>
           </div>
           {!hideAddNew && role?.create == 1 && (
@@ -153,7 +153,7 @@ export function DataTable({
               onClick={() => navigate(addNewRoute)}
             >
               <PlusIcon className="size-4" />
-              <span>New {doctype}</span>
+              <span>New {pageName}</span>
             </Button>
           )}
         </div>

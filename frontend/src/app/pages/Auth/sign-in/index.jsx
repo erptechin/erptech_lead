@@ -3,10 +3,11 @@ import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
 
 // Import Dependencies
 import DashboardCheck from "assets/illustrations/dashboard-check.svg?react";
-import { Button, Checkbox, Input, InputErrorMsg } from "components/ui";
+import { Button, Checkbox, Input, InputErrorMsg, Radio } from "components/ui";
 import { useThemeContext } from "app/contexts/theme/context";
 
 import { useAuthContext } from "app/contexts/auth/context";
@@ -34,6 +35,22 @@ export default function SignIn() {
       password: "",
     },
   });
+
+  // Radio button state for sales/purchase
+  const [selectedType, setSelectedType] = useState(() => {
+    // Load from localStorage on initial render
+    const stored = localStorage.getItem("salesPurchaseType");
+    return stored || "sales";
+  });
+
+  // Save to localStorage whenever selection changes
+  useEffect(() => {
+    localStorage.setItem("salesPurchaseType", selectedType);
+  }, [selectedType]);
+
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value);
+  };
 
   const onSubmit = (data) => {
     login({
@@ -105,6 +122,25 @@ export default function SignIn() {
                 error={errors?.password?.message}
               />
 
+              <div className="space-y-2">
+                <div className="flex gap-4">
+                  <Radio
+                    name="salesPurchaseType"
+                    value="sales"
+                    checked={selectedType === "sales"}
+                    onChange={handleTypeChange}
+                    label="Sales"
+                  />
+                  <Radio
+                    name="salesPurchaseType"
+                    value="purchase"
+                    checked={selectedType === "purchase"}
+                    onChange={handleTypeChange}
+                    label="Purchase"
+                  />
+                </div>
+              </div>
+
               <div className="mt-2">
                 <InputErrorMsg
                   when={errorMessage && errorMessage?.message !== ""}
@@ -113,7 +149,7 @@ export default function SignIn() {
                 </InputErrorMsg>
               </div>
 
-              <div className="flex items-center justify-between space-x-2">
+              {/* <div className="flex items-center justify-between space-x-2">
                 <Checkbox label="Remember me" />
                 <Link
                   className="text-primary-600 transition-colors hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-600"
@@ -121,12 +157,12 @@ export default function SignIn() {
                 >
                   Forgot Password?
                 </Link>
-              </div>
+              </div> */}
             </div>
-            <Button 
-              type="submit" 
-              color="primary" 
-              className="mt-10 h-10 w-full"
+            <Button
+              type="submit"
+              color="primary"
+              className="mt-2 h-10 w-full"
               disabled={isLoading}
               loading={isLoading}
             >
@@ -145,30 +181,7 @@ export default function SignIn() {
             </p>
           </div>
 
-          {/* <div className="my-7 flex items-center text-tiny-plus">
-            <div className="h-px flex-1 bg-gray-200 dark:bg-dark-500"></div>
-            <p className="mx-3">OR</p>
-            <div className="h-px flex-1 bg-gray-200 dark:bg-dark-500"></div>
-          </div>
 
-          <div className="flex gap-4">
-            <Button className="h-10 flex-1 gap-3" variant="outlined">
-              <img
-                className="size-5.5"
-                src="/images/logos/google.svg"
-                alt="logo"
-              />
-              <span>Google</span>
-            </Button>
-            <Button className="h-10 flex-1 gap-3" variant="outlined">
-              <img
-                className="size-5.5"
-                src="/images/logos/github.svg"
-                alt="logo"
-              />
-              <span>Github</span>
-            </Button>
-          </div> */}
         </div>
 
         <div className="mb-3 mt-5 flex justify-center text-xs text-gray-400 dark:text-dark-300">

@@ -3,7 +3,7 @@ import { DataTable } from "app/components/listing/DataTable";
 import { useInfo, useFeachData } from "hooks/useApiHook";
 import { useAuthContext } from "app/contexts/auth/context";
 
-const pageName = "Management List";
+const pageName = "Management";
 const doctype = "Management";
 const fields = ['type', 'posting_date', 'status', 'lead', 'customer', 'plot_detail', 'policy_name', 'policy_amount', 'approval_manager'];
 

@@ -40,26 +40,26 @@ const protectedRoutes = {
           children: [
             {
               index: true,
-              element: <Navigate to="/sales/leads" />,
+              element: <Navigate to="/sales/customers" />,
             },
             {
-              path: "leads",
+              path: "customers",
               lazy: async () => ({
-                Component: (await import("app/pages/sales/leads"))
+                Component: (await import("app/pages/sales/customers"))
                   .default,
               }),
             },
             {
-              path: "leads/add-new",
+              path: "customers/add-new",
               lazy: async () => ({
-                Component: (await import("app/pages/sales/leads/form"))
+                Component: (await import("app/pages/sales/customers/form"))
                   .default,
               }),
             },
             {
-              path: "leads/edit/:id",
+              path: "customers/edit/:id",
               lazy: async () => ({
-                Component: (await import("app/pages/sales/leads/form"))
+                Component: (await import("app/pages/sales/customers/form"))
                   .default,
               }),
             },

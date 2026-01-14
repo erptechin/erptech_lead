@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { DataTable } from "app/components/listing/DataTable";
 import { useInfo, useFeachData } from "hooks/useApiHook";
 
-const pageName = "Sales Agent List";
+const pageName = "Sales Agent";
 const doctype = "User";
 const fields = ['user_image', 'full_name', 'email', 'mobile_no', 'enabled'];
 
