@@ -15,9 +15,9 @@ export function Header() {
     <header className="relative flex h-[61px] shrink-0 items-center justify-between ltr:pl-6 ltr:pr-3 rtl:pl-3 rtl:pr-6">
       <div className="flex items-center justify-start gap-4 pt-3">
         <Link to="/">
-          <img src={"/assets/erptech_lead/images/fav.png"} alt="" className="size-10 text-primary-600 dark:text-primary-400" />
+          <img src={"/assets/erptech_lead/images/logo.png"} width={200} alt="" className="text-primary-600 dark:text-primary-400" />
         </Link>
-        <h3 className="h-5 w-auto text-gray-800 dark:text-dark-50 text-2xl font-bold -mt-3">My Lead</h3>
+        {/* <h3 className="h-5 w-auto text-gray-800 dark:text-dark-50 text-2xl font-bold -mt-3">My Lead</h3> */}
       </div>
       <div className="pt-5 xl:hidden">
         <Button

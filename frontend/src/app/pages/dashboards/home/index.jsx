@@ -15,13 +15,13 @@ export default function Home() {
         <div className="grid grid-cols-12 gap-4 sm:gap-5 lg:gap-6">
           <div className="col-span-12 space-y-4 sm:space-y-5 lg:col-span-8 lg:space-y-6">
             <Statistics />
-            <OngoingProjects />
-            <SalesReport />
+            {/* <OngoingProjects /> */}
+            {/* <SalesReport /> */}
           </div>
           <div className="col-span-12 lg:col-span-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-1 lg:gap-6">
-              <ClientMessages />
-              <SalesMessages />
+              {/* <ClientMessages /> */}
+              {/* <SalesMessages /> */}
             </div>
           </div>
         </div>

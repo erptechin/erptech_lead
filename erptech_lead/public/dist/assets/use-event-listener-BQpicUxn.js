@@ -1,0 +1,1 @@
+import{a}from"./index-DcxHKUv5.js";import{a1 as f}from"./transition-DUm2oeM_.js";function m(r,e,i,t){let n=f(i);a.useEffect(()=>{r=r??window;function o(s){n.current(s)}return r.addEventListener(e,o,t),()=>r.removeEventListener(e,o,t)},[r,e,t])}export{m as E};

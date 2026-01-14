@@ -38,7 +38,7 @@ export function Statistics() {
             <p className="text-base font-semibold text-gray-800 dark:text-dark-100">
               {isLoading ? "..." : counts.leads}
             </p>
-            <p className="truncate text-xs-plus">Leads</p>
+            <p className="truncate text-xs-plus">Customers</p>
           </div>
           <Avatar
             size={10}
@@ -49,7 +49,7 @@ export function Statistics() {
           </Avatar>
         </div>
       </Card>
-      <Card className="p-4.5">
+      {/* <Card className="p-4.5">
         <div className="flex min-w-0 items-center justify-between">
           <div>
             <p className="text-base font-semibold text-gray-800 dark:text-dark-100">
@@ -65,14 +65,14 @@ export function Statistics() {
             <UserGroupIcon className="size-5" />
           </Avatar>
         </div>
-      </Card>
-      <Card className="p-4.5">
+      </Card> */}
+      {/* <Card className="p-4.5">
         <div className="flex min-w-0 items-center justify-between">
           <div>
             <p className="text-base font-semibold text-gray-800 dark:text-dark-100">
               {isLoading ? "..." : counts.leadUsers}
             </p>
-            <p className="truncate text-xs-plus">Lead User</p>
+            <p className="truncate text-xs-plus">Customer</p>
           </div>
           <Avatar
             size={10}
@@ -82,8 +82,8 @@ export function Statistics() {
             <UserGroupIcon className="size-5" />
           </Avatar>
         </div>
-      </Card>
-      <Card className="p-4.5">
+      </Card> */}
+      {/* <Card className="p-4.5">
         <div className="flex min-w-0 items-center justify-between">
           <div>
             <p className="text-base font-semibold text-gray-800 dark:text-dark-100">
@@ -99,7 +99,7 @@ export function Statistics() {
             <ShoppingCartIcon className="size-5" />
           </Avatar>
         </div>
-      </Card>
+      </Card> */}
     </div>
   );
 }
