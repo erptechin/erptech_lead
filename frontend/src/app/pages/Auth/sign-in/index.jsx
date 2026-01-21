@@ -138,6 +138,13 @@ export default function SignIn() {
                     onChange={handleTypeChange}
                     label="Purchase"
                   />
+                  <Radio
+                    name="salesPurchaseType"
+                    value="legal"
+                    checked={selectedType === "legal"}
+                    onChange={handleTypeChange}
+                    label="Legal"
+                  />
                 </div>
               </div>
 

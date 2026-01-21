@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Transition,
@@ -10,6 +10,7 @@ import { Button } from "components/ui";
 import { useInfo, useFeachSingle } from "hooks/useApiHook";
 import { Skeleton } from "components/ui";
 import { useThemeContext } from "app/contexts/theme/context";
+import { JWT_HOST_API } from "configs/auth.config";
 
 const doctype = "Plot Detail";
 const fields = [
@@ -50,6 +51,9 @@ const subFields = [
   'handover_date',
   'remarks'
 ];
+const plotDocumentFields = [
+  'plot_document'
+];
 
 // Helper function to get field label
 const getFieldLabel = (info, fieldname) => {
@@ -65,23 +69,24 @@ const formatFieldValue = (value) => {
   return value;
 };
 
-export default function CarProfileViewModal({ 
-  isOpen, 
-  onClose, 
+export default function CarProfileViewModal({
+  isOpen,
+  onClose,
   carProfileId
 }) {
+  const [previewImage, setPreviewImage] = useState(null);
   const { isDark, darkColorScheme, lightColorScheme } = useThemeContext();
-  const { data: info, isFetching: isFetchingInfo } = useInfo({ 
-    doctype, 
-    fields: JSON.stringify([...fields, ...subFields]) 
+  const { data: info, isFetching: isFetchingInfo } = useInfo({
+    doctype,
+    fields: JSON.stringify([...fields, ...subFields, ...plotDocumentFields])
   });
-  
-  const { data, isFetching: isFetchingData, refetch } = useFeachSingle({ 
-    doctype, 
-    id: isOpen && carProfileId ? carProfileId : null, 
-    fields: JSON.stringify([...fields, ...subFields])
+
+  const { data, isFetching: isFetchingData, refetch } = useFeachSingle({
+    doctype,
+    id: isOpen && carProfileId ? carProfileId : null,
+    fields: JSON.stringify([...fields, ...subFields, ...plotDocumentFields])
   });
-  
+
   // Refetch data when modal opens
   useEffect(() => {
     if (isOpen && carProfileId) {
@@ -92,9 +97,9 @@ export default function CarProfileViewModal({
   if (isFetchingInfo || (isOpen && carProfileId && isFetchingData)) {
     return (
       <Transition show={isOpen}>
-        <Dialog 
-          open={isOpen} 
-          onClose={onClose} 
+        <Dialog
+          open={isOpen}
+          onClose={onClose}
           className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden px-4 py-6 sm:px-5"
         >
           <TransitionChild
@@ -142,9 +147,9 @@ export default function CarProfileViewModal({
 
   return (
     <Transition show={isOpen}>
-      <Dialog 
-        open={isOpen} 
-        onClose={onClose} 
+      <Dialog
+        open={isOpen}
+        onClose={onClose}
         className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden px-4 py-6 sm:px-5"
       >
         <TransitionChild
@@ -223,7 +228,62 @@ export default function CarProfileViewModal({
                 </div>
               </div>
             </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="text-base font-semibold text-gray-700 dark:text-dark-100">
+                  Plot Documents
+                </h3>
+                <div className="space-y-3">
+                  {data?.plot_document?.map((fieldname, index) => {
+                    const fileUrl = JWT_HOST_API + fieldname?.file;
+
+                    if (!fileUrl) {
+                      return null;
+                    }
+
+                    return (
+                      <div key={index} className="flex flex-col">
+                        <span className="text-sm font-medium text-gray-500 dark:text-dark-300 mb-1">
+                          {fieldname?.title}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setPreviewImage(fileUrl)}
+                          className="inline-flex w-max overflow-hidden rounded-md border border-gray-200 bg-gray-50 hover:bg-gray-100 dark:border-dark-500 dark:bg-dark-600 dark:hover:bg-dark-500"
+                        >
+                          <img
+                            src={fileUrl}
+                            alt={fileUrl}
+                            className="h-24 w-24 object-cover"
+                          />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Image preview popup */}
+          {previewImage && (
+            <div
+              className="fixed inset-0 z-[120] flex items-center justify-center bg-black/70"
+              onClick={() => setPreviewImage(null)}
+            >
+              <div
+                className="max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg bg-white p-2 dark:bg-dark-700"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img
+                  src={previewImage}
+                  alt="Document preview"
+                  className="max-h-[80vh] max-w-[80vw] object-contain"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Footer */}
           <div className="flex shrink-0 items-center justify-end gap-3 border-t border-gray-200 px-6 py-4 dark:border-dark-500">

@@ -94,9 +94,10 @@ export default function AddEditFrom() {
     if (id) {
       // Editing existing lead - use normal flow
       const submitData = {
-        ...formData
+        ...formData,
+        custom_lead_type: pageName === 'Customer' ? 'sales' : 'purchase',
       };
-      mutationUpdate.mutate({ doctype, body: { ...submitData, id } });
+      mutationUpdate.mutate({ doctype, body: { ...submitData, custom_lead_type: pageName === 'Customer' ? 'sales' : 'purchase', id } });
     } else {
 
 

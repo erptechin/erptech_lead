@@ -18,7 +18,7 @@ export default function ListData() {
   const [orders, setOrders] = useState([]);
 
   const { data: info } = useInfo({ doctype, fields: JSON.stringify(fields) });
-  const [search, setSearch] = useState({ doctype, page: 1, page_length: 10, fields: null });
+  const [search, setSearch] = useState({ doctype, page: 1, page_length: 10, fields: null, filters: JSON.stringify([["custom_lead_type", "=", pageName === 'Customer' ? 'sales' : 'purchase']]) });
   const { data } = useFeachData(search);
 
   useEffect(() => {

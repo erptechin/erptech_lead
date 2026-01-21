@@ -155,8 +155,10 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    window.localStorage.removeItem('authToken');
+    // Clear all localStorage including salesPurchaseType
+    window.localStorage.clear();
     dispatch({ type: "LOGOUT" });
+    window.location.reload();
   };
 
   if (!children) {

@@ -14,20 +14,20 @@ export const baseNavigation = [
         transKey: 'nav.dashboards.dashboards',
         Icon: DashboardsIcon,
     },
-    {
-        id: 'leads',
-        type: NAV_TYPE_ITEM,
-        path: '/sales/leads',
-        title: 'Leads',
-        transKey: 'nav.sales.leads',
-        Icon: MegaphoneIcon,
-    },
-    {
-        id: 'sales-order',
-        type: NAV_TYPE_ITEM,
-        path: '/sales/sales-order',
-        title: 'Sales Order',
-        transKey: 'nav.sales.sales-order',
-        Icon: OrderTimerIcon,
-    }
+    // {
+    //     id: 'leads',
+    //     type: NAV_TYPE_ITEM,
+    //     path: '/sales/leads',
+    //     title: 'Leads',
+    //     transKey: 'nav.sales.leads',
+    //     Icon: MegaphoneIcon,
+    // },
+    // {
+    //     id: 'sales-order',
+    //     type: NAV_TYPE_ITEM,
+    //     path: '/sales/sales-order',
+    //     title: 'Sales Order',
+    //     transKey: 'nav.sales.sales-order',
+    //     Icon: OrderTimerIcon,
+    // }
 ]

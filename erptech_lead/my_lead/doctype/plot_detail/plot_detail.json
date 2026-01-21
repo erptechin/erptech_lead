@@ -11,7 +11,6 @@
   "lead_status",
   "column_break_ycad",
   "lead",
-  "type",
   "section_break_basic_plot_details",
   "plot_no",
   "plot_id",
@@ -24,7 +23,6 @@
   "length",
   "width",
   "facing",
-  "attach_file",
   "section_break_ownership_legal",
   "owner_name",
   "document_no",
@@ -49,7 +47,9 @@
   "sale_date",
   "column_break_status_1",
   "handover_date",
-  "remarks"
+  "remarks",
+  "section_break_nwsi",
+  "plot_document"
  ],
  "fields": [
   {
@@ -285,19 +285,18 @@
    "reqd": 1
   },
   {
-   "fieldname": "type",
-   "fieldtype": "Select",
-   "label": "Type",
-   "options": "sales\npurchase"
+   "fieldname": "section_break_nwsi",
+   "fieldtype": "Section Break"
   },
   {
-   "fieldname": "attach_file",
-   "fieldtype": "Attach Image",
-   "label": "Attach File"
+   "fieldname": "plot_document",
+   "fieldtype": "Table",
+   "label": "Plot Document",
+   "options": "Plot Document"
   }
  ],
  "links": [],
- "modified": "2026-01-14 16:12:47.010174",
+ "modified": "2026-01-21 14:22:35.847062",
  "modified_by": "Administrator",
  "module": "My Lead",
  "name": "Plot Detail",
