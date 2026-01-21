@@ -622,7 +622,7 @@ def create_management():
             return
         
         # Validate mandatory fields
-        required_fields = ["lead", "customer", "plot_detail", "policy_name", "file_attachment", "approval_manager"]
+        required_fields = ["lead", "customer", "plot_detail", "approval_manager"]
         missing_fields = [field for field in required_fields if not cod_data.get(field)]
         if missing_fields:
             create_response(400, f"Missing required fields: {', '.join(missing_fields)}", {})
@@ -634,11 +634,7 @@ def create_management():
             "lead": cod_data.get("lead"),
             "customer": cod_data.get("customer"),
             "plot_detail": cod_data.get("plot_detail"),
-            "policy_name": cod_data.get("policy_name"),
-            "policy_amount": cod_data.get("policy_amount") or 0,
             "status": cod_data.get("status") or "Waiting",
-            "type": cod_data.get("type") or "New",
-            "file_attachment": cod_data.get("file_attachment"),
             "approval_manager": cod_data.get("approval_manager"),
             "comments": cod_data.get("comments") or ""
         }
@@ -701,8 +697,8 @@ def update_management():
         
         # Update fields
         updateable_fields = [
-            "plot_detail", "policy_name", "policy_amount", "status", "type",
-            "file_attachment", "approval_manager", "comments"
+            "plot_detail", "status", "type",
+             "approval_manager", "comments"
         ]
         
         for field in updateable_fields:

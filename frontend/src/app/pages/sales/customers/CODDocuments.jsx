@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Button, Upload, Card, Table, THead, TBody, Th, Tr, Td, Avatar, Select, Input } from "components/ui";
-import { PlusIcon, XMarkIcon, CloudArrowUpIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { Button, Card, Table, THead, TBody, Th, Tr, Td } from "components/ui";
+import { PlusIcon, XMarkIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import {
   Transition,
@@ -9,7 +9,6 @@ import {
   Dialog
 } from "@headlessui/react";
 import { useAddData, useUpdateData, useFeachData, useDeleteData } from "hooks/useApiHook";
-import { JWT_HOST_API } from 'configs/auth.config';
 import { SearchSelect } from "app/components/form/SearchSelect";
 import { getListData, createManagement, updateManagement, showError } from 'utils/apis';
 import { ConfirmModal } from "components/shared/ConfirmModal";
@@ -28,11 +27,7 @@ export default function CODDocuments({ id, data }) {
     customer: data?.customer || "",
     plot_detail: "",
     approval_manager: "",
-    policy_name: "",
-    policy_amount: "",
     status: "Waiting",
-    type: "New",
-    file_attachment: "",
     comments: ""
   });
 
@@ -41,11 +36,11 @@ export default function CODDocuments({ id, data }) {
     doctype: "Management",
     page: 1,
     page_length: 100,
-    fields: JSON.stringify(["name", "lead", "customer", "plot_detail", "approval_manager", "policy_name", "policy_amount", "status", "file_attachment", "comments", "creation", "modified"]),
-    filters: id ? JSON.stringify([["lead", "=", id], ["type", "=", "New"]]) : null
+    fields: JSON.stringify(["name", "lead", "customer", "plot_detail", "approval_manager", "status", "comments", "creation", "modified"]),
+    filters: id ? JSON.stringify([["lead", "=", id], ["status", "=", "Waiting"]]) : null
   });
 
-  const { data: codData, isFetching: isLoadingCOD, refetch: refetchCOD} = useFeachData(search);
+  const { data: codData, isFetching: isLoadingCOD, refetch: refetchCOD } = useFeachData(search);
 
   // Fetch car profiles for dropdown
   useEffect(() => {
@@ -53,12 +48,12 @@ export default function CODDocuments({ id, data }) {
       getListData({
         doctype: "Plot Detail",
         fields: JSON.stringify(["name", "plot_no", "plot_id", "project_layout_name", "location_village"]),
-        filters: JSON.stringify([["lead", "=", id], ["status", "=", "New"]]),
+        filters: JSON.stringify([["lead", "=", id], ["lead_status", "=", "New"]]),
         page_length: 100
       }).then((res) => {
         if (res?.data) {
           const options = res.data.map(item => ({
-            label: `${item.plot_no || ''} - ${item.project_layout_name || ''} ${item.location_village || ''}`.trim() || item.plot_id || item.name,
+            label: `${item.plot_no || ''}`.trim() || item.plot_id || item.name,
             value: item.name
           }));
           setCarProfiles(options);
@@ -86,7 +81,7 @@ export default function CODDocuments({ id, data }) {
     if (id) {
       setSearch(prev => ({
         ...prev,
-        filters: JSON.stringify([["lead", "=", id], ["type", "=", "New"]])
+        filters: JSON.stringify([["lead", "=", id], ["status", "=", "Waiting"]])
       }));
     }
   }, [id]);
@@ -135,21 +130,13 @@ export default function CODDocuments({ id, data }) {
       customer: data?.customer || "",
       plot_detail: "",
       approval_manager: "",
-      policy_name: "",
-      policy_amount: "",
       status: "Waiting",
       type: "New",
-      file_attachment: "",
       comments: ""
     });
   };
 
   const handleAddCOD = async () => {
-    if (!newCODDocument.file_attachment) {
-      showError({ message: "File attachment is required" });
-      return;
-    }
-    
     setIsAddingCOD(true);
     try {
       const result = await createManagement(newCODDocument);
@@ -176,10 +163,7 @@ export default function CODDocuments({ id, data }) {
         customer: codDoc.customer || data?.customer || "",
         plot_detail: codDoc.plot_detail || "",
         approval_manager: codDoc.approval_manager || "",
-        policy_name: codDoc.policy_name || "",
-        policy_amount: codDoc.policy_amount || "",
         status: codDoc.status || "Waiting",
-        file_attachment: codDoc.file_attachment || "",
         comments: codDoc.comments || ""
       });
       setSelectedCODId(codId);
@@ -192,12 +176,7 @@ export default function CODDocuments({ id, data }) {
       showError({ message: "Management ID is required" });
       return;
     }
-    
-    if (!newCODDocument.file_attachment) {
-      showError({ message: "File attachment is required" });
-      return;
-    }
-    
+
     setIsUpdatingCOD(true);
     try {
       const result = await updateManagement(selectedCODId, newCODDocument);
@@ -279,19 +258,10 @@ export default function CODDocuments({ id, data }) {
                           Plot Detail
                         </Th>
                         <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
-                          Policy Name
-                        </Th>
-                        <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
-                          Policy Amount
-                        </Th>
-                        <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
                           Status
                         </Th>
                         <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
                           Approval Manager
-                        </Th>
-                        <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
-                          File Attachment
                         </Th>
                         <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
                           Comments
@@ -314,12 +284,6 @@ export default function CODDocuments({ id, data }) {
                             {doc.plot_detail || '-'}
                           </Td>
                           <Td className="text-gray-700 dark:text-dark-200">
-                            {doc.policy_name || '-'}
-                          </Td>
-                          <Td className="text-gray-700 dark:text-dark-200">
-                            {doc.policy_amount ? `AED ${parseFloat(doc.policy_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '-'}
-                          </Td>
-                          <Td className="text-gray-700 dark:text-dark-200">
                             <span className={clsx(
                               "inline-flex rounded-full px-2 py-1 text-xs font-semibold",
                               doc.status === "Approve" && "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
@@ -331,18 +295,6 @@ export default function CODDocuments({ id, data }) {
                           </Td>
                           <Td className="text-gray-700 dark:text-dark-200">
                             {doc.approval_manager || '-'}
-                          </Td>
-                          <Td className="text-gray-700 dark:text-dark-200">
-                            {doc.file_attachment ? (
-                              <a
-                                href={`${JWT_HOST_API}${doc.file_attachment}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline dark:text-blue-400"
-                              >
-                                View File
-                              </a>
-                            ) : '-'}
                           </Td>
                           <Td className="text-gray-700 dark:text-dark-200">
                             {doc.comments || '-'}
@@ -457,78 +409,6 @@ export default function CODDocuments({ id, data }) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-100">
-                      Policy Name <span className="text-red-500">*</span>
-                    </label>
-                    <Input
-                      value={newCODDocument.policy_name}
-                      onChange={(e) => setNewCODDocument({ ...newCODDocument, policy_name: e.target.value })}
-                      placeholder="Enter Policy Name"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-100">
-                      Policy Amount
-                    </label>
-                    <Input
-                      type="number"
-                      value={newCODDocument.policy_amount}
-                      onChange={(e) => setNewCODDocument({ ...newCODDocument, policy_amount: e.target.value })}
-                      placeholder="Enter Policy Amount"
-                      step="0.01"
-                      min="0"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-100">
-                    File Attachment <span className="text-red-500">*</span>
-                  </label>
-                  <Upload
-                    onChange={(fileUrl) => {
-                      if (fileUrl) {
-                        setNewCODDocument({ ...newCODDocument, file_attachment: fileUrl });
-                      }
-                    }}
-                  >
-                    {({ ...props }) => (
-                      <Button
-                        {...props}
-                        unstyled
-                        className={clsx(
-                          "mt-3 w-full shrink-0 flex-col rounded-lg border-2 border-dashed py-10 border-gray-300 dark:border-dark-450"
-                        )}
-                      >
-                        <CloudArrowUpIcon className="size-12" />
-                        <span className={clsx("pointer-events-none mt-2 text-gray-600 dark:text-dark-200")}>
-                          <span className="text-primary-600 dark:text-primary-400">Browse</span>
-                          <span> or drop your files here</span>
-                        </span>
-                        {newCODDocument.file_attachment && (
-                          <span className="mt-2 text-sm text-gray-500 dark:text-dark-300">
-                            File selected
-                          </span>
-                        )}
-                      </Button>
-                    )}
-                  </Upload>
-                  {newCODDocument.file_attachment && (
-                    <div className="mt-2 flex flex-col space-y-4">
-                      <div className="relative inline-block">
-                        <Avatar
-                          size={24}
-                          src={`${JWT_HOST_API}${newCODDocument.file_attachment}`}
-                          classNames={{ display: "rounded-lg" }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-100">
                     Comments
@@ -558,7 +438,7 @@ export default function CODDocuments({ id, data }) {
               <Button
                 color="primary"
                 onClick={handleAddCOD}
-                disabled={!newCODDocument.file_attachment || isAddingCOD}
+                disabled={isAddingCOD}
               >
                 {isAddingCOD ? 'Adding...' : 'Add Document'}
               </Button>
@@ -636,78 +516,6 @@ export default function CODDocuments({ id, data }) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-100">
-                      Policy Name
-                    </label>
-                    <Input
-                      value={newCODDocument.policy_name}
-                      onChange={(e) => setNewCODDocument({ ...newCODDocument, policy_name: e.target.value })}
-                      placeholder="Enter Policy Name"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-100">
-                      Policy Amount
-                    </label>
-                    <Input
-                      type="number"
-                      value={newCODDocument.policy_amount}
-                      onChange={(e) => setNewCODDocument({ ...newCODDocument, policy_amount: e.target.value })}
-                      placeholder="Enter Policy Amount"
-                      step="0.01"
-                      min="0"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-100">
-                    File Attachment <span className="text-red-500">*</span>
-                  </label>
-                  <Upload
-                    onChange={(fileUrl) => {
-                      if (fileUrl) {
-                        setNewCODDocument({ ...newCODDocument, file_attachment: fileUrl });
-                      }
-                    }}
-                  >
-                    {({ ...props }) => (
-                      <Button
-                        {...props}
-                        unstyled
-                        className={clsx(
-                          "mt-3 w-full shrink-0 flex-col rounded-lg border-2 border-dashed py-10 border-gray-300 dark:border-dark-450"
-                        )}
-                      >
-                        <CloudArrowUpIcon className="size-12" />
-                        <span className={clsx("pointer-events-none mt-2 text-gray-600 dark:text-dark-200")}>
-                          <span className="text-primary-600 dark:text-primary-400">Browse</span>
-                          <span> or drop your files here</span>
-                        </span>
-                        {newCODDocument.file_attachment && (
-                          <span className="mt-2 text-sm text-gray-500 dark:text-dark-300">
-                            File selected
-                          </span>
-                        )}
-                      </Button>
-                    )}
-                  </Upload>
-                  {newCODDocument.file_attachment && (
-                    <div className="mt-2 flex flex-col space-y-4">
-                      <div className="relative inline-block">
-                        <Avatar
-                          size={24}
-                          src={`${JWT_HOST_API}${newCODDocument.file_attachment}`}
-                          classNames={{ display: "rounded-lg" }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-100">
                     Comments
@@ -738,7 +546,7 @@ export default function CODDocuments({ id, data }) {
               <Button
                 color="primary"
                 onClick={handleUpdateCOD}
-                disabled={!newCODDocument.file_attachment || isUpdatingCOD}
+                disabled={isUpdatingCOD}
               >
                 {isUpdatingCOD ? 'Updating...' : 'Update Document'}
               </Button>

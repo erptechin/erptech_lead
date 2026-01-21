@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, ShareIcon } from "@heroicons/react/24/outline";
 import {
   Transition,
   TransitionChild,
@@ -93,6 +93,48 @@ export default function CarProfileViewModal({
       refetch();
     }
   }, [isOpen, carProfileId, refetch]);
+
+  const handleShare = () => {
+    if (!data) return;
+    
+    // Format plot documents
+    const plotDocuments = data?.plot_document && Array.isArray(data.plot_document) && data.plot_document.length > 0
+      ? data.plot_document.map((doc, index) => {
+          const docTitle = doc?.title || `Document ${index + 1}`;
+          const docFile = doc?.file ? `${JWT_HOST_API}${doc.file}` : '';
+          return docFile ? `  • ${docTitle}: ${docFile}` : `  • ${docTitle}`;
+        }).join('\n')
+      : 'N/A';
+    
+    // Format plot details for WhatsApp
+    const details = [
+      `*Plot Details*`,
+      `━━━━━━━━━━━━━━━━━━━━`,
+      `*Plot No:* ${data.plot_no || 'N/A'}`,
+      `*Plot ID:* ${data.plot_id || 'N/A'}`,
+      `*Project/Layout:* ${data.project_layout_name || 'N/A'}`,
+      `*Location:* ${data.location_village || 'N/A'}`,
+      `*Plot Size:* ${data.plot_size || 'N/A'}`,
+      `*Plot Type:* ${data.plot_type || 'N/A'}`,
+      `*Facing:* ${data.facing || 'N/A'}`,
+      `*Total Value:* ${data.total_plot_value ? `AED ${parseFloat(data.total_plot_value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'N/A'}`,
+      `*Rate per Sqft:* ${data.rate_per_sqft ? `AED ${parseFloat(data.rate_per_sqft).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'N/A'}`,
+      `*Booking Amount:* ${data.booking_amount ? `AED ${parseFloat(data.booking_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'N/A'}`,
+      `*Paid Amount:* ${data.paid_amount ? `AED ${parseFloat(data.paid_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'N/A'}`,
+      `*Balance Amount:* ${data.balance_amount ? `AED ${parseFloat(data.balance_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'N/A'}`,
+      `*Plot Status:* ${data.plot_status || 'N/A'}`,
+      data.remarks ? `*Remarks:* ${data.remarks}` : '',
+      `\n*Plot Documents:*`,
+      plotDocuments,
+    ].filter(Boolean).join('\n');
+
+    // Encode the message for WhatsApp
+    const encodedMessage = encodeURIComponent(details);
+    const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+    
+    // Open WhatsApp in a new window
+    window.open(whatsappUrl, '_blank');
+  };
 
   if (isFetchingInfo || (isOpen && carProfileId && isFetchingData)) {
     return (
@@ -287,6 +329,14 @@ export default function CarProfileViewModal({
 
           {/* Footer */}
           <div className="flex shrink-0 items-center justify-end gap-3 border-t border-gray-200 px-6 py-4 dark:border-dark-500">
+            <Button
+              variant="outlined"
+              onClick={handleShare}
+              className="flex items-center gap-2"
+            >
+              <ShareIcon className="size-4" />
+              Share
+            </Button>
             <Button
               color="primary"
               onClick={onClose}

@@ -1,0 +1,85 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-21 17:36:31.788883",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "lead",
+  "plot_detail",
+  "approval_manager",
+  "column_break_oozg",
+  "customer",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "lead",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Lead",
+   "options": "Lead",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_oozg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "plot_detail",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Plot Detail",
+   "options": "Plot Detail",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Waiting\nApprove\nDecline"
+  },
+  {
+   "fieldname": "approval_manager",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Approval Manager",
+   "options": "User",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-21 17:58:42.006030",
+ "modified_by": "Administrator",
+ "module": "My Lead",
+ "name": "Management",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

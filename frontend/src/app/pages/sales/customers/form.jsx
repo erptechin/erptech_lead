@@ -168,18 +168,18 @@ export default function AddEditFrom() {
           id="new-post-form"
         >
           <div className="grid grid-cols-12 place-content-start gap-4 sm:gap-5 lg:gap-6">
-            {/* <CODDocuments
+          <CODDocuments
               id={id}
               data={data}
               setValue={setValue}
               refetchData={refetchData}
-            /> */}
-            {/* <FollowUpHistory
+            />
+             <FollowUpHistory
               id={id}
               data={data}
               setValue={setValue}
               refetchData={refetchData}
-            /> */}
+            />
 
             <div className="col-span-12 lg:col-span-7">
               <Card className="p-4 sm:px-5">
