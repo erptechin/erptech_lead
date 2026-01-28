@@ -77,32 +77,32 @@ const initialState = Object.fromEntries(
 );
 initialState.plot_document = [];
 
-export default function CarProfileModal({
-  isOpen,
-  onClose,
+export default function CarProfileModal({ 
+  isOpen, 
+  onClose, 
   carProfileId,
   carProfileData = null,
-  customerId,
+  customerId, 
   customerName,
   leadId,
   leadName,
   isCreateMode = false,
-  onSuccess
+  onSuccess 
 }) {
   const { isDark, darkColorScheme, lightColorScheme } = useThemeContext();
-  const { data: info, isFetching: isFetchingInfo } = useInfo({
-    doctype,
-    fields: JSON.stringify(allFields)
+  const { data: info, isFetching: isFetchingInfo } = useInfo({ 
+    doctype, 
+    fields: JSON.stringify(allFields) 
   });
 
   // No need for filtered info anymore - using direct info
-
-  const { data, isFetching: isFetchingData, refetch } = useFeachSingle({
-    doctype,
-    id: isOpen && carProfileId && !isCreateMode ? carProfileId : null,
+  
+  const { data, isFetching: isFetchingData, refetch } = useFeachSingle({ 
+    doctype, 
+    id: isOpen && carProfileId && !isCreateMode ? carProfileId : null, 
     fields: JSON.stringify(allFields)
   });
-
+  
   // Refetch data when modal opens for editing/viewing (only in normal mode)
   useEffect(() => {
     if (isOpen && carProfileId && !isCreateMode) {
@@ -189,9 +189,9 @@ export default function CarProfileModal({
   const onSubmit = (formData) => {
     // Form validation is handled by react-hook-form
     // This function only runs if validation passes
-
+    
     console.log('Form submitted with data:', formData);
-
+    
     // In create mode, just return the data to parent component
     if (isCreateMode) {
       const submitData = { ...formData };
@@ -205,15 +205,15 @@ export default function CarProfileModal({
       }
       return;
     }
-
+    
     // Ensure lead, customer, and status are set when creating new profile (normal mode)
     const submitData = { ...formData };
 
     submitData.lead = leadId;
     submitData.customer = customerId;
-
+    
     console.log('Submitting with data:', submitData);
-
+    
     if (carProfileId) {
       console.log('Calling mutationUpdate...');
       mutationUpdate.mutate({ doctype, body: { ...submitData, id: carProfileId } });
@@ -222,7 +222,7 @@ export default function CarProfileModal({
       console.log('Calling mutationAdd...');
       mutationAdd.mutate({ doctype, body: submitData });
     }
-
+    
     // IMPORTANT: Don't close modal here - wait for mutation success callback
     // The modal will only close when the API call succeeds
   };
@@ -253,46 +253,46 @@ export default function CarProfileModal({
               }
             }}
           />
-          <TransitionChild
-            as={DialogPanel}
-            enter="ease-out transform-gpu transition-transform duration-300"
-            enterFrom="translate-x-full"
-            enterTo="translate-x-0"
-            leave="ease-in transform-gpu transition-transform duration-300"
-            leaveFrom="translate-x-0"
-            leaveTo="translate-x-full"
-            className="fixed inset-y-0 right-0 z-61 flex w-screen max-w-3xl transform-gpu flex-col bg-white transition-transform duration-300 dark:bg-dark-700 sm:max-w-4xl lg:max-w-5xl"
-          >
-            <div className="flex h-full flex-col">
-              <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-dark-500">
-                <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-50">
-                  {carProfileId ? 'Edit' : 'New'} Plot Detail
-                </h2>
-              </div>
-              <div className="flex-1 overflow-y-auto p-5">
-                <Skeleton
-                  style={{
-                    "--sk-color": isDark ? darkColorScheme[700] : lightColorScheme[300],
-                  }}
-                />
-              </div>
+        <TransitionChild
+          as={DialogPanel}
+          enter="ease-out transform-gpu transition-transform duration-300"
+          enterFrom="translate-x-full"
+          enterTo="translate-x-0"
+          leave="ease-in transform-gpu transition-transform duration-300"
+          leaveFrom="translate-x-0"
+          leaveTo="translate-x-full"
+          className="fixed inset-y-0 right-0 z-61 flex w-screen max-w-3xl transform-gpu flex-col bg-white transition-transform duration-300 dark:bg-dark-700 sm:max-w-4xl lg:max-w-5xl"
+        >
+          <div className="flex h-full flex-col">
+            <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-dark-500">
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-50">
+                {carProfileId ? 'Edit' : 'New'} Plot Detail
+              </h2>
             </div>
-          </TransitionChild>
-        </Dialog>
-      </Transition>
+            <div className="flex-1 overflow-y-auto p-5">
+              <Skeleton
+                style={{
+                  "--sk-color": isDark ? darkColorScheme[700] : lightColorScheme[300],
+                }}
+              />
+            </div>
+          </div>
+        </TransitionChild>
+      </Dialog>
+    </Transition>
     );
   }
 
   return (
     <Transition show={isOpen}>
-      <Dialog
-        open={isOpen}
+      <Dialog 
+        open={isOpen} 
         onClose={(value) => {
           // Only allow closing if form is not submitting
           if (!mutationAdd.isPending && !mutationUpdate.isPending) {
             onClose();
           }
-        }}
+        }} 
         static={mutationAdd.isPending || mutationUpdate.isPending}
         autoFocus
       >
@@ -337,8 +337,8 @@ export default function CarProfileModal({
           </div>
 
           {/* Content */}
-          <form
-            onSubmit={handleSubmit(onSubmit, onError)}
+          <form 
+            onSubmit={handleSubmit(onSubmit, onError)} 
             className="flex min-h-0 flex-1 flex-col overflow-hidden"
             noValidate
           >
@@ -409,8 +409,8 @@ export default function CarProfileModal({
                     />
                   </div>
                 </div>
-              </div>
-
+                  </div>
+                  
               {/* Plot Documents Section */}
               <div className="px-6">
                 <div className="mb-4 flex items-center justify-between border-b pb-2">
@@ -539,7 +539,7 @@ export default function CarProfileModal({
                 disabled={isSubmitting || mutationAdd.isPending || mutationUpdate.isPending}
               >
                 {isSubmitting || mutationAdd.isPending || mutationUpdate.isPending
-                  ? 'Saving...'
+                  ? 'Saving...' 
                   : (carProfileId ? 'Update' : 'Create')}
               </Button>
             </div>

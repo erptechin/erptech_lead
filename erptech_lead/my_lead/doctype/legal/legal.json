@@ -1,0 +1,690 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-01-27 11:01:06.501846",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_basic_case",
+  "naming_series",
+  "case_type",
+  "fir_case_number",
+  "year",
+  "district",
+  "column_break_1",
+  "police_station_court_name",
+  "state",
+  "date_of_registration_filing",
+  "jurisdiction_type",
+  "section_break_party_details",
+  "complainant_name",
+  "complainant_address",
+  "column_break_2",
+  "complainant_contact_number",
+  "complainant_email",
+  "relationship_with_organisation",
+  "section_break_accused",
+  "accused_details",
+  "section_break_organisation",
+  "organisation_name",
+  "organisation_type",
+  "cin_gst",
+  "authorised_signatory",
+  "column_break_3",
+  "business_locations",
+  "section_break_offence",
+  "sections_invoked",
+  "detailed_case_summary",
+  "column_break_4",
+  "nature_of_offence",
+  "brief_gist_allegations",
+  "amount_involved",
+  "property_asset_involved",
+  "documents_involved",
+  "section_break_financial",
+  "transaction_type",
+  "cheque_number",
+  "cheque_date",
+  "cheque_amount",
+  "disputed_amount",
+  "column_break_5",
+  "bank_name_branch",
+  "account_number",
+  "transaction_date",
+  "admitted_amount",
+  "settlement_status",
+  "section_break_investigation",
+  "io_name",
+  "io_contact",
+  "stage_of_case",
+  "case_diary_reference_numbers",
+  "next_investigation_date",
+  "column_break_6",
+  "arrest_made",
+  "custody_type",
+  "seizure_details",
+  "section_break_court",
+  "court_name",
+  "case_number_court",
+  "presiding_judge",
+  "last_order_date",
+  "last_order_summary",
+  "column_break_7",
+  "advocate_name",
+  "advocate_contact",
+  "date_of_hearing",
+  "next_date_of_hearing",
+  "stay_interim_order",
+  "bail_status",
+  "section_break_threat",
+  "threat_perception_level",
+  "type_of_threat",
+  "threat_incidents_recorded",
+  "column_break_8",
+  "protection_requested",
+  "police_protection_granted",
+  "section_break_documents",
+  "uploaded_documents",
+  "document_date",
+  "document_category",
+  "column_break_9",
+  "seizure_list_attached",
+  "evidence_status",
+  "section_break_internal_strategy",
+  "case_strength_assessment",
+  "risk_exposure",
+  "remarks_advocate_notes",
+  "column_break_10",
+  "recommended_action",
+  "next_legal_action_due",
+  "limitation_date_alerts",
+  "linked_counter_cases",
+  "section_break_system",
+  "created_by",
+  "activity_log",
+  "column_break_ponk",
+  "created_date",
+  "last_updated_by",
+  "access_level",
+  "last_updated_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_basic_case",
+   "fieldtype": "Section Break",
+   "label": "BASIC CASE IDENTIFICATION"
+  },
+  {
+   "fieldname": "case_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Case Type",
+   "options": "\nFIR\nComplaint (200 CrPC)\nCheque Bounce (138 NI Act)\nCriminal Misc / Bail\nCivil Suit\nArbitration",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fir_case_number",
+   "fieldtype": "Data",
+   "label": "FIR / Case Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Int",
+   "label": "Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "police_station_court_name",
+   "fieldtype": "Data",
+   "label": "Police Station / Court Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "district",
+   "fieldtype": "Data",
+   "label": "District",
+   "reqd": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_registration_filing",
+   "fieldtype": "Date",
+   "label": "Date of Registration / Filing",
+   "reqd": 1
+  },
+  {
+   "fieldname": "jurisdiction_type",
+   "fieldtype": "Select",
+   "label": "Jurisdiction Type",
+   "options": "\nPolice\nMagistrate Court\nSessions Court\nHigh Court\nSupreme Court",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_party_details",
+   "fieldtype": "Section Break",
+   "label": "PARTY DETAILS"
+  },
+  {
+   "fieldname": "complainant_name",
+   "fieldtype": "Data",
+   "label": "Complainant Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "complainant_address",
+   "fieldtype": "Small Text",
+   "label": "Complainant Address"
+  },
+  {
+   "fieldname": "complainant_contact_number",
+   "fieldtype": "Data",
+   "label": "Complainant Contact Number"
+  },
+  {
+   "fieldname": "complainant_email",
+   "fieldtype": "Data",
+   "label": "Complainant Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "relationship_with_organisation",
+   "fieldtype": "Select",
+   "label": "Relationship with Organisation",
+   "options": "\nProprietor\nDirector\nEmployee\nAssociate"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_accused",
+   "fieldtype": "Section Break",
+   "label": "Accused / Opposite Party (Repeatable Block)"
+  },
+  {
+   "fieldname": "accused_details",
+   "fieldtype": "Table",
+   "label": "Accused Details",
+   "options": "Accused Detail"
+  },
+  {
+   "fieldname": "section_break_organisation",
+   "fieldtype": "Section Break",
+   "label": "ORGANISATION DETAILS"
+  },
+  {
+   "fieldname": "organisation_name",
+   "fieldtype": "Data",
+   "label": "Organisation Name"
+  },
+  {
+   "fieldname": "organisation_type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "\nProprietorship\nPartnership\nPvt Ltd\nLLP"
+  },
+  {
+   "fieldname": "cin_gst",
+   "fieldtype": "Data",
+   "label": "CIN / GST (Optional)"
+  },
+  {
+   "fieldname": "authorised_signatory",
+   "fieldtype": "Data",
+   "label": "Authorised Signatory"
+  },
+  {
+   "fieldname": "business_locations",
+   "fieldtype": "Small Text",
+   "label": "Business Location(s)"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_offence",
+   "fieldtype": "Section Break",
+   "label": "OFFENCE & LEGAL DETAILS"
+  },
+  {
+   "fieldname": "sections_invoked",
+   "fieldtype": "Small Text",
+   "label": "Sections Invoked (IPC, CrPC, NI Act, IT Act, Arms Act etc.)"
+  },
+  {
+   "fieldname": "nature_of_offence",
+   "fieldtype": "Select",
+   "label": "Nature of Offence",
+   "options": "\nCheating\nCriminal Breach of Trust\nCriminal Conspiracy\nForgery\nIntimidation\nEconomic Offence"
+  },
+  {
+   "fieldname": "brief_gist_allegations",
+   "fieldtype": "Small Text",
+   "label": "Brief Gist of Allegations"
+  },
+  {
+   "fieldname": "detailed_case_summary",
+   "fieldtype": "Text Editor",
+   "label": "Detailed Case Summary (Narrative)"
+  },
+  {
+   "fieldname": "amount_involved",
+   "fieldtype": "Currency",
+   "label": "Amount Involved (\u20b9)"
+  },
+  {
+   "fieldname": "property_asset_involved",
+   "fieldtype": "Select",
+   "label": "Property / Asset Involved",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "documents_involved",
+   "fieldtype": "Select",
+   "label": "Documents Involved",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_financial",
+   "fieldtype": "Section Break",
+   "label": "FINANCIAL & TRANSACTION DETAILS"
+  },
+  {
+   "fieldname": "transaction_type",
+   "fieldtype": "Select",
+   "label": "Transaction Type",
+   "options": "\nBank Transfer\nCheque\nCash"
+  },
+  {
+   "fieldname": "cheque_number",
+   "fieldtype": "Data",
+   "label": "Cheque Number(s)"
+  },
+  {
+   "fieldname": "cheque_date",
+   "fieldtype": "Date",
+   "label": "Cheque Date"
+  },
+  {
+   "fieldname": "cheque_amount",
+   "fieldtype": "Currency",
+   "label": "Cheque Amount"
+  },
+  {
+   "fieldname": "bank_name_branch",
+   "fieldtype": "Data",
+   "label": "Bank Name & Branch"
+  },
+  {
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number (Masked)"
+  },
+  {
+   "fieldname": "transaction_date",
+   "fieldtype": "Date",
+   "label": "Transaction Date"
+  },
+  {
+   "fieldname": "disputed_amount",
+   "fieldtype": "Currency",
+   "label": "Disputed Amount"
+  },
+  {
+   "fieldname": "admitted_amount",
+   "fieldtype": "Currency",
+   "label": "Admitted Amount"
+  },
+  {
+   "fieldname": "settlement_status",
+   "fieldtype": "Select",
+   "label": "Settlement Status",
+   "options": "\nPending\nPartial\nFull & Final"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_investigation",
+   "fieldtype": "Section Break",
+   "label": "INVESTIGATION & PROCEDURAL STATUS"
+  },
+  {
+   "fieldname": "io_name",
+   "fieldtype": "Data",
+   "label": "IO Name"
+  },
+  {
+   "fieldname": "io_contact",
+   "fieldtype": "Data",
+   "label": "IO Contact"
+  },
+  {
+   "fieldname": "stage_of_case",
+   "fieldtype": "Select",
+   "label": "Stage of Case",
+   "options": "\nFIR Registered\nInvestigation Ongoing\nChargesheet Filed\nFinal Report\nQuashed"
+  },
+  {
+   "fieldname": "arrest_made",
+   "fieldtype": "Select",
+   "label": "Arrest Made",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "custody_type",
+   "fieldtype": "Select",
+   "label": "Custody Type",
+   "options": "\nPolice\nJudicial"
+  },
+  {
+   "fieldname": "seizure_details",
+   "fieldtype": "Small Text",
+   "label": "Seizure Details"
+  },
+  {
+   "fieldname": "case_diary_reference_numbers",
+   "fieldtype": "Data",
+   "label": "Case Diary Reference Numbers"
+  },
+  {
+   "fieldname": "next_investigation_date",
+   "fieldtype": "Date",
+   "label": "Next Investigation Date \u2013 Reminder to whatsapp/mail/sms before 2 weeks daily"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_court",
+   "fieldtype": "Section Break",
+   "label": "COURT PROCEEDINGS"
+  },
+  {
+   "fieldname": "court_name",
+   "fieldtype": "Data",
+   "label": "Court Name"
+  },
+  {
+   "fieldname": "case_number_court",
+   "fieldtype": "Data",
+   "label": "Case Number (Court)"
+  },
+  {
+   "fieldname": "presiding_judge",
+   "fieldtype": "Data",
+   "label": "Presiding Judge"
+  },
+  {
+   "fieldname": "advocate_name",
+   "fieldtype": "Data",
+   "label": "Advocate Name"
+  },
+  {
+   "fieldname": "advocate_contact",
+   "fieldtype": "Data",
+   "label": "Advocate Contact"
+  },
+  {
+   "fieldname": "date_of_hearing",
+   "fieldtype": "Date",
+   "label": "Date of Hearing"
+  },
+  {
+   "fieldname": "last_order_date",
+   "fieldtype": "Date",
+   "label": "Last Order Date"
+  },
+  {
+   "fieldname": "last_order_summary",
+   "fieldtype": "Small Text",
+   "label": "Last Order Summary"
+  },
+  {
+   "fieldname": "next_date_of_hearing",
+   "fieldtype": "Date",
+   "label": "Next Date of Hearing"
+  },
+  {
+   "fieldname": "bail_status",
+   "fieldtype": "Select",
+   "label": "Bail Status",
+   "options": "\nAnticipatory\nRegular\nRejected"
+  },
+  {
+   "fieldname": "stay_interim_order",
+   "fieldtype": "Select",
+   "label": "Stay / Interim Order",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_threat",
+   "fieldtype": "Section Break",
+   "label": "THREAT & RISK ASSESSMENT (VERY IMPORTANT)"
+  },
+  {
+   "fieldname": "threat_perception_level",
+   "fieldtype": "Select",
+   "label": "Threat Perception Level",
+   "options": "\nLow\nMedium\nHigh"
+  },
+  {
+   "fieldname": "type_of_threat",
+   "fieldtype": "Select",
+   "label": "Type of Threat",
+   "options": "\nPhysical\nLegal\nFinancial\nReputation"
+  },
+  {
+   "fieldname": "threat_incidents_recorded",
+   "fieldtype": "Select",
+   "label": "Threat Incidents Recorded",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "protection_requested",
+   "fieldtype": "Select",
+   "label": "Protection Requested",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "police_protection_granted",
+   "fieldtype": "Select",
+   "label": "Police Protection Granted",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_documents",
+   "fieldtype": "Section Break",
+   "label": "DOCUMENT MANAGEMENT"
+  },
+  {
+   "fieldname": "uploaded_documents",
+   "fieldtype": "Attach",
+   "label": "Uploaded Documents (FIR Copy, Complaint, Agreements, Bank Statements, Notices)"
+  },
+  {
+   "fieldname": "document_date",
+   "fieldtype": "Date",
+   "label": "Document Date"
+  },
+  {
+   "fieldname": "document_category",
+   "fieldtype": "Select",
+   "label": "Document Category",
+   "options": "\nFIR Copy\nComplaint\nAgreements\nBank Statements\nNotices\nOther"
+  },
+  {
+   "fieldname": "seizure_list_attached",
+   "fieldtype": "Select",
+   "label": "Seizure List Attached",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "evidence_status",
+   "fieldtype": "Select",
+   "label": "Evidence Status",
+   "options": "\nOriginal\nCertified Copy\nPhotocopy"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_internal_strategy",
+   "fieldtype": "Section Break",
+   "label": "INTERNAL LEGAL STRATEGY (Restricted Access)"
+  },
+  {
+   "fieldname": "case_strength_assessment",
+   "fieldtype": "Select",
+   "label": "Case Strength Assessment",
+   "options": "\nWeak\nModerate\nStrong"
+  },
+  {
+   "fieldname": "risk_exposure",
+   "fieldtype": "Currency",
+   "label": "Risk Exposure (\u20b9)"
+  },
+  {
+   "fieldname": "recommended_action",
+   "fieldtype": "Select",
+   "label": "Recommended Action",
+   "options": "\nSettlement\nAggressive Prosecution\nQuashing"
+  },
+  {
+   "fieldname": "linked_counter_cases",
+   "fieldtype": "Small Text",
+   "label": "Linked Counter-Cases"
+  },
+  {
+   "fieldname": "limitation_date_alerts",
+   "fieldtype": "Date",
+   "label": "Limitation Date Alerts"
+  },
+  {
+   "fieldname": "next_legal_action_due",
+   "fieldtype": "Date",
+   "label": "Next Legal Action Due"
+  },
+  {
+   "fieldname": "remarks_advocate_notes",
+   "fieldtype": "Text Editor",
+   "label": "Remarks / Advocate Notes"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_system",
+   "fieldtype": "Section Break",
+   "label": "SYSTEM & AUDIT FIELDS"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Link",
+   "label": "Created By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Datetime",
+   "label": "Created Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_updated_by",
+   "fieldtype": "Link",
+   "label": "Last Updated By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_updated_date",
+   "fieldtype": "Datetime",
+   "label": "Last Updated Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "access_level",
+   "fieldtype": "Select",
+   "label": "Access Level",
+   "options": "\nSystem Admin\nLegal Team\nManagement\nOperations\nExternal Advocate\nAudit"
+  },
+  {
+   "fieldname": "activity_log",
+   "fieldtype": "Code",
+   "label": "Activity Log",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ponk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "no_copy": 1,
+   "options": "LEG-.YYYY.-",
+   "print_hide": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-27 11:33:46.013698",
+ "modified_by": "Administrator",
+ "module": "My Lead",
+ "name": "Legal",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -64,6 +64,27 @@ const protectedRoutes = {
               }),
             },
             {
+              path: "legal",
+              lazy: async () => ({
+                Component: (await import("app/pages/sales/legal"))
+                  .default,
+              }),
+            },
+            {
+              path: "legal/add-new",
+              lazy: async () => ({
+                Component: (await import("app/pages/sales/legal/form"))
+                  .default,
+              }),
+            },
+            {
+              path: "legal/edit/:id",
+              lazy: async () => ({
+                Component: (await import("app/pages/sales/legal/form"))
+                  .default,
+              }),
+            },
+            {
               path: "approval",
               lazy: async () => ({
                 Component: (await import("app/pages/sales/approval"))

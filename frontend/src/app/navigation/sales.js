@@ -19,6 +19,40 @@ const getSalesPurchaseType = () => {
 
 const salesPurchaseType = getSalesPurchaseType();
 
+// Define all possible child items
+const allChilds = [
+    {
+        id: 'sales.customers',
+        path: path(ROOT_MASTERS, salesPurchaseType == "sales" ? '/customers' : salesPurchaseType == "legal" ? '/legal' : '/customers'),
+        type: NAV_TYPE_ITEM,
+        title: 'Customers',
+        transKey: salesPurchaseType === 'sales' ? 'nav.sales.customers' : salesPurchaseType == "legal" ? 'nav.sales.legal' : 'nav.sales.land-owners',
+        Icon: MegaphoneIcon,
+    },
+    {
+        id: 'sales.approval',
+        path: path(ROOT_MASTERS, '/approval'),
+        type: NAV_TYPE_ITEM,
+        title: 'Sales Order',
+        transKey: 'nav.sales.approval',
+        Icon: OrderTimerIcon,
+    },
+    {
+        id: 'sales.sales-agent',
+        path: path(ROOT_MASTERS, '/sales-agent'),
+        type: NAV_TYPE_ITEM,
+        title: 'Sales Agent',
+        transKey: 'nav.sales.sales-agent',
+        Icon: UserIcon,
+    },
+];
+
+// Filter childs based on salesPurchaseType
+// If salesPurchaseType == "legal", exclude approval and sales-agent
+const filteredChilds = salesPurchaseType === 'legal' 
+    ? allChilds.filter(child => child.id !== 'sales.approval' && child.id !== 'sales.sales-agent')
+    : allChilds;
+
 export const sales = {
     id: 'sales',
     type: NAV_TYPE_ROOT,
@@ -26,38 +60,5 @@ export const sales = {
     title: 'Sales',
     transKey: 'nav.sales.sales',
     Icon: DualFormsIcon,
-    childs: [
-        {
-            id: 'sales.customers',
-            path: path(ROOT_MASTERS, '/customers'),
-            type: NAV_TYPE_ITEM,
-            title: 'Customers',
-            transKey: salesPurchaseType === 'sales' ? 'nav.sales.customers' : 'nav.sales.land-owners',
-            Icon: MegaphoneIcon,
-        },
-        {
-            id: 'sales.approval',
-            path: path(ROOT_MASTERS, '/approval'),
-            type: NAV_TYPE_ITEM,
-            title: 'Sales Order',
-            transKey: 'nav.sales.approval',
-            Icon: OrderTimerIcon,
-        },
-        // {
-        //     id: 'sales.sales-manager',
-        //     path: path(ROOT_MASTERS, '/sales-manager'),
-        //     type: NAV_TYPE_ITEM,
-        //     title: 'Sales Manager',
-        //     transKey: 'nav.sales.sales-manager',
-        //     Icon: PeopleMonitorIcon,
-        // },
-        {
-            id: 'sales.sales-agent',
-            path: path(ROOT_MASTERS, '/sales-agent'),
-            type: NAV_TYPE_ITEM,
-            title: 'Sales Agent',
-            transKey: 'nav.sales.sales-agent',
-            Icon: UserIcon,
-        },
-    ]
+    childs: filteredChilds
 }

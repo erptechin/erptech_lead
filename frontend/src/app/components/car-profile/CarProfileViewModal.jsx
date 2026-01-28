@@ -285,10 +285,10 @@ export default function CarProfileViewModal({
                     }
 
                     return (
-                      <div key={index} className="flex flex-col">
+                    <div key={index} className="flex flex-col">
                         <span className="text-sm font-medium text-gray-500 dark:text-dark-300 mb-1">
                           {fieldname?.title}
-                        </span>
+                      </span>
                         <button
                           type="button"
                           onClick={() => setPreviewImage(fileUrl)}
@@ -300,7 +300,7 @@ export default function CarProfileViewModal({
                             className="h-24 w-24 object-cover"
                           />
                         </button>
-                      </div>
+                    </div>
                     );
                   })}
                 </div>
