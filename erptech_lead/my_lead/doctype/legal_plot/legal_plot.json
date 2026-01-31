@@ -1,0 +1,617 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:LAP-{YYYY}-{#####}",
+ "creation": "2026-01-27 11:01:06.501846",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_basic_activity",
+  "activity_date",
+  "activity_type",
+  "property_id",
+  "property_location",
+  "column_break_a",
+  "section_break_revenue",
+  "revenue_office_name",
+  "application_type",
+  "revenue_application_number",
+  "date_of_application",
+  "fee_paid",
+  "expected_disposal_date",
+  "current_status",
+  "objection_details",
+  "next_hearing_visit_date",
+  "outcome_order_summary",
+  "certified_copy_required",
+  "certified_copy_collected",
+  "column_break_c",
+  "section_break_civil_court",
+  "civil_case_type",
+  "case_number",
+  "court_name",
+  "plaintiff_name",
+  "defendant_name",
+  "advocate_handling",
+  "date_of_filing",
+  "next_hearing_date",
+  "last_order_date",
+  "last_order_summary",
+  "interim_relief",
+  "stay_status",
+  "risk_level",
+  "impact_on_project",
+  "column_break_d",
+  "section_break_certified_copy",
+  "doc_document_type",
+  "doc_application_date",
+  "doc_application_number",
+  "office_applied_at",
+  "expected_delivery_date",
+  "collected_date",
+  "pending_reason",
+  "urgency_level",
+  "uploaded_copy",
+  "column_break_e",
+  "section_break_daily_log",
+  "person_responsible",
+  "office_visited",
+  "purpose_of_visit",
+  "time_spent",
+  "remarks_field_notes",
+  "follow_up_required",
+  "next_action_date",
+  "column_break_f",
+  "section_break_cost",
+  "fee_type",
+  "amount_paid",
+  "payment_mode",
+  "payment_date",
+  "receipt_uploaded",
+  "budget_head",
+  "column_break_g",
+  "section_break_risk",
+  "legal_risk_category",
+  "critical_deadline",
+  "alert_required",
+  "alert_sent_to",
+  "escalation_level",
+  "compliance_status",
+  "column_break_h",
+  "section_break_management_report",
+  "activities_completed_today",
+  "activities_pending",
+  "new_cases_filed",
+  "orders_received",
+  "revenue_approvals_received",
+  "high_risk_properties",
+  "legal_spend_today",
+  "key_management_notes",
+  "column_break_i",
+  "section_break_system",
+  "entered_by",
+  "entered_on",
+  "verified_by",
+  "verified_date",
+  "last_updated_on",
+  "activity_status",
+  "column_break_j"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_basic_activity",
+   "fieldtype": "Section Break",
+   "label": "LEGAL ACTIVITY TRACKING (CORE PAGE)"
+  },
+  {
+   "fieldname": "activity_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Activity Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "activity_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Activity Type",
+   "options": "\nCivil Case\nRevenue Case\nROR Application\nCertified Copy\nMutation\nConversion\nEncumbrance Certificate\nCourt Appearance\nLegal Notice",
+   "reqd": 1
+  },
+  {
+   "fieldname": "property_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Property ID (Linked)",
+   "options": "Plot Detail"
+  },
+  {
+   "fetch_from": "property_id.location_village",
+   "fieldname": "property_location",
+   "fieldtype": "Data",
+   "label": "Property Location",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_revenue",
+   "fieldtype": "Section Break",
+   "label": "REVENUE & LAND RECORD ACTIVITIES (Tahasil / Revenue Offices)"
+  },
+  {
+   "fieldname": "revenue_office_name",
+   "fieldtype": "Data",
+   "label": "Revenue Office Name"
+  },
+  {
+   "fieldname": "application_type",
+   "fieldtype": "Select",
+   "label": "Application Type",
+   "options": "\nROR\nMutation\nPartition\nConversion"
+  },
+  {
+   "fieldname": "revenue_application_number",
+   "fieldtype": "Data",
+   "label": "Application Number"
+  },
+  {
+   "fieldname": "date_of_application",
+   "fieldtype": "Date",
+   "label": "Date of Application"
+  },
+  {
+   "fieldname": "fee_paid",
+   "fieldtype": "Currency",
+   "label": "Fee Paid (\u20b9)"
+  },
+  {
+   "fieldname": "expected_disposal_date",
+   "fieldtype": "Date",
+   "label": "Expected Disposal Date"
+  },
+  {
+   "fieldname": "current_status",
+   "fieldtype": "Select",
+   "label": "Current Status",
+   "options": "\nFiled\nObjection Raised\nHearing Fixed\nApproved\nRejected"
+  },
+  {
+   "fieldname": "objection_details",
+   "fieldtype": "Small Text",
+   "label": "Objection Details (if any)"
+  },
+  {
+   "fieldname": "next_hearing_visit_date",
+   "fieldtype": "Date",
+   "label": "Next Hearing / Visit Date"
+  },
+  {
+   "fieldname": "outcome_order_summary",
+   "fieldtype": "Small Text",
+   "label": "Outcome / Order Summary"
+  },
+  {
+   "fieldname": "certified_copy_required",
+   "fieldtype": "Select",
+   "label": "Certified Copy Required",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "certified_copy_collected",
+   "fieldtype": "Select",
+   "label": "Certified Copy Collected",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "column_break_c",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_civil_court",
+   "fieldtype": "Section Break",
+   "label": "CIVIL / COURT CASE TRACKING (disputes, injunctions, title suits)"
+  },
+  {
+   "fieldname": "civil_case_type",
+   "fieldtype": "Select",
+   "label": "Case Type",
+   "options": "\nTitle Suit\nInjunction\nDeclaration\nEviction"
+  },
+  {
+   "fieldname": "case_number",
+   "fieldtype": "Data",
+   "label": "Case Number"
+  },
+  {
+   "fieldname": "court_name",
+   "fieldtype": "Data",
+   "label": "Court Name"
+  },
+  {
+   "fieldname": "plaintiff_name",
+   "fieldtype": "Data",
+   "label": "Plaintiff Name"
+  },
+  {
+   "fieldname": "defendant_name",
+   "fieldtype": "Data",
+   "label": "Defendant Name"
+  },
+  {
+   "fieldname": "advocate_handling",
+   "fieldtype": "Data",
+   "label": "Advocate Handling"
+  },
+  {
+   "fieldname": "date_of_filing",
+   "fieldtype": "Date",
+   "label": "Date of Filing"
+  },
+  {
+   "fieldname": "next_hearing_date",
+   "fieldtype": "Date",
+   "label": "Next Hearing Date"
+  },
+  {
+   "fieldname": "last_order_date",
+   "fieldtype": "Date",
+   "label": "Last Order Date"
+  },
+  {
+   "fieldname": "last_order_summary",
+   "fieldtype": "Small Text",
+   "label": "Last Order Summary"
+  },
+  {
+   "fieldname": "interim_relief",
+   "fieldtype": "Select",
+   "label": "Interim Relief",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "stay_status",
+   "fieldtype": "Data",
+   "label": "Stay Status"
+  },
+  {
+   "fieldname": "risk_level",
+   "fieldtype": "Select",
+   "label": "Risk Level",
+   "options": "\nLow\nMedium\nHigh"
+  },
+  {
+   "fieldname": "impact_on_project",
+   "fieldtype": "Select",
+   "label": "Impact on Project",
+   "options": "\nNone\nDelayed\nBlocked"
+  },
+  {
+   "fieldname": "column_break_d",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_certified_copy",
+   "fieldtype": "Section Break",
+   "label": "CERTIFIED COPY & DOCUMENT TRACKING"
+  },
+  {
+   "fieldname": "doc_document_type",
+   "fieldtype": "Select",
+   "label": "Document Type",
+   "options": "\nROR\nSale Deed\nCourt Order\nJudgment"
+  },
+  {
+   "fieldname": "doc_application_date",
+   "fieldtype": "Date",
+   "label": "Application Date"
+  },
+  {
+   "fieldname": "doc_application_number",
+   "fieldtype": "Data",
+   "label": "Application Number"
+  },
+  {
+   "fieldname": "office_applied_at",
+   "fieldtype": "Data",
+   "label": "Office Applied At"
+  },
+  {
+   "fieldname": "expected_delivery_date",
+   "fieldtype": "Date",
+   "label": "Expected Delivery Date"
+  },
+  {
+   "fieldname": "collected_date",
+   "fieldtype": "Date",
+   "label": "Collected Date"
+  },
+  {
+   "fieldname": "pending_reason",
+   "fieldtype": "Small Text",
+   "label": "Pending Reason"
+  },
+  {
+   "fieldname": "urgency_level",
+   "fieldtype": "Select",
+   "label": "Urgency Level",
+   "options": "\nNormal\nHigh"
+  },
+  {
+   "fieldname": "uploaded_copy",
+   "fieldtype": "Select",
+   "label": "Uploaded Copy",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "column_break_e",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_daily_log",
+   "fieldtype": "Section Break",
+   "label": "DAILY LEGAL ACTIVITY LOG (HUMAN WORK TRACKING)"
+  },
+  {
+   "fieldname": "person_responsible",
+   "fieldtype": "Select",
+   "label": "Person Responsible",
+   "options": "\nLegal Executive\nAdvocate Clerk\nLiaison Officer"
+  },
+  {
+   "fieldname": "office_visited",
+   "fieldtype": "Select",
+   "label": "Office Visited",
+   "options": "\nCourt\nTahasil\nRegistry"
+  },
+  {
+   "fieldname": "purpose_of_visit",
+   "fieldtype": "Data",
+   "label": "Purpose of Visit"
+  },
+  {
+   "fieldname": "time_spent",
+   "fieldtype": "Data",
+   "label": "Time Spent"
+  },
+  {
+   "fieldname": "remarks_field_notes",
+   "fieldtype": "Small Text",
+   "label": "Remarks / Field Notes"
+  },
+  {
+   "fieldname": "follow_up_required",
+   "fieldtype": "Select",
+   "label": "Follow-Up Required",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "next_action_date",
+   "fieldtype": "Date",
+   "label": "Next Action Date"
+  },
+  {
+   "fieldname": "column_break_f",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_cost",
+   "fieldtype": "Section Break",
+   "label": "COST & PAYMENT TRACKING"
+  },
+  {
+   "fieldname": "fee_type",
+   "fieldtype": "Select",
+   "label": "Fee Type",
+   "options": "\nCourt Fee\nStamp Duty\nAdvocate Fee\nGovt Fee"
+  },
+  {
+   "fieldname": "amount_paid",
+   "fieldtype": "Currency",
+   "label": "Amount Paid (\u20b9)"
+  },
+  {
+   "fieldname": "payment_mode",
+   "fieldtype": "Select",
+   "label": "Payment Mode",
+   "options": "\nCash\nCheque\nBank Transfer\nOnline"
+  },
+  {
+   "fieldname": "payment_date",
+   "fieldtype": "Date",
+   "label": "Payment Date"
+  },
+  {
+   "fieldname": "receipt_uploaded",
+   "fieldtype": "Select",
+   "label": "Receipt Uploaded",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "budget_head",
+   "fieldtype": "Data",
+   "label": "Budget Head"
+  },
+  {
+   "fieldname": "column_break_g",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_risk",
+   "fieldtype": "Section Break",
+   "label": "RISK, COMPLIANCE & ALERTS"
+  },
+  {
+   "fieldname": "legal_risk_category",
+   "fieldtype": "Select",
+   "label": "Legal Risk Category",
+   "options": "\nTitle Risk\nPossession Risk\nLitigation Risk"
+  },
+  {
+   "fieldname": "critical_deadline",
+   "fieldtype": "Date",
+   "label": "Critical Deadline"
+  },
+  {
+   "fieldname": "alert_required",
+   "fieldtype": "Select",
+   "label": "Alert Required",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "alert_sent_to",
+   "fieldtype": "Data",
+   "label": "Alert Sent To"
+  },
+  {
+   "fieldname": "escalation_level",
+   "fieldtype": "Select",
+   "label": "Escalation Level",
+   "options": "\nLegal Head\nManagement"
+  },
+  {
+   "fieldname": "compliance_status",
+   "fieldtype": "Select",
+   "label": "Compliance Status",
+   "options": "\nOK\nNon-Compliant"
+  },
+  {
+   "fieldname": "column_break_h",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_management_report",
+   "fieldtype": "Section Break",
+   "label": "MANAGEMENT DAILY REPORT (AUTO-GENERATED)"
+  },
+  {
+   "fieldname": "activities_completed_today",
+   "fieldtype": "Small Text",
+   "label": "Activities Completed Today",
+   "read_only": 1
+  },
+  {
+   "fieldname": "activities_pending",
+   "fieldtype": "Small Text",
+   "label": "Activities Pending",
+   "read_only": 1
+  },
+  {
+   "fieldname": "new_cases_filed",
+   "fieldtype": "Int",
+   "label": "New Cases Filed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "orders_received",
+   "fieldtype": "Int",
+   "label": "Orders Received",
+   "read_only": 1
+  },
+  {
+   "fieldname": "revenue_approvals_received",
+   "fieldtype": "Int",
+   "label": "Revenue Approvals Received",
+   "read_only": 1
+  },
+  {
+   "fieldname": "high_risk_properties",
+   "fieldtype": "Small Text",
+   "label": "High-Risk Properties",
+   "read_only": 1
+  },
+  {
+   "fieldname": "legal_spend_today",
+   "fieldtype": "Currency",
+   "label": "Legal Spend Today (\u20b9)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "key_management_notes",
+   "fieldtype": "Text Editor",
+   "label": "Key Management Notes",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_i",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_system",
+   "fieldtype": "Section Break",
+   "label": "SYSTEM & AUDIT FIELDS"
+  },
+  {
+   "fieldname": "entered_by",
+   "fieldtype": "Link",
+   "label": "Entered By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "entered_on",
+   "fieldtype": "Datetime",
+   "label": "Entered On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "verified_by",
+   "fieldtype": "Link",
+   "label": "Verified By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "verified_date",
+   "fieldtype": "Date",
+   "label": "Verified Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_updated_on",
+   "fieldtype": "Datetime",
+   "label": "Last Updated On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "activity_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Activity Status",
+   "options": "\nOpen\nClosed\nOn Hold"
+  },
+  {
+   "fieldname": "column_break_j",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-31 11:54:28.552475",
+ "modified_by": "Administrator",
+ "module": "My Lead",
+ "name": "Legal Plot",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

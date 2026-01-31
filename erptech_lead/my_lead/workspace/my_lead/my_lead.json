@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"PADnwOfZ9T\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">My Lead</span>\",\"col\":12}},{\"id\":\"Nm0cmFS7Bd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mangers\",\"col\":3}},{\"id\":\"KS0_JIUYbL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Agents\",\"col\":3}},{\"id\":\"pQp-7t_m6o\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leads\",\"col\":3}},{\"id\":\"6NNi5328v2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plot Detail\",\"col\":3}}]",
+ "content": "[{\"id\":\"PADnwOfZ9T\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">My Lead</span>\",\"col\":12}},{\"id\":\"Nm0cmFS7Bd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mangers\",\"col\":3}},{\"id\":\"KS0_JIUYbL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Agents\",\"col\":3}},{\"id\":\"pQp-7t_m6o\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leads\",\"col\":3}},{\"id\":\"6NNi5328v2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plot Detail\",\"col\":3}},{\"id\":\"-PdS1E3zKu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Legal\",\"col\":3}},{\"id\":\"4yvkD0CHpy\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Legal Plot\",\"col\":3}}]",
  "creation": "2025-11-08 21:56:56.595244",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "My Lead",
  "links": [],
- "modified": "2026-01-09 17:26:53.194757",
+ "modified": "2026-01-31 11:31:15.160150",
  "modified_by": "Administrator",
  "module": "My Lead",
  "name": "My Lead",
@@ -28,9 +28,25 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Legal",
+   "link_to": "Legal",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Mangers",
    "link_to": "User",
    "stats_filter": "[[\"User\",\"role_profile_name\",\"=\",\"Lead Manager\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Legal Plot",
+   "link_to": "Legal Plot",
+   "stats_filter": "[]",
    "type": "DocType"
   },
   {

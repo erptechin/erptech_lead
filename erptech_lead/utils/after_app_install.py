@@ -114,7 +114,7 @@ def assign_profile_to_roles():
 
 def add_role_permissions():
     """Add role permissions for Lead Manager and Lead User"""
-    doctypes = ["Lead", "Plot Detail", "Lead Follow Up History", "Legal"]
+    doctypes = ["Lead", "Plot Detail", "Lead Follow Up History", "Legal", "Legal Plot"]
     
     # Add permissions for Lead Manager - all access
     if frappe.db.exists("Role", "Lead Manager"):

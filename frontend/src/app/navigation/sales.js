@@ -30,6 +30,14 @@ const allChilds = [
         Icon: MegaphoneIcon,
     },
     {
+        id: 'sales.legal-plot',
+        path: path(ROOT_MASTERS, '/legal-plot'),
+        type: NAV_TYPE_ITEM,
+        title: 'Legal Plot',
+        transKey: 'nav.sales.legal-plot',
+        Icon: MegaphoneIcon,
+    },
+    {
         id: 'sales.approval',
         path: path(ROOT_MASTERS, '/approval'),
         type: NAV_TYPE_ITEM,
@@ -48,10 +56,10 @@ const allChilds = [
 ];
 
 // Filter childs based on salesPurchaseType
-// If salesPurchaseType == "legal", exclude approval and sales-agent
-const filteredChilds = salesPurchaseType === 'legal' 
-    ? allChilds.filter(child => child.id !== 'sales.approval' && child.id !== 'sales.sales-agent')
-    : allChilds;
+// If salesPurchaseType == "legal", show Legal + Legal Plot only; else show all except Legal Plot
+const filteredChilds = salesPurchaseType === 'legal'
+    ? allChilds.filter(child => child.id === 'sales.customers' || child.id === 'sales.legal-plot')
+    : allChilds.filter(child => child.id !== 'sales.legal-plot');
 
 export const sales = {
     id: 'sales',

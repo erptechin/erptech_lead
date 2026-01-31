@@ -85,6 +85,27 @@ const protectedRoutes = {
               }),
             },
             {
+              path: "legal-plot",
+              lazy: async () => ({
+                Component: (await import("app/pages/sales/legal_plot"))
+                  .default,
+              }),
+            },
+            {
+              path: "legal-plot/add-new",
+              lazy: async () => ({
+                Component: (await import("app/pages/sales/legal_plot/form"))
+                  .default,
+              }),
+            },
+            {
+              path: "legal-plot/edit/:id",
+              lazy: async () => ({
+                Component: (await import("app/pages/sales/legal_plot/form"))
+                  .default,
+              }),
+            },
+            {
               path: "approval",
               lazy: async () => ({
                 Component: (await import("app/pages/sales/approval"))
