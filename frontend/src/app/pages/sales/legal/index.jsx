@@ -50,10 +50,6 @@ export default function ListData() {
       pageName={pageName}
       doctype={doctype}
       fields={fields}
-      addNewRoute={false}
-      hideAddNew={true}
-      hideDelete={true}
-      hideEdit={true}
       storageKey="approval"
       data={orders}
       info={info}

@@ -407,7 +407,7 @@
   {
    "fieldname": "next_investigation_date",
    "fieldtype": "Date",
-   "label": "Next Investigation Date \u2013 Reminder to whatsapp/mail/sms before 2 weeks daily"
+   "label": "Next Investigation Date"
   },
   {
    "fieldname": "column_break_6",
@@ -663,7 +663,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-27 11:33:46.013698",
+ "modified": "2026-01-31 11:12:09.213175",
  "modified_by": "Administrator",
  "module": "My Lead",
  "name": "Legal",
