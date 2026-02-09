@@ -1,5 +1,6 @@
 // Import Dependencies
 import { createColumnHelper } from "@tanstack/react-table";
+import { createElement } from "react";
 
 // Local Imports
 import { RowActions } from "./RowActions";
@@ -15,16 +16,27 @@ import {
     TotalCell,
     BadgeCell,
     ProgressCell,
-    RoleCell,
-    ImageCell
+    RoleCell
 } from "./rows";
 
 // ----------------------------------------------------------------------
 
 const columnHelper = createColumnHelper();
 
-export function Columns(fields = [], fields_order = [], isPrint = false) {
+export function Columns(fields = [], fields_order = [], isPrint = false, showPrint = false, showOnlyPrint = false) {
     let returnColumns = []
+    // Sort fields based on fields_order array
+    // const sortedFields = [...fields].sort((a, b) => {
+    //     const indexA = fields_order.indexOf(a.idx);
+    //     const indexB = fields_order.indexOf(b.idx);
+
+    //     // If field is not in fields_order, put it at the end
+    //     if (indexA === -1) return 1;
+    //     if (indexB === -1) return -1;
+
+    //     return indexA - indexB;
+    // });
+
     // Check box
     returnColumns.push(columnHelper.display({
         id: "select",
@@ -44,15 +56,6 @@ export function Columns(fields = [], fields_order = [], isPrint = false) {
 
     for (let item of fields) {
 
-        // Attach Image
-        if (item.fieldtype == 'Attach Image') {
-            returnColumns.push(columnHelper.accessor((row) => row[item.fieldname], {
-                id: item.fieldname,
-                label: item.label,
-                header: item.label,
-                cell: ImageCell,
-            }))
-        }
 
         // Percent
         if (item.fieldtype == 'Percent') {
@@ -147,8 +150,6 @@ export function Columns(fields = [], fields_order = [], isPrint = false) {
                 cell: DateCell,
             }))
         }
-
-
     }
 
     if (isPrint) {
@@ -160,11 +161,15 @@ export function Columns(fields = [], fields_order = [], isPrint = false) {
         }))
     }
 
+    const ActionsCell = (props) => {
+        return createElement(RowActions, { ...props, showPrint, showOnlyPrint });
+    };
+    
     returnColumns.push(columnHelper.display({
         id: "actions",
         label: "Row Actions",
         header: "Actions",
-        cell: RowActions
+        cell: ActionsCell
     }))
 
     return returnColumns

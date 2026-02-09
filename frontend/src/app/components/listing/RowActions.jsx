@@ -1,16 +1,8 @@
 // Import Dependencies
 import { useNavigate } from "react-router";
 import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Transition,
-} from "@headlessui/react";
-import {
-  EllipsisHorizontalIcon,
-  EyeIcon,
   PencilIcon,
+  PrinterIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
@@ -21,18 +13,15 @@ import PropTypes from "prop-types";
 import { ConfirmModal } from "components/shared/ConfirmModal";
 import { Button } from "components/ui";
 import { useDeleteData } from "hooks/useApiHook";
-import { useAuthContext } from "app/contexts/auth/context";
 // ----------------------------------------------------------------------
 
-export function RowActions({ row, table, hideDelete = false, hideEdit = false }) {
+export function RowActions({ row, table, isPrint, showPrint = false, showOnlyPrint = false }) {
   const navigate = useNavigate();
   const doctype = table.options.doctype
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [confirmDeleteLoading, setConfirmDeleteLoading] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
-  const { user: { user_roles } } = useAuthContext();
-  const role = user_roles[doctype];
 
   const mutation = useDeleteData((data) => {
     if (data && data.success) {
@@ -69,95 +58,73 @@ export function RowActions({ row, table, hideDelete = false, hideEdit = false })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [row]);
 
+  const handlePrint = () => {
+    window.open(`/printview?doctype=${doctype}&name=${row.original.id}&no_letterhead=1&letterhead=No%20Letterhead&settings=%7B%7D&_lang=en`, "_blank");
+  };
+
   const state = deleteError ? "error" : deleteSuccess ? "success" : "pending";
-
-  // Check if any menu items should be shown
-  const showEdit = !hideEdit && role?.write == 1;
-  const showDelete = !hideDelete && role?.delete == 1;
-  const hasMenuItems = showEdit || showDelete;
-
-  // If no menu items, don't render anything
-  if (!hasMenuItems) {
-    return null;
-  }
 
   return (
     <>
-      <div className="flex justify-center">
-        <Menu as="div" className="relative inline-block text-left">
-          <MenuButton
-            as={Button}
+      <div className="flex justify-center gap-1">
+        {showOnlyPrint ? (
+          <Button
             variant="flat"
             isIcon
             className="size-7 rounded-full"
+            onClick={handlePrint}
+            title="Print"
           >
-            <EllipsisHorizontalIcon className="size-4.5" />
-          </MenuButton>
-          <Transition
-            as={MenuItems}
-            enter="transition ease-out"
-            enterFrom="opacity-0 translate-y-2"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-in"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-2"
-            className="absolute min-w-[10rem] rounded-lg border border-gray-300 bg-white py-1 shadow-lg shadow-gray-200/50 outline-hidden focus-visible:outline-hidden dark:border-dark-500 dark:bg-dark-750 dark:shadow-none ltr:right-0 rtl:left-0 z-500 top-[-45px] right-[45px]"
-          >
-            {/* <MenuItem>
-              {({ focus }) => (
-                <button
-                  className={clsx(
-                    "flex h-9 w-full items-center space-x-3 px-3 tracking-wide outline-hidden transition-colors ",
-                    focus &&
-                    "bg-gray-100 text-gray-800 dark:bg-dark-600 dark:text-dark-100",
-                  )}
-                >
-                  <EyeIcon className="size-4.5 stroke-1" />
-                  <span>View</span>
-                </button>
+            <PrinterIcon className="size-4.5 stroke-1 text-yellow-600" />
+          </Button>
+        ) : (
+          <>
+            <Button
+              variant="flat"
+              isIcon
+              className="size-7 rounded-full"
+              onClick={() => navigate(`edit/${row.original.id}`)}
+              title="Edit"
+            >
+              <PencilIcon className="size-4.5 stroke-1 text-green-600" />
+            </Button>
+            {showPrint && (
+              <Button
+                variant="flat"
+                isIcon
+                className="size-7 rounded-full"
+                onClick={handlePrint}
+                title="Print"
+              >
+                <PrinterIcon className="size-4.5 stroke-1 text-yellow-600" />
+              </Button>
+            )}
+            <Button
+              variant="flat"
+              isIcon
+              className={clsx(
+                "size-7 rounded-full text-this dark:text-this-light",
+                "hover:bg-this/10 dark:hover:bg-this-light/10",
               )}
-            </MenuItem> */}
-            {showEdit && <MenuItem>
-              {({ focus }) => (
-                <button
-                  onClick={() => navigate(`edit/${row.original.id}`)}
-                  className={clsx(
-                    "flex h-9 w-full items-center space-x-3 px-3 tracking-wide outline-hidden transition-colors ",
-                    focus &&
-                    "bg-gray-100 text-gray-800 dark:bg-dark-600 dark:text-dark-100",
-                  )}
-                >
-                  <PencilIcon className="size-4.5 stroke-1" />
-                  <span>Edit</span>
-                </button>
-              )}
-            </MenuItem>}
-            {showDelete && <MenuItem>
-              {({ focus }) => (
-                <button
-                  onClick={openModal}
-                  className={clsx(
-                    "this:error flex h-9 w-full items-center space-x-3 px-3 tracking-wide text-this outline-hidden transition-colors dark:text-this-light ",
-                    focus && "bg-this/10 dark:bg-this-light/10",
-                  )}
-                >
-                  <TrashIcon className="size-4.5 stroke-1" />
-                  <span>Delete</span>
-                </button>
-              )}
-            </MenuItem>}
-          </Transition>
-        </Menu>
+              onClick={openModal}
+              title="Delete"
+            >
+              <TrashIcon className="size-4.5 stroke-1 text-red-600" />
+            </Button>
+          </>
+        )}
       </div>
 
-      <ConfirmModal
-        show={deleteModalOpen}
-        onClose={closeModal}
-        messages={confirmMessages}
-        onOk={handleDeleteRows}
-        confirmLoading={confirmDeleteLoading}
-        state={state}
-      />
+      {!showOnlyPrint && (
+        <ConfirmModal
+          show={deleteModalOpen}
+          onClose={closeModal}
+          messages={confirmMessages}
+          onOk={handleDeleteRows}
+          confirmLoading={confirmDeleteLoading}
+          state={state}
+        />
+      )}
     </>
   );
 }
@@ -165,6 +132,7 @@ export function RowActions({ row, table, hideDelete = false, hideEdit = false })
 RowActions.propTypes = {
   row: PropTypes.object,
   table: PropTypes.object,
-  hideDelete: PropTypes.bool,
-  hideEdit: PropTypes.bool,
+  isPrint: PropTypes.bool,
+  showPrint: PropTypes.bool,
+  showOnlyPrint: PropTypes.bool,
 };

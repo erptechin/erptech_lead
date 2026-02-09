@@ -8,7 +8,8 @@ import {
 import { useDisclosure } from "hooks";
 import { Button, Table, THead, TBody, Th, Tr, Td } from "components/ui";
 import { forwardRef, Fragment, useEffect, useState } from "react";
-import { TiDelete, TiEdit } from "react-icons/ti";
+import { TiDelete } from "react-icons/ti";
+import { FiEdit } from "react-icons/fi";
 import { ConfirmModal } from "components/shared/ConfirmModal";
 
 // Local Imports
@@ -17,13 +18,12 @@ import SubValues from "./subValues";
 // ----------------------------------------------------------------------
 
 const TableBox = forwardRef(({ onChange, values, label, rootItem, tableFields, error, readOnly }, ref) => {
-  const [listData, setListData] = useState([]);
   const [newValues, setNewValues] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [state, setState] = useState({ status: "pending" });
-  const [editingItem, setEditingItem] = useState(null);
-  const [editingIndex, setEditingIndex] = useState(-1);
+  const [editItem, setEditItem] = useState(null);
+  const [editIndex, setEditIndex] = useState(-1);
 
   useEffect(() => {
     if (values) {
@@ -33,66 +33,62 @@ const TableBox = forwardRef(({ onChange, values, label, rootItem, tableFields, e
 
 
   const [isOpen, { open, close }] = useDisclosure(false);
+  const [isEditOpen, { open: openEdit, close: closeEdit }] = useDisclosure(false);
 
-  const openAddModal = () => {
-    setEditingItem(null);
-    setEditingIndex(-1);
-    open();
-  };
-
-  const openEditModal = (item, index) => {
-    setEditingItem(item);
-    setEditingIndex(index);
-    open();
-  };
-
-  const closePopup = async (data) => {
+  const closePopup = (data) => {
     if (data) {
-      let updatedValues = [...newValues];
-
-      if (editingIndex >= 0) {
-        // Edit existing item
-        updatedValues[editingIndex] = data;
-      } else {
-        // Add new item
-        const seen = new Set();
-        const uniqueLists = [];
-
-        if (rootItem.sub_fields) {
-          for (const item of [...newValues, data]) {
-            const key = rootItem.sub_fields.map(k => item[k.fieldname]).join("|");
-            if (!seen.has(key)) {
-              seen.add(key);
-              uniqueLists.push(item);
-            }
+      const seen = new Set();
+      const uniqueLists = [];
+      if (rootItem.sub_fields) {
+        for (const item of [...newValues, data]) {
+          const key = rootItem.sub_fields.map(k => item[k.fieldname]).join("|");
+          if (!seen.has(key)) {
+            seen.add(key);
+            uniqueLists.push(item);
           }
-          updatedValues = uniqueLists;
-        } else {
-          updatedValues.push(data);
         }
+      } else {
+        uniqueLists.push(data);
       }
+      setNewValues(uniqueLists)
+      onChange(uniqueLists)
+    }
+    close()
+  }
 
+  const closeEditPopup = (data) => {
+    if (data && editIndex > -1) {
+      const updatedValues = [...newValues];
+      updatedValues[editIndex] = data;
       setNewValues(updatedValues);
       onChange(updatedValues);
-
-      // Fetch display data for new/updated items
-      // await fetchDisplayData(updatedValues);
     }
-    close();
-    setEditingItem(null);
-    setEditingIndex(-1);
+    setEditItem(null);
+    setEditIndex(-1);
+    closeEdit();
   }
+
+  const handleEdit = (item, index) => {
+    setEditItem(item);
+    setEditIndex(index);
+  }
+
+  // Open edit modal when editItem is set
+  useEffect(() => {
+    if (editItem && editIndex > -1) {
+      openEdit();
+    }
+  }, [editItem, editIndex]);
 
   const handleDelete = () => {
     if (state) {
-      const new_values = [...newValues];
+      const new_values = newValues
       if (state.key > -1) {
         new_values.splice(state.key, 1);
       }
-      setNewValues(new_values);
-      onChange(new_values);
-      setState({ status: "success" });
-      // fetchDisplayData(new_values);
+      setNewValues(new_values)
+      onChange(new_values)
+      setState({ status: "success" })
     }
   }
 
@@ -106,23 +102,9 @@ const TableBox = forwardRef(({ onChange, values, label, rootItem, tableFields, e
     },
   };
 
-  // Improved getDisplayValue helper function
-  const getDisplayValue = (item, field) => {
-    const rawValue = item[field.fieldname];
-
-    if (field.fieldtype === "Link" && listData[field.fieldname]) {
-      const linkedData = listData[field.fieldname].find(linkedItem => linkedItem.name === rawValue);
-      if (linkedData) {
-        // Try to find a display field, otherwise use name
-        const displayFields = tableFields[field.fieldname] || [];
-        // Ensure displayFields is an array before calling find
-        const fieldsArray = Array.isArray(displayFields) ? displayFields : [];
-        const displayField = fieldsArray.find(f => f !== 'name') || 'name';
-        return linkedData[displayField] || linkedData.name || rawValue;
-      }
-    }
-
-    return rawValue;
+  // Add getDisplayValue helper function
+  const getDisplayValue = (item, fieldName) => {
+    return item[fieldName];
   };
 
   return (
@@ -130,7 +112,7 @@ const TableBox = forwardRef(({ onChange, values, label, rootItem, tableFields, e
       <div>
         <div className="flex items-center">
           <label className="input-label"><span className="input-label">{label}</span></label>
-          {!readOnly && <Button onClick={openAddModal} color="secondary" className="ml-auto">ADD NEW</Button>}
+          {!readOnly && <Button onClick={open} color="secondary" className="ml-auto">ADD NEW</Button>}
         </div>
 
         <div className="relative mt-1.5">
@@ -149,7 +131,7 @@ const TableBox = forwardRef(({ onChange, values, label, rootItem, tableFields, e
                       </Th>
                     }
                   })}
-                  <Th className="w-24 bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">Action</Th>
+                  <Th className="w-16 bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">Action</Th>
                 </Tr>
               </THead>
               <TBody>
@@ -159,33 +141,31 @@ const TableBox = forwardRef(({ onChange, values, label, rootItem, tableFields, e
                     {rootItem?.sub_fields?.map((field) => {
                       if (field.fieldname in tableFields) {
                         return <Td key={field.fieldname}>
-                          {getDisplayValue(item, field)}
+                          {getDisplayValue(item, field.fieldname)}
                         </Td>
                       }
                     })}
                     <Td>
-                      <div className="flex gap-1">
-                        {!readOnly && (
-                          <>
-                            <Button
-                              onClick={() => openEditModal(item, index)}
-                              color="primary"
-                              isIcon
-                              className="size-6 rounded-full"
-                            >
-                              <TiEdit className="size-4" />
-                            </Button>
-                            <Button
-                              onClick={() => { setDeleteModalOpen(true); setState({ status: "pending", key: index }) }}
-                              color="error"
-                              isIcon
-                              className="size-6 rounded-full"
-                            >
-                              <TiDelete className="size-4" />
-                            </Button>
-                          </>
-                        )}
-                      </div>
+                      {!readOnly && (
+                        <div className="flex gap-1">
+                          <Button
+                            onClick={() => handleEdit(item, index)}
+                            color="primary"
+                            isIcon
+                            className="size-6 rounded-full"
+                          >
+                            <FiEdit className="size-4" />
+                          </Button>
+                          <Button
+                            onClick={() => { setDeleteModalOpen(true); setState({ status: "pending", key: index }) }}
+                            color="error"
+                            isIcon
+                            className="size-6 rounded-full"
+                          >
+                            <TiDelete className="size-5" />
+                          </Button>
+                        </div>
+                      )}
                     </Td>
                   </Tr>
                 ))}
@@ -218,13 +198,42 @@ const TableBox = forwardRef(({ onChange, values, label, rootItem, tableFields, e
             leaveTo="translate-x-full"
           >
             <DialogPanel className="fixed right-0 top-0 flex h-full sm:w-[95%] md:w-[600px] transform-gpu flex-col bg-white transition-transform duration-200 dark:bg-dark-700">
-              {isOpen && !readOnly && (
+              {isOpen && !readOnly && (<SubValues onClose={(data) => closePopup(data)} data={null} doctype={rootItem.options} readOnly={readOnly} />)}
+            </DialogPanel>
+          </TransitionChild>
+        </Dialog>
+      </Transition>
+
+      <Transition appear show={isEditOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-100" onClose={closeEdit}>
+          <TransitionChild
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity dark:bg-black/40" />
+          </TransitionChild>
+          <TransitionChild
+            as={Fragment}
+            enter="ease-out transform-gpu transition-transform duration-200"
+            enterFrom="translate-x-full"
+            enterTo="translate-x-0"
+            leave="ease-in transform-gpu transition-transform duration-200"
+            leaveFrom="translate-x-0"
+            leaveTo="translate-x-full"
+          >
+            <DialogPanel className="fixed right-0 top-0 flex h-full sm:w-[95%] md:w-[600px] transform-gpu flex-col bg-white transition-transform duration-200 dark:bg-dark-700">
+              {isEditOpen && !readOnly && editItem && (
                 <SubValues
-                  onClose={(data) => closePopup(data)}
-                  id={editingItem?.name || null}
+                  onClose={(data) => closeEditPopup(data)}
+                  data={editItem}
                   doctype={rootItem.options}
                   readOnly={readOnly}
-                  initialData={editingItem}
+                  initialValues={editItem}
                 />
               )}
             </DialogPanel>

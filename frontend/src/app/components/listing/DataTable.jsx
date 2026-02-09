@@ -11,7 +11,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, useEffect } from "react";
 import { Page } from "components/shared/Page";
 import { PlusIcon } from "@heroicons/react/20/solid";
 
@@ -33,19 +33,16 @@ import { Columns } from "app/components/listing/columns";
 import { Toolbar } from "app/components/listing/Toolbar";
 import { useThemeContext } from "app/contexts/theme/context";
 import { getUserAgentBrowser } from "utils/dom/getUserAgentBrowser";
-import { useAuthContext } from "app/contexts/auth/context";
 import PropTypes from "prop-types";
 
 const isSafari = getUserAgentBrowser() === "Safari";
 
-export function DataTable({
-  pageName,
-  doctype,
-  fields,
+export function DataTable({ 
+  pageName, 
+  doctype, 
+  fields, 
   addNewRoute = "add-new",
   hideAddNew = false,
-  hideDelete = false,
-  hideEdit = false,
   storageKey = "default",
   isPrint = false,
   showPrint = false,
@@ -53,12 +50,10 @@ export function DataTable({
   data = [],
   info = null,
   search = { doctype, page: 1, page_length: 10, fields: null },
-  setSearch = () => { },
-  onDeleteRow = () => { },
-  onDeleteRows = () => { }
+  setSearch = () => {},
+  onDeleteRow = () => {},
+  onDeleteRows = () => {}
 }) {
-  const { user: { user_roles } } = useAuthContext();
-  const role = user_roles[doctype];
   const { cardSkin } = useThemeContext();
   const navigate = useNavigate();
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
@@ -80,15 +75,36 @@ export function DataTable({
 
   const [columnPinning, setColumnPinning] = useLocalStorage(
     `column-pinning-${storageKey}`,
-    {},
+    { left: ["name"], right: ["actions"] },
   );
+
+  useEffect(() => {
+    const left = Array.isArray(columnPinning?.left) ? columnPinning.left : [];
+    const right = Array.isArray(columnPinning?.right) ? columnPinning.right : [];
+    const nextLeft = left.includes("name")
+      ? left.filter((id) => id !== "actions")
+      : ["name", ...left.filter((id) => id !== "actions")];
+    const nextRight = right.includes("actions")
+      ? right.filter((id) => id !== "name")
+      : ["actions", ...right.filter((id) => id !== "name")];
+
+    const leftSame =
+      left.length === nextLeft.length &&
+      left.every((id, idx) => id === nextLeft[idx]);
+    const rightSame =
+      right.length === nextRight.length &&
+      right.every((id, idx) => id === nextRight[idx]);
+
+    if (leftSame && rightSame) return;
+    setColumnPinning((prev) => ({ ...prev, left: nextLeft, right: nextRight }));
+  }, [columnPinning, setColumnPinning]);
 
   const cardRef = useRef();
   const { width: cardWidth } = useBoxSize({ ref: cardRef });
 
   const table = useReactTable({
     data: data,
-    columns: Columns(info?.fields, [], isPrint, showPrint, showOnlyPrint, role, hideDelete, hideEdit),
+    columns: Columns(info?.fields, [], isPrint, showPrint, showOnlyPrint),
     doctype,
     state: {
       globalFilter,
@@ -136,24 +152,23 @@ export function DataTable({
   useDidUpdate(() => table.resetRowSelection(), [data]);
   useLockScrollbar(tableSettings.enableFullScreen);
 
-
   return (
     <Page title={pageName}>
       <div className="transition-content grid grid-cols-1 grid-rows-[auto_auto_1fr] px-(--margin-x) py-4">
         <div className="flex items-center justify-between space-x-2">
           <div className="min-w-0">
             <h2 className="truncate text-lg font-medium text-gray-800 dark:text-dark-50">
-              {pageName}s List
+              {pageName}
             </h2>
           </div>
-          {!hideAddNew && role?.create == 1 && (
+          {!hideAddNew && (
             <Button
               className="h-7 space-x-1 rounded-md px-2 text-xs"
               color="primary"
               onClick={() => navigate(addNewRoute)}
             >
               <PlusIcon className="size-4" />
-              <span>New {pageName}</span>
+              <span>New {doctype}</span>
             </Button>
           )}
         </div>
@@ -189,9 +204,9 @@ export function DataTable({
                             "bg-gray-200 font-bold text-xs uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100 first:ltr:rounded-tl-lg last:ltr:rounded-tr-lg first:rtl:rounded-tr-lg last:rtl:rounded-tl-lg px-3 py-3 max-w-xs",
                             header.column.getCanPin() && [
                               header.column.getIsPinned() === "left" &&
-                              "sticky z-2 ltr:left-0 rtl:right-0",
+                              "sticky z-2 ltr:left-0 rtl:right-0 bg-[var(--color-gray-200)]",
                               header.column.getIsPinned() === "right" &&
-                              "sticky z-2 ltr:right-0 rtl:left-0",
+                              "sticky z-2 ltr:right-0 rtl:left-0 bg-[var(--color-gray-200)]",
                             ],
                           )}
                         >
@@ -204,14 +219,14 @@ export function DataTable({
                                 {header.isPlaceholder
                                   ? null
                                   : (() => {
-                                    const headerText = flexRender(
-                                      header.column.columnDef.header,
-                                      header.getContext(),
-                                    );
-                                    return typeof headerText === 'string' && headerText.length > 15
-                                      ? headerText.substring(0, 15) + '...'
-                                      : headerText;
-                                  })()}
+                                      const headerText = flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext(),
+                                      );
+                                      return typeof headerText === 'string' && headerText.length > 15
+                                        ? headerText.substring(0, 15) + '...'
+                                        : headerText;
+                                    })()}
                               </span>
                               <TableSortIcon
                                 sorted={header.column.getIsSorted()}
@@ -263,9 +278,9 @@ export function DataTable({
 
                                   cell.column.getCanPin() && [
                                     cell.column.getIsPinned() === "left" &&
-                                    "sticky z-2 ltr:left-0 rtl:right-0",
+                                    "sticky z-2 ltr:left-0 rtl:right-0 bg-white dark:bg-white",
                                     cell.column.getIsPinned() === "right" &&
-                                    "sticky z-2 ltr:right-0 rtl:left-0",
+                                    "sticky z-2 ltr:right-0 rtl:left-0 bg-white dark:bg-white",
                                   ],
                                 )}
                               >
@@ -303,7 +318,7 @@ export function DataTable({
                 </TBody>
               </Table>
             </div>
-            <SelectedRowsActions table={table} role={role} />
+            <SelectedRowsActions table={table} />
             {table.getCoreRowModel().rows.length > 0 && (
               <div
                 className={clsx(
@@ -330,8 +345,6 @@ DataTable.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.string).isRequired,
   addNewRoute: PropTypes.string,
   hideAddNew: PropTypes.bool,
-  hideDelete: PropTypes.bool,
-  hideEdit: PropTypes.bool,
   storageKey: PropTypes.string,
   isPrint: PropTypes.bool,
   showPrint: PropTypes.bool,

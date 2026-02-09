@@ -13,7 +13,7 @@ import { Page } from "components/shared/Page";
 import { Button, Card } from "components/ui";
 import DynamicForms from 'app/components/form/dynamicForms';
 import { useInfo, useFeachSingle, useUpdateData } from "hooks/useApiHook";
-import { showError, addData, createLeadWithCustomer } from "utils/apis";
+import { showError, createLeadWithCustomer } from "utils/apis";
 import FollowUpHistory from './FollowUpHistory';
 import CODDocuments from './CODDocuments';
 import CarProfiles from 'app/components/car-profile/CarProfiles';
@@ -82,7 +82,7 @@ export default function AddEditFrom() {
     reset,
     setValue,
   } = useForm({
-    resolver: yupResolver(Schema(info?.fields, ['status'])),
+    resolver: yupResolver(Schema(info?.fields?.filter(field => field.fieldname !== 'status'))),
     values: id ? data : {},
     defaultValues: Object.fromEntries(
       [...fields, ...subFields].map(field => [field, ""])
@@ -99,13 +99,16 @@ export default function AddEditFrom() {
       };
       mutationUpdate.mutate({ doctype, body: { ...submitData, custom_lead_type: pageName === 'Customer' ? 'sales' : 'purchase', id } });
     } else {
-
-
       setIsCreating(true);
-
       try {
+        // Set status to "Open" for new records
+        const submitData = {
+          ...formData,
+          status: "Open",
+        };
+        
         // Call Python endpoint to create Lead with Customer and Plot Details
-        const result = await createLeadWithCustomer(formData, carProfilesToCreate, username);
+        const result = await createLeadWithCustomer(submitData, carProfilesToCreate, username);
 
         if (!result || (!result.lead_id && !result.customer_id)) {
           throw new Error("Failed to create lead");

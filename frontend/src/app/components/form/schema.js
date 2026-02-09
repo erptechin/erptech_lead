@@ -3,11 +3,12 @@ import * as Yup from 'yup'
 
 // ----------------------------------------------------------------------
 
-export function Schema(fields = [], excludes = []) {
+export function Schema(fields = []) {
+
     const schemaFields = {}
-    const excludeFields = fields.filter(item => !excludes.includes(item.fieldname))
-    for (let item of excludeFields) {
-        if (item.reqd && item.read_only === 0 || item.fieldname === "role_profile_name") {
+
+    for (let item of fields) {
+        if (item.reqd && item.read_only === 0) {
             if (item.fieldtype == "Table") {
                 schemaFields[item.fieldname] = Yup.array()
                     .transform((value, originalValue) =>

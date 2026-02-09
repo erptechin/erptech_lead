@@ -13,6 +13,7 @@ import { Page } from "components/shared/Page";
 import { Button, Card } from "components/ui";
 import DynamicForms from 'app/components/form/dynamicForms';
 import { useInfo, useAddData, useFeachSingle, useUpdateData } from "hooks/useApiHook";
+import FollowUpHistory from './FollowUpHistory';
 
 const pageName = "Legal"
 const doctype = "Legal"
@@ -132,7 +133,6 @@ const strategyFields = [
 const allFields = [
   ...basicCaseFields,
   ...partyFields,
-  'accused_details', // Table field
   ...organisationFields,
   ...offenceFields,
   ...financialFields,
@@ -141,21 +141,11 @@ const allFields = [
   ...threatFields,
   ...documentFields,
   ...strategyFields,
-  'plot_document', // Table field
-  'all_followup' // Table field
 ]
 
 const tableFields = {
-  "fields": {
-    "accused_details": true,
-    "plot_document": true,
-    "all_followup": true
-  },
-  "ignorFields": {
-    "accused_details": true,
-    "plot_document": true,
-    "all_followup": true
-  }
+  "plot_document": { file: true },
+  "ignorFields": {}
 }
 
 // ----------------------------------------------------------------------
@@ -172,7 +162,7 @@ export default function AddEditFrom() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data: info, isFetching: isFetchingInfo } = useInfo({ doctype, fields: JSON.stringify(allFields) });
-  const { data, isFetching: isFetchingData } = useFeachSingle({ doctype, id, fields: JSON.stringify(allFields) });
+  const { data, isFetching: isFetchingData, refetch: refetchData } = useFeachSingle({ doctype, id, fields: JSON.stringify(allFields) });
 
   const mutationAdd = useAddData((data) => {
     if (data) {
@@ -214,7 +204,8 @@ export default function AddEditFrom() {
         "--sk-color": isDark ? darkColorScheme[700] : lightColorScheme[300],
       }}
     />
-  }
+  };
+
   return (
     <Page title={(id ? 'Edit ' : "New ") + pageName}>
       <div className="transition-content px-(--margin-x) pb-6">
@@ -250,8 +241,17 @@ export default function AddEditFrom() {
           id="new-post-form"
         >
           <div className="grid grid-cols-12 place-content-start gap-4 sm:gap-5 lg:gap-6">
+            {/* Follow-Up History Records */}
+            <FollowUpHistory
+              id={id}
+              data={data}
+              setValue={setValue}
+              refetchData={refetchData}
+              doctype={doctype}
+            />
+
             {/* Left Column - Main Fields */}
-            <div className="col-span-12 lg:col-span-8 space-y-6">
+            <div className="col-span-12 lg:col-span-6 space-y-6">
               {/* Section A: BASIC CASE IDENTIFICATION */}
               <Card className="p-4 sm:px-5">
                 <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
@@ -337,43 +337,12 @@ export default function AddEditFrom() {
                 </div>
               </Card>
 
-              {/* Section F: INVESTIGATION & PROCEDURAL STATUS */}
-              <Card className="p-4 sm:px-5">
-                <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
-                  INVESTIGATION & PROCEDURAL STATUS
-                </h3>
-                <div className="mt-5 space-y-5">
-                  <DynamicForms
-                    infos={info}
-                    fields={investigationFields}
-                    tables={tableFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
-                </div>
-              </Card>
 
-              {/* Section G: COURT PROCEEDINGS */}
-              <Card className="p-4 sm:px-5">
-                <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
-                  COURT PROCEEDINGS
-                </h3>
-                <div className="mt-5 space-y-5">
-                  <DynamicForms
-                    infos={info}
-                    fields={courtFields}
-                    tables={tableFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
-                </div>
-              </Card>
+
             </div>
 
             {/* Right Column - Sidebar Fields */}
-            <div className="col-span-12 space-y-4 sm:space-y-5 lg:col-span-4 lg:space-y-6">
+            <div className="col-span-12 lg:col-span-6 space-y-6">
               {/* Section H: THREAT & RISK ASSESSMENT */}
               <Card className="p-4 sm:px-5">
                 <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
@@ -422,25 +391,44 @@ export default function AddEditFrom() {
                 </div>
               </Card>
 
-            </div>
 
-            <div className="col-span-12 lg:col-span-12 space-y-6">
-              {/* Accused Details Table */}
-              {/* <Card className="p-4 sm:px-5">
+              {/* Section G: COURT PROCEEDINGS */}
+              <Card className="p-4 sm:px-5">
                 <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
-                  Accused / Opposite Party (Repeatable Block)
+                  COURT PROCEEDINGS
                 </h3>
                 <div className="mt-5 space-y-5">
                   <DynamicForms
                     infos={info}
-                    fields={['accused_details']}
+                    fields={courtFields}
                     tables={tableFields}
                     register={register}
                     control={control}
                     errors={errors}
                   />
                 </div>
-              </Card> */}
+              </Card>
+
+              {/* Section F: INVESTIGATION & PROCEDURAL STATUS */}
+              <Card className="p-4 sm:px-5">
+                <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                  INVESTIGATION & PROCEDURAL STATUS
+                </h3>
+                <div className="mt-5 space-y-5">
+                  <DynamicForms
+                    infos={info}
+                    fields={investigationFields}
+                    tables={tableFields}
+                    register={register}
+                    control={control}
+                    errors={errors}
+                  />
+                </div>
+              </Card>
+
+            </div>
+
+            <div className="col-span-12 lg:col-span-12 space-y-6">
 
               {/* All Documents */}
               <Card className="p-4 sm:px-5">
@@ -451,23 +439,6 @@ export default function AddEditFrom() {
                   <DynamicForms
                     infos={info}
                     fields={['plot_document']}
-                    tables={tableFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
-                </div>
-              </Card>
-
-              {/* Follow-Up Tracking */}
-              <Card className="p-4 sm:px-5">
-                <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
-                  Follow-Up Tracking
-                </h3>
-                <div className="mt-5 space-y-5">
-                  <DynamicForms
-                    infos={info}
-                    fields={['all_followup']}
                     tables={tableFields}
                     register={register}
                     control={control}

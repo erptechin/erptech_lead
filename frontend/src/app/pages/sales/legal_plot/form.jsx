@@ -12,6 +12,7 @@ import { Page } from "components/shared/Page";
 import { Button, Card } from "components/ui";
 import DynamicForms from "app/components/form/dynamicForms";
 import { useInfo, useAddData, useFeachSingle, useUpdateData } from "hooks/useApiHook";
+import FollowUpHistory from './FollowUpHistory';
 
 const pageName = "Legal Plot";
 const doctype = "Legal Plot";
@@ -159,7 +160,7 @@ export default function AddEditForm() {
     doctype,
     fields: JSON.stringify(allFields),
   });
-  const { data, isFetching: isFetchingData } = useFeachSingle({
+  const { data, isFetching: isFetchingData, refetch: refetchData } = useFeachSingle({
     doctype,
     id,
     fields: JSON.stringify(allFields),
@@ -185,6 +186,7 @@ export default function AddEditForm() {
     formState: { errors },
     control,
     reset,
+    setValue,
   } = useForm({
     resolver: yupResolver(Schema(info?.fields)),
     values: id ? data : initialState,
@@ -243,8 +245,17 @@ export default function AddEditForm() {
           id="legal-plot-form"
         >
           <div className="grid grid-cols-12 place-content-start gap-4 sm:gap-5 lg:gap-6">
+            {/* Follow-Up History Records */}
+            <FollowUpHistory
+              id={id}
+              data={data}
+              setValue={setValue}
+              refetchData={refetchData}
+              doctype={doctype}
+            />
+
             {/* Left Column */}
-            <div className="col-span-12 space-y-6 lg:col-span-8">
+            <div className="col-span-12 lg:col-span-6 space-y-6">
               {/* A. LEGAL ACTIVITY TRACKING (CORE PAGE) */}
               <Card className="p-4 sm:px-5">
                 <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
@@ -296,43 +307,11 @@ export default function AddEditForm() {
                 </div>
               </Card>
 
-              {/* E. CERTIFIED COPY & DOCUMENT TRACKING */}
-              <Card className="p-4 sm:px-5">
-                <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
-                  CERTIFIED COPY & DOCUMENT TRACKING
-                </h3>
-                <div className="mt-5 space-y-5">
-                  <DynamicForms
-                    infos={info}
-                    fields={certifiedCopyFields}
-                    tables={tableFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
-                </div>
-              </Card>
-
-              {/* F. DAILY LEGAL ACTIVITY LOG */}
-              <Card className="p-4 sm:px-5">
-                <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
-                  DAILY LEGAL ACTIVITY LOG (HUMAN WORK TRACKING)
-                </h3>
-                <div className="mt-5 space-y-5">
-                  <DynamicForms
-                    infos={info}
-                    fields={dailyLogFields}
-                    tables={tableFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
-                </div>
-              </Card>
+             
             </div>
 
             {/* Right Column - Sidebar */}
-            <div className="col-span-12 space-y-4 sm:space-y-5 lg:col-span-4 lg:space-y-6">
+            <div className="col-span-12 lg:col-span-6 space-y-6">
               {/* G. COST & PAYMENT TRACKING */}
               <Card className="p-4 sm:px-5">
                 <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
@@ -383,6 +362,41 @@ export default function AddEditForm() {
                   />
                 </div>
               </Card>
+
+               {/* E. CERTIFIED COPY & DOCUMENT TRACKING */}
+               <Card className="p-4 sm:px-5">
+                <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
+                  CERTIFIED COPY & DOCUMENT TRACKING
+                </h3>
+                <div className="mt-5 space-y-5">
+                  <DynamicForms
+                    infos={info}
+                    fields={certifiedCopyFields}
+                    tables={tableFields}
+                    register={register}
+                    control={control}
+                    errors={errors}
+                  />
+                </div>
+              </Card>
+
+              {/* F. DAILY LEGAL ACTIVITY LOG */}
+              <Card className="p-4 sm:px-5">
+                <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
+                  DAILY LEGAL ACTIVITY LOG (HUMAN WORK TRACKING)
+                </h3>
+                <div className="mt-5 space-y-5">
+                  <DynamicForms
+                    infos={info}
+                    fields={dailyLogFields}
+                    tables={tableFields}
+                    register={register}
+                    control={control}
+                    errors={errors}
+                  />
+                </div>
+              </Card>
+              
             </div>
 
             {/* Full width - Management Report (read-only) */}
@@ -413,23 +427,6 @@ export default function AddEditForm() {
                   <DynamicForms
                     infos={info}
                     fields={["plot_document"]}
-                    tables={tableFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
-                </div>
-              </Card>
-
-              {/* L. FOLLOW-UP TRACKING */}
-              <Card className="p-4 sm:px-5">
-                <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
-                  Follow-Up Tracking
-                </h3>
-                <div className="mt-5 space-y-5">
-                  <DynamicForms
-                    infos={info}
-                    fields={["all_followup"]}
                     tables={tableFields}
                     register={register}
                     control={control}
