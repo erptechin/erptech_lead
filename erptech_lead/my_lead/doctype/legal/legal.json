@@ -104,7 +104,7 @@
   "access_level",
   "last_updated_date",
   "section_break_vsra",
-  "plot_document",
+  "all_document",
   "section_break_followup",
   "all_followup"
  ],
@@ -636,7 +636,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "plot_document",
+   "fieldname": "all_document",
    "fieldtype": "Table",
    "label": "All Documents",
    "options": "All Documents"

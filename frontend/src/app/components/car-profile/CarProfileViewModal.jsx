@@ -52,7 +52,7 @@ const subFields = [
   'remarks'
 ];
 const plotDocumentFields = [
-  'plot_document'
+  'all_document'
 ];
 
 // Helper function to get field label
@@ -98,8 +98,8 @@ export default function CarProfileViewModal({
     if (!data) return;
     
     // Format plot documents
-    const plotDocuments = data?.plot_document && Array.isArray(data.plot_document) && data.plot_document.length > 0
-      ? data.plot_document.map((doc, index) => {
+    const plotDocuments = data?.all_document && Array.isArray(data.all_document) && data.all_document.length > 0
+      ? data.all_document.map((doc, index) => {
           const docTitle = doc?.title || `Document ${index + 1}`;
           const docFile = doc?.file ? `${JWT_HOST_API}${doc.file}` : '';
           return docFile ? `  • ${docTitle}: ${docFile}` : `  • ${docTitle}`;
@@ -277,7 +277,7 @@ export default function CarProfileViewModal({
                   All Documents
                 </h3>
                 <div className="space-y-3">
-                  {data?.plot_document?.map((fieldname, index) => {
+                  {data?.all_document?.map((fieldname, index) => {
                     const fileUrl = JWT_HOST_API + fieldname?.file;
 
                     if (!fileUrl) {

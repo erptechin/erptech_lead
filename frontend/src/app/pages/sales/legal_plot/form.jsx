@@ -133,23 +133,23 @@ const allFields = [
   ...riskFields,
   ...managementReportFields,
   ...systemFields,
-  "plot_document",
+  "all_document",
   "all_followup",
 ];
 
 const tableFields = {
   fields: {
-    plot_document: true,
+    all_document: true,
     all_followup: true,
   },
   ignorFields: {
-    plot_document: true,
+    all_document: true,
     all_followup: true,
   },
 };
 
 const initialState = Object.fromEntries(allFields.map((field) => [field, ""]));
-initialState.plot_document = [];
+initialState.all_document = [];
 initialState.all_followup = [];
 
 export default function AddEditForm() {
@@ -396,7 +396,7 @@ export default function AddEditForm() {
                   />
                 </div>
               </Card>
-              
+
             </div>
 
             {/* Full width - Management Report (read-only) */}
@@ -426,7 +426,7 @@ export default function AddEditForm() {
                 <div className="mt-5 space-y-5">
                   <DynamicForms
                     infos={info}
-                    fields={["plot_document"]}
+                    fields={["all_document"]}
                     tables={tableFields}
                     register={register}
                     control={control}

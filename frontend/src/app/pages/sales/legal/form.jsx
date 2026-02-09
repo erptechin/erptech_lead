@@ -144,7 +144,7 @@ const allFields = [
 ]
 
 const tableFields = {
-  "plot_document": { file: true },
+  "all_document": { file: true },
   "ignorFields": {}
 }
 
@@ -154,7 +154,7 @@ const initialState = Object.fromEntries(
   allFields.map(field => [field, ""])
 );
 initialState.accused_details = [];
-initialState.plot_document = [];
+initialState.all_document = [];
 initialState.all_followup = [];
 
 export default function AddEditFrom() {
@@ -438,7 +438,7 @@ export default function AddEditFrom() {
                 <div className="mt-5 space-y-5">
                   <DynamicForms
                     infos={info}
-                    fields={['plot_document']}
+                    fields={['all_document']}
                     tables={tableFields}
                     register={register}
                     control={control}

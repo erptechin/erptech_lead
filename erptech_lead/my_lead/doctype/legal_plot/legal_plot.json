@@ -95,7 +95,7 @@
   "last_updated_on",
   "verified_date",
   "section_break_soak",
-  "plot_document",
+  "all_document",
   "section_break_followup",
   "all_followup"
  ],
@@ -582,7 +582,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "plot_document",
+   "fieldname": "all_document",
    "fieldtype": "Table",
    "label": "All Documents",
    "options": "All Documents"

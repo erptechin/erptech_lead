@@ -69,13 +69,13 @@ const displayFields4 = [
 const allFields = [...displayFields1, ...displayFields2, ...displayFields3, ...displayFields4];
 
 const tableFields = {
-  "ignorFields": { "plot_document": true }
+  "ignorFields": { "all_document": true }
 };
 
 const initialState = Object.fromEntries(
   allFields.map(field => [field, ""])
 );
-initialState.plot_document = [];
+initialState.all_document = [];
 
 export default function CarProfileModal({ 
   isOpen, 
@@ -135,10 +135,10 @@ export default function CarProfileModal({
     mode: 'onChange',
   });
 
-  // Use useFieldArray for plot_document
+  // Use useFieldArray for all_document
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "plot_document"
+    name: "all_document"
   });
 
   // Update form values when data is loaded or modal opens
@@ -148,8 +148,8 @@ export default function CarProfileModal({
         // Editing in create mode - use carProfileData prop
         const formData = {
           ...carProfileData,
-          plot_document: Array.isArray(carProfileData.plot_document)
-            ? carProfileData.plot_document
+          all_document: Array.isArray(carProfileData.all_document)
+            ? carProfileData.all_document
             : []
         };
         reset(formData);
@@ -158,8 +158,8 @@ export default function CarProfileModal({
         if (data) {
           const formData = {
             ...data,
-            plot_document: Array.isArray(data.plot_document)
-              ? data.plot_document
+            all_document: Array.isArray(data.all_document)
+              ? data.all_document
               : []
           };
           reset(formData);
@@ -454,15 +454,15 @@ export default function CarProfileModal({
                         <Input
                           label="Title"
                           placeholder="Enter document title"
-                          {...register(`plot_document.${index}.title`)}
-                          error={errors?.plot_document?.[index]?.title?.message}
+                          {...register(`all_document.${index}.title`)}
+                          error={errors?.all_document?.[index]?.title?.message}
                         />
                         <div>
                           <label className="mb-1 block text-xs sm:text-sm font-medium text-gray-700 dark:text-dark-200">
                             File
                           </label>
                           <Controller
-                            name={`plot_document.${index}.file`}
+                            name={`all_document.${index}.file`}
                             control={control}
                             render={({ field: { value, onChange } }) => (
                               <div className="flex gap-4">
