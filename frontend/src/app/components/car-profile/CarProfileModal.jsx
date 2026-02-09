@@ -411,11 +411,11 @@ export default function CarProfileModal({
                 </div>
                   </div>
                   
-              {/* Plot Documents Section */}
+              {/* All Documents Section */}
               <div className="px-6">
                 <div className="mb-4 flex items-center justify-between border-b pb-2">
                   <h3 className="text-sm font-semibold text-gray-700 dark:text-dark-100">
-                    Plot Documents
+                    All Documents
                   </h3>
                   <Button
                     type="button"

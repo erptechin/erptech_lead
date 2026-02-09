@@ -41,7 +41,6 @@
   "brief_gist_allegations",
   "amount_involved",
   "property_asset_involved",
-  "documents_involved",
   "section_break_financial",
   "transaction_type",
   "cheque_number",
@@ -84,10 +83,6 @@
   "column_break_8",
   "protection_requested",
   "police_protection_granted",
-  "section_break_documents",
-  "uploaded_documents",
-  "document_date",
-  "document_category",
   "column_break_9",
   "seizure_list_attached",
   "evidence_status",
@@ -107,7 +102,11 @@
   "created_date",
   "last_updated_by",
   "access_level",
-  "last_updated_date"
+  "last_updated_date",
+  "section_break_vsra",
+  "plot_document",
+  "section_break_followup",
+  "all_followup"
  ],
  "fields": [
   {
@@ -288,12 +287,6 @@
    "fieldname": "property_asset_involved",
    "fieldtype": "Select",
    "label": "Property / Asset Involved",
-   "options": "\nYes\nNo"
-  },
-  {
-   "fieldname": "documents_involved",
-   "fieldtype": "Select",
-   "label": "Documents Involved",
    "options": "\nYes\nNo"
   },
   {
@@ -519,27 +512,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "section_break_documents",
-   "fieldtype": "Section Break",
-   "label": "DOCUMENT MANAGEMENT"
-  },
-  {
-   "fieldname": "uploaded_documents",
-   "fieldtype": "Attach",
-   "label": "Uploaded Documents (FIR Copy, Complaint, Agreements, Bank Statements, Notices)"
-  },
-  {
-   "fieldname": "document_date",
-   "fieldtype": "Date",
-   "label": "Document Date"
-  },
-  {
-   "fieldname": "document_category",
-   "fieldtype": "Select",
-   "label": "Document Category",
-   "options": "\nFIR Copy\nComplaint\nAgreements\nBank Statements\nNotices\nOther"
-  },
-  {
    "fieldname": "seizure_list_attached",
    "fieldtype": "Select",
    "label": "Seizure List Attached",
@@ -658,12 +630,33 @@
    "print_hide": 1,
    "reqd": 1,
    "set_only_once": 1
+  },
+  {
+   "fieldname": "section_break_vsra",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "plot_document",
+   "fieldtype": "Table",
+   "label": "All Documents",
+   "options": "All Documents"
+  },
+  {
+   "fieldname": "section_break_followup",
+   "fieldtype": "Section Break",
+   "label": "Follow-Up Tracking"
+  },
+  {
+   "fieldname": "all_followup",
+   "fieldtype": "Table",
+   "label": "All FollowUp",
+   "options": "All FollowUp"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-31 11:12:09.213175",
+ "modified": "2026-02-09 11:58:17.965389",
  "modified_by": "Administrator",
  "module": "My Lead",
  "name": "Legal",

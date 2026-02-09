@@ -140,12 +140,22 @@ const allFields = [
   ...courtFields,
   ...threatFields,
   ...documentFields,
-  ...strategyFields
+  ...strategyFields,
+  'plot_document', // Table field
+  'all_followup' // Table field
 ]
 
 const tableFields = {
-  "fields": { "accused_details": true },
-  "ignorFields": { "accused_details": true }
+  "fields": {
+    "accused_details": true,
+    "plot_document": true,
+    "all_followup": true
+  },
+  "ignorFields": {
+    "accused_details": true,
+    "plot_document": true,
+    "all_followup": true
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -154,6 +164,8 @@ const initialState = Object.fromEntries(
   allFields.map(field => [field, ""])
 );
 initialState.accused_details = [];
+initialState.plot_document = [];
+initialState.all_followup = [];
 
 export default function AddEditFrom() {
   const { isDark, darkColorScheme, lightColorScheme } = useThemeContext();
@@ -429,6 +441,40 @@ export default function AddEditFrom() {
                   />
                 </div>
               </Card> */}
+
+              {/* All Documents */}
+              <Card className="p-4 sm:px-5">
+                <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                  All Documents
+                </h3>
+                <div className="mt-5 space-y-5">
+                  <DynamicForms
+                    infos={info}
+                    fields={['plot_document']}
+                    tables={tableFields}
+                    register={register}
+                    control={control}
+                    errors={errors}
+                  />
+                </div>
+              </Card>
+
+              {/* Follow-Up Tracking */}
+              <Card className="p-4 sm:px-5">
+                <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
+                  Follow-Up Tracking
+                </h3>
+                <div className="mt-5 space-y-5">
+                  <DynamicForms
+                    infos={info}
+                    fields={['all_followup']}
+                    tables={tableFields}
+                    register={register}
+                    control={control}
+                    errors={errors}
+                  />
+                </div>
+              </Card>
             </div>
 
           </div>

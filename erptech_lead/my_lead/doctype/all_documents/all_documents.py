@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class PlotDocument(Document):
+class AllDocuments(Document):
 	pass

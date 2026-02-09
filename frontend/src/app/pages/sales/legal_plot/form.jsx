@@ -78,8 +78,6 @@ const dailyLogFields = [
   "purpose_of_visit",
   "time_spent",
   "remarks_field_notes",
-  "follow_up_required",
-  "next_action_date",
 ];
 
 // G. COST & PAYMENT TRACKING
@@ -134,11 +132,24 @@ const allFields = [
   ...riskFields,
   ...managementReportFields,
   ...systemFields,
+  "plot_document",
+  "all_followup",
 ];
 
-const tableFields = { fields: {}, ignorFields: {} };
+const tableFields = {
+  fields: {
+    plot_document: true,
+    all_followup: true,
+  },
+  ignorFields: {
+    plot_document: true,
+    all_followup: true,
+  },
+};
 
 const initialState = Object.fromEntries(allFields.map((field) => [field, ""]));
+initialState.plot_document = [];
+initialState.all_followup = [];
 
 export default function AddEditForm() {
   const { isDark, darkColorScheme, lightColorScheme } = useThemeContext();
@@ -385,6 +396,40 @@ export default function AddEditForm() {
                   <DynamicForms
                     infos={info}
                     fields={managementReportFields}
+                    tables={tableFields}
+                    register={register}
+                    control={control}
+                    errors={errors}
+                  />
+                </div>
+              </Card>
+
+              {/* K. ALL DOCUMENTS */}
+              <Card className="p-4 sm:px-5">
+                <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
+                  All Documents
+                </h3>
+                <div className="mt-5 space-y-5">
+                  <DynamicForms
+                    infos={info}
+                    fields={["plot_document"]}
+                    tables={tableFields}
+                    register={register}
+                    control={control}
+                    errors={errors}
+                  />
+                </div>
+              </Card>
+
+              {/* L. FOLLOW-UP TRACKING */}
+              <Card className="p-4 sm:px-5">
+                <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
+                  Follow-Up Tracking
+                </h3>
+                <div className="mt-5 space-y-5">
+                  <DynamicForms
+                    infos={info}
+                    fields={["all_followup"]}
                     tables={tableFields}
                     register={register}
                     control={control}

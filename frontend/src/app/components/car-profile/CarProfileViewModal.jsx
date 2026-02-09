@@ -124,7 +124,7 @@ export default function CarProfileViewModal({
       `*Balance Amount:* ${data.balance_amount ? `AED ${parseFloat(data.balance_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'N/A'}`,
       `*Plot Status:* ${data.plot_status || 'N/A'}`,
       data.remarks ? `*Remarks:* ${data.remarks}` : '',
-      `\n*Plot Documents:*`,
+      `\n*All Documents:*`,
       plotDocuments,
     ].filter(Boolean).join('\n');
 
@@ -274,7 +274,7 @@ export default function CarProfileViewModal({
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="space-y-4">
                 <h3 className="text-base font-semibold text-gray-700 dark:text-dark-100">
-                  Plot Documents
+                  All Documents
                 </h3>
                 <div className="space-y-3">
                   {data?.plot_document?.map((fieldname, index) => {
