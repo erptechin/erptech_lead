@@ -13,6 +13,7 @@ import { Button, Card } from "components/ui";
 import DynamicForms from "app/components/form/dynamicForms";
 import { useInfo, useAddData, useFeachSingle, useUpdateData } from "hooks/useApiHook";
 import FollowUpHistory from './FollowUpHistory';
+import AllDocuments from './AllDocuments';
 
 const pageName = "Legal Plot";
 const doctype = "Legal Plot";
@@ -254,6 +255,15 @@ export default function AddEditForm() {
               doctype={doctype}
             />
 
+            {/* All Documents */}
+            <AllDocuments
+              id={id}
+              data={data}
+              setValue={setValue}
+              refetchData={refetchData}
+              doctype={doctype}
+            />
+
             {/* Left Column */}
             <div className="col-span-12 lg:col-span-6 space-y-6">
               {/* A. LEGAL ACTIVITY TRACKING (CORE PAGE) */}
@@ -410,23 +420,6 @@ export default function AddEditForm() {
                   <DynamicForms
                     infos={info}
                     fields={managementReportFields}
-                    tables={tableFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
-                </div>
-              </Card>
-
-              {/* K. ALL DOCUMENTS */}
-              <Card className="p-4 sm:px-5">
-                <h3 className="mb-4 border-b pb-2 text-sm font-semibold text-gray-700 dark:text-dark-100">
-                  All Documents
-                </h3>
-                <div className="mt-5 space-y-5">
-                  <DynamicForms
-                    infos={info}
-                    fields={["all_document"]}
                     tables={tableFields}
                     register={register}
                     control={control}

@@ -1,0 +1,1 @@
+import{a}from"./index-BB9BL_WQ.js";import{a3 as f}from"./transition-BTLNO3Z6.js";function m(r,e,i,t){let n=f(i);a.useEffect(()=>{r=r??window;function o(s){n.current(s)}return r.addEventListener(e,o,t),()=>r.removeEventListener(e,o,t)},[r,e,t])}export{m as E};

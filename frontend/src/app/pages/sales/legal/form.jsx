@@ -14,6 +14,7 @@ import { Button, Card } from "components/ui";
 import DynamicForms from 'app/components/form/dynamicForms';
 import { useInfo, useAddData, useFeachSingle, useUpdateData } from "hooks/useApiHook";
 import FollowUpHistory from './FollowUpHistory';
+import AllDocuments from './AllDocuments';
 
 const pageName = "Legal"
 const doctype = "Legal"
@@ -250,6 +251,15 @@ export default function AddEditFrom() {
               doctype={doctype}
             />
 
+            {/* All Documents */}
+            <AllDocuments
+              id={id}
+              data={data}
+              setValue={setValue}
+              refetchData={refetchData}
+              doctype={doctype}
+            />
+
             {/* Left Column - Main Fields */}
             <div className="col-span-12 lg:col-span-6 space-y-6">
               {/* Section A: BASIC CASE IDENTIFICATION */}
@@ -430,22 +440,6 @@ export default function AddEditFrom() {
 
             <div className="col-span-12 lg:col-span-12 space-y-6">
 
-              {/* All Documents */}
-              <Card className="p-4 sm:px-5">
-                <h3 className="mb-4 text-sm font-semibold text-gray-700 dark:text-dark-100 border-b pb-2">
-                  All Documents
-                </h3>
-                <div className="mt-5 space-y-5">
-                  <DynamicForms
-                    infos={info}
-                    fields={['all_document']}
-                    tables={tableFields}
-                    register={register}
-                    control={control}
-                    errors={errors}
-                  />
-                </div>
-              </Card>
             </div>
 
           </div>
