@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Card, Table, THead, TBody, Th, Tr, Td, Upload } from "components/ui";
-import { PlusIcon, XMarkIcon, CloudArrowUpIcon, PaperClipIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, XMarkIcon, CloudArrowUpIcon, PaperClipIcon, TrashIcon } from "@heroicons/react/24/outline";
 import {
   Transition,
   TransitionChild,
@@ -12,6 +12,8 @@ import clsx from "clsx";
 
 export default function AllDocuments({ id, data, setValue, refetchData, doctype }) {
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [docToDeleteIndex, setDocToDeleteIndex] = useState(null);
   const [newRecord, setNewRecord] = useState({
     title: "",
     file: ""
@@ -52,6 +54,33 @@ export default function AllDocuments({ id, data, setValue, refetchData, doctype 
     setNewRecord({ ...newRecord, file: fileUrl });
   };
 
+  const openDeleteModal = (index) => {
+    setDocToDeleteIndex(index);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (docToDeleteIndex === null) return;
+
+    const currentRecords = data?.all_document || [];
+    if (!currentRecords.length) return;
+
+    const updatedRecords = currentRecords
+      .filter((_, i) => i !== docToDeleteIndex)
+      .map((record, idx) => ({ ...record, idx: idx + 1 }));
+
+    mutationUpdate.mutate({
+      doctype,
+      body: {
+        id,
+        all_document: updatedRecords,
+      },
+    });
+    setValue("all_document", updatedRecords);
+    setShowDeleteModal(false);
+    setDocToDeleteIndex(null);
+  };
+
   // if (!id) return null;
 
   return (
@@ -87,6 +116,9 @@ export default function AllDocuments({ id, data, setValue, refetchData, doctype 
                       <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100">
                         File
                       </Th>
+                      <Th className="bg-gray-200 font-semibold uppercase text-gray-800 dark:bg-dark-800 dark:text-dark-100 text-center">
+                        Actions
+                      </Th>
                     </Tr>
                   </THead>
                   <TBody>
@@ -113,6 +145,17 @@ export default function AllDocuments({ id, data, setValue, refetchData, doctype 
                               <span className="truncate max-w-xs">View File</span>
                             </a>
                           ) : '-'}
+                        </Td>
+                        <Td className="text-center">
+                          <Button
+                            size="sm"
+                            variant="outlined"
+                            color="error"
+                            onClick={() => openDeleteModal(index)}
+                            className="p-1.5"
+                          >
+                            <TrashIcon className="size-4" />
+                          </Button>
                         </Td>
                       </Tr>
                     ))}
@@ -257,6 +300,93 @@ export default function AllDocuments({ id, data, setValue, refetchData, doctype 
                 disabled={!newRecord.file}
               >
                 Add Document
+              </Button>
+            </div>
+          </div>
+        </TransitionChild>
+      </Transition>
+
+      {/* Delete Document Confirmation Modal */}
+      <Transition appear show={showDeleteModal} as={Dialog} onClose={() => setShowDeleteModal(false)}>
+        <TransitionChild
+          as="div"
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="fixed inset-0 bg-gray-900/50 transition-opacity dark:bg-black/40"
+        />
+
+        <TransitionChild
+          as={DialogPanel}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+          className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden px-4 py-6 sm:px-5"
+        >
+          <div className="scrollbar-sm relative flex w-full max-w-md flex-col rounded-lg bg-white transition-opacity duration-300 dark:bg-dark-700">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-dark-500">
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-50">
+                Delete Document
+              </h2>
+              <button
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setDocToDeleteIndex(null);
+                }}
+                className="rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-dark-600"
+              >
+                <XMarkIcon className="size-5" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto p-5">
+              <div className="space-y-2">
+                <p className="text-sm text-gray-700 dark:text-dark-100">
+                  Are you sure you want to delete this document?
+                </p>
+                <p className="text-xs text-gray-500 dark:text-dark-300">
+                  This action cannot be undone. The file link will be removed from this record.
+                </p>
+                {docToDeleteIndex !== null && data?.all_document?.[docToDeleteIndex] && (
+                  <div className="mt-3 rounded-md border border-gray-200 bg-gray-50 p-3 text-xs dark:border-dark-500 dark:bg-dark-600">
+                    <p className="font-medium text-gray-800 dark:text-dark-50">
+                      {data.all_document[docToDeleteIndex].title || "Untitled document"}
+                    </p>
+                    {data.all_document[docToDeleteIndex].file && (
+                      <p className="mt-1 truncate text-gray-500 underline dark:text-dark-200">
+                        {data.all_document[docToDeleteIndex].file}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-end gap-3 border-t border-gray-200 px-5 py-4 dark:border-dark-500">
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setDocToDeleteIndex(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                color="error"
+                onClick={handleConfirmDelete}
+                disabled={docToDeleteIndex === null}
+              >
+                Delete
               </Button>
             </div>
           </div>
